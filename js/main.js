@@ -35,31 +35,9 @@
             check=false;
         }
 
-        return check;
-    });
+        if(!check)
+        return false
 
-
-    $('.validate-form .input1').each(function(){
-        $(this).focus(function(){
-           hideValidate(this);
-       });
-    });
-
-    function showValidate(input) {
-        var thisAlert = $(input).parent();
-
-        $(thisAlert).addClass('alert-validate');
-    }
-
-    function hideValidate(input) {
-        var thisAlert = $(input).parent();
-
-        $(thisAlert).removeClass('alert-validate');
-    }
-    
-// 		$('.contact1-form').on('submit',function(e){
-        //optional validation code here
-  
         e.preventDefault();
       
         $.ajax({
@@ -84,5 +62,24 @@
             }
         })
     });
+
+
+    $('.validate-form .input1').each(function(){
+        $(this).focus(function(){
+           hideValidate(this);
+       });
+    });
+
+    function showValidate(input) {
+        var thisAlert = $(input).parent();
+
+        $(thisAlert).addClass('alert-validate');
+    }
+
+    function hideValidate(input) {
+        var thisAlert = $(input).parent();
+
+        $(thisAlert).removeClass('alert-validate');
+    }
 
 })(jQuery);
