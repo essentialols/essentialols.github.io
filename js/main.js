@@ -63,7 +63,7 @@
                 alert("Something went wrong. Please try again.")
             }
         })
-    });
+//     });
 
 
 //     $('.validate-form .input1').each(function(){
