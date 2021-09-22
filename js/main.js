@@ -12,7 +12,7 @@
 
 
     $('.validate-form').on('submit',function(){
-        print("entered validate form function")
+//         print("entered validate form function")
         var check = true;
 
         if($(name).val().trim() == ''){
@@ -35,7 +35,7 @@
             showValidate(message);
             check=false;
         }
-        print("did all sorts of validation checks")
+//         print("did all sorts of validation checks")
 
         if(!check)
             return false
