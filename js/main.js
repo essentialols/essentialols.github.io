@@ -11,36 +11,33 @@
     var message = $('.validate-input textarea[name="message"]');
 
 
-//     $('.validate-form').on('submit',function(){
-// //         print("entered validate form function")
-//         var check = true;
+    $('.validate-form').on('submit',function(e){
+        var check = true;
 
-//         if($(name).val().trim() == ''){
-//             showValidate(name);
-//             check=false;
-//         }
+        if($(name).val().trim() == ''){
+            showValidate(name);
+            check=false;
+        }
 
-//         if($(subject).val().trim() == ''){
-//             showValidate(subject);
-//             check=false;
-//         }
+        if($(subject).val().trim() == ''){
+            showValidate(subject);
+            check=false;
+        }
 
 
-//         if($(email).val().trim().match(/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/) == null) {
-//             showValidate(email);
-//             check=false;
-//         }
+        if($(email).val().trim().match(/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/) == null) {
+            showValidate(email);
+            check=false;
+        }
 
-//         if($(message).val().trim() == ''){
-//             showValidate(message);
-//             check=false;
-//         }
-// //         print("did all sorts of validation checks")
+        if($(message).val().trim() == ''){
+            showValidate(message);
+            check=false;
+        }
+        if(!check)
+            return false;
 
-//         if(!check)
-//             return false
-
-//         e.preventDefault();
+        e.preventDefault();
       
         $.ajax({
             url: "https://script.google.com/macros/s/AKfycbwvv77la5sScQimvFV7dr7d8Y33A8Z0GjgAQOmJTIOu0mWeW0dj6j6XMeBA4hlPl2ASkw/exec",
@@ -63,25 +60,27 @@
                 alert("Something went wrong. Please try again.")
             }
         })
-//     });
+    });
 
 
-//     $('.validate-form .input1').each(function(){
-//         $(this).focus(function(){
-//            hideValidate(this);
-//        });
-//     });
+    $('.validate-form .input1').each(function(){
+        $(this).focus(function(){
+           hideValidate(this);
+       });
+    });
 
-//     function showValidate(input) {
-//         var thisAlert = $(input).parent();
+    function showValidate(input) {
+        var thisAlert = $(input).parent();
 
-//         $(thisAlert).addClass('alert-validate');
-//     }
+        $(thisAlert).addClass('alert-validate');
+    }
 
-//     function hideValidate(input) {
-//         var thisAlert = $(input).parent();
+    function hideValidate(input) {
+        var thisAlert = $(input).parent();
 
-//         $(thisAlert).removeClass('alert-validate');
-//     }
+        $(thisAlert).removeClass('alert-validate');
+    }
+    
+    
 
 })(jQuery);
