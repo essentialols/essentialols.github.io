@@ -52,7 +52,7 @@
                     return true;
                 }
                 else {
-                    alert("Something went wrong. Please try again. Error 1.")
+                    alert("Something went wrong. Please try again. Error 1. " + response.result)
                 }
             },
             error: function() {
