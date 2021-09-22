@@ -40,7 +40,7 @@
 //         if(!check)
 //             return false
 
-        e.preventDefault();
+//         e.preventDefault();
       
         $.ajax({
             url: "https://script.google.com/macros/s/AKfycbwvv77la5sScQimvFV7dr7d8Y33A8Z0GjgAQOmJTIOu0mWeW0dj6j6XMeBA4hlPl2ASkw/exec",
@@ -66,22 +66,22 @@
     });
 
 
-    $('.validate-form .input1').each(function(){
-        $(this).focus(function(){
-           hideValidate(this);
-       });
-    });
+//     $('.validate-form .input1').each(function(){
+//         $(this).focus(function(){
+//            hideValidate(this);
+//        });
+//     });
 
-    function showValidate(input) {
-        var thisAlert = $(input).parent();
+//     function showValidate(input) {
+//         var thisAlert = $(input).parent();
 
-        $(thisAlert).addClass('alert-validate');
-    }
+//         $(thisAlert).addClass('alert-validate');
+//     }
 
-    function hideValidate(input) {
-        var thisAlert = $(input).parent();
+//     function hideValidate(input) {
+//         var thisAlert = $(input).parent();
 
-        $(thisAlert).removeClass('alert-validate');
-    }
+//         $(thisAlert).removeClass('alert-validate');
+//     }
 
 })(jQuery);
