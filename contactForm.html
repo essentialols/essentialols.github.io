@@ -22,6 +22,36 @@
 <!--===============================================================================================-->
 </head>
 <body>
+	
+	<script>
+		$('.contact1-form').on('submit',function(e){
+        //optional validation code here
+  
+        e.preventDefault();
+      
+        $.ajax({
+            url: "https://script.google.com/macros/s/AKfycbwvv77la5sScQimvFV7dr7d8Y33A8Z0GjgAQOmJTIOu0mWeW0dj6j6XMeBA4hlPl2ASkw/exec",
+            method: "POST",
+            dataType: "json",
+            data: $(".contact1-form").serialize(),
+            success: function(response) {
+                
+                if(response.result == "success") {
+                    $('.contact1-form')[0].reset();
+                    alert('Thank you for contacting us.');
+                    return true;
+                }
+                else {
+                    alert("Something went wrong. Please try again.")
+                }
+            },
+            error: function() {
+                
+                alert("Something went wrong. Please try again.")
+            }
+        })
+    });
+	</script>
 
 	<div class="contact1">
 		<div class="container-contact1">
@@ -96,36 +126,6 @@
 
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
-	
-	<script>
-		$('.contact1-form').on('submit',function(e){
-        //optional validation code here
-  
-        e.preventDefault();
-      
-        $.ajax({
-            url: "https://script.google.com/macros/s/AKfycbwvv77la5sScQimvFV7dr7d8Y33A8Z0GjgAQOmJTIOu0mWeW0dj6j6XMeBA4hlPl2ASkw/exec",
-            method: "POST",
-            dataType: "json",
-            data: $(".contact1-form").serialize(),
-            success: function(response) {
-                
-                if(response.result == "success") {
-                    $('.contact1-form')[0].reset();
-                    alert('Thank you for contacting us.');
-                    return true;
-                }
-                else {
-                    alert("Something went wrong. Please try again.")
-                }
-            },
-            error: function() {
-                
-                alert("Something went wrong. Please try again.")
-            }
-        })
-    });
-	</script>
 
 </body>
 </html>
