@@ -52,12 +52,12 @@
                     return true;
                 }
                 else {
-                    alert("Something went wrong. Please try again.")
+                    alert("Something went wrong. Please try again. Error 1.")
                 }
             },
             error: function() {
                 
-                alert("Something went wrong. Please try again.")
+                alert("Something went wrong. Please try again. Error 2.")
             }
         })
     });
