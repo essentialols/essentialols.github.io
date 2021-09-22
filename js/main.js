@@ -11,34 +11,34 @@
     var message = $('.validate-input textarea[name="message"]');
 
 
-    $('.validate-form').on('submit',function(){
-//         print("entered validate form function")
-        var check = true;
+//     $('.validate-form').on('submit',function(){
+// //         print("entered validate form function")
+//         var check = true;
 
-        if($(name).val().trim() == ''){
-            showValidate(name);
-            check=false;
-        }
+//         if($(name).val().trim() == ''){
+//             showValidate(name);
+//             check=false;
+//         }
 
-        if($(subject).val().trim() == ''){
-            showValidate(subject);
-            check=false;
-        }
+//         if($(subject).val().trim() == ''){
+//             showValidate(subject);
+//             check=false;
+//         }
 
 
-        if($(email).val().trim().match(/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/) == null) {
-            showValidate(email);
-            check=false;
-        }
+//         if($(email).val().trim().match(/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/) == null) {
+//             showValidate(email);
+//             check=false;
+//         }
 
-        if($(message).val().trim() == ''){
-            showValidate(message);
-            check=false;
-        }
-//         print("did all sorts of validation checks")
+//         if($(message).val().trim() == ''){
+//             showValidate(message);
+//             check=false;
+//         }
+// //         print("did all sorts of validation checks")
 
-        if(!check)
-            return false
+//         if(!check)
+//             return false
 
         e.preventDefault();
       
