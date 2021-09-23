@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>GS DB Playground</title>
+</head>
+<body>
+	<form id="example-form">
+	    <label for="name">Name</label>
+	    <input id="name" name="Name" type="text" value="" />
+	    <input type="submit" value="Send" />
+	</form>
+
+	<!-- JQuery POST request. -->
+
+	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script>
+		$("#example-form").submit(function(event) {
+			var $form = $(this);
+			request = $.ajax({
+        	    url: "https://script.google.com/macros/s/AKfycbxDGzL3aHSguXkoNtuck3FdoQMpUlJx9S1bs9Zj4ujpiRcXw9Qn/exec",
+        		type: "post",
+        		dataType: 'json',
+        		data: $form.serialize(),
+        	});
+        	request.done(function (response, textStatus, jqXHR){
+        		alert(JSON.stringify(response));
+    		});
+    		request.fail(function (response, textStatus, jqXHR){
+				alert(JSON.stringify(response));
+    		});
+    		event.preventDefault();
+        });
+	</script>
+</body>
+</html>
