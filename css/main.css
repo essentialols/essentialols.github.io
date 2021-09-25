@@ -196,11 +196,11 @@ iframe {
 
 .contact1-form-subtitle {
   display: block;
-  font-family: Montserrat;
-  font-size: 12px;
+  font-family: Montserrat-Regular;
+  font-size: 14px;
   color: #333333;
   line-height: 1.2;
-  text-align: right;
+  text-align: left;
   padding-bottom: 20px;
 }
 
