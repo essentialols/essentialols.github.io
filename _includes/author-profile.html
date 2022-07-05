@@ -28,7 +28,7 @@
       {% if author.employer.url %}
         <li><a href="{{ author.employer.url }}"><i class="fa fa-fw fa-university" aria-hidden="true"></i> {{ author.employer.name }}</a></li>
       {% endif %}
-      {% if typeof author.employer.url == "undefined"%}
+      {% if author.employer.hasOwnProperty('url') %}
       <li><i class="fa fa-fw fa-university" aria-hidden="true"></i> {{ author.employer }}</li>
       {% endif %}
       {% if author.uri %}
