@@ -83,12 +83,12 @@ author:
   name             : "Ingmar Sturm"
   avatar           : "profile.png"
   bio              : "Migration researcher, political scientist, data scientist"
-  location         : "Location"
-  employer         :
-  pubmed           : "https://www.ncbi.nlm.nih.gov/pubmed/?term=john+snow"
-  googlescholar    : "http://yourfullgooglescholarurl.com"
+  location         : "Santa Barbara, CA"
+  employer         : [UC Santa Barbara](ucsb.edu)
+  pubmed           :
+  googlescholar    :
   email            :
-  researchgate     :  # example: "https://www.researchgate.net/profile/yourprofile"
+  researchgate     :
   uri              :
   bitbucket        :
   codepen          :
