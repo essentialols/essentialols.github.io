@@ -7,11 +7,11 @@
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Ingmar Sturm's Personal Website"
+title                    : "Ingmar Sturm"
 title_separator          : "-"
 name                     : &name "Ingmar Sturm"
 description              : &description "personal description"
-url                      : https://academicpages.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+url                      : https://essentialols.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "essentialols/essentialols.github.io"
 teaser                   :  # filename of teaser fallback teaser image placed in /images/, .e.g. "500x300.png"
@@ -82,7 +82,7 @@ analytics:
 author:
   name             : "Ingmar Sturm"
   avatar           : "profile.png"
-  bio              : "Migration researcher, political scientist, statistician"
+  bio              : "Migration researcher, political scientist, data scientist"
   location         : "Location"
   employer         :
   pubmed           : "https://www.ncbi.nlm.nih.gov/pubmed/?term=john+snow"
