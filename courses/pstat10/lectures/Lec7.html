@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Lecture 7: Base R Plots</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Robin Liu" />
+    <meta name="date" content="2022-06-30" />
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/middlebury-fonts.css" rel="stylesheet" />
+    <link href="libs/countdown-0.3.5/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown-0.3.5/countdown.js"></script>
+    <link rel="stylesheet" href="ingmar.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Lecture 7: Base R Plots
+]
+.author[
+### Ingmar Sturm
+]
+.institute[
+### UCSB
+]
+.date[
+### 2022-06-30
+]
+.footnote[
+Special thanks to Robin Liu for select slides used with permission.
+]
+
+---
+
+# airquality
+We will use the `airquality` data frame in the library `datasets`
+
+```r
+library(tidyverse)
+```
+
+```
+## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
+```
+
+```
+## v ggplot2 3.3.6     v purrr   0.3.4
+## v tibble  3.1.7     v dplyr   1.0.9
+## v tidyr   1.2.0     v stringr 1.4.0
+## v readr   2.1.2     v forcats 0.5.1
+```
+
+```
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+```
+
+```r
+library(datasets)
+```
+---
+# airquality
+`?airquality` will give you the metadata in the help window.
+
+    Description
+    Daily air quality measurements in New York, May to September 1973.
+ 
+    Format
+    A data frame with 153 observations on 6 variables.
+
+    [,1]	Ozone	numeric	Ozone (ppb)
+    [,2]	Solar.R	numeric	Solar R (lang)
+    [,3]	Wind	numeric	Wind (mph)
+    [,4]	Temp	numeric	Temperature (degrees F)
+    [,5]	Month	numeric	Month (1--12)
+    [,6]	Day	numeric	Day of month (1--31)
+---
+# Base R plots
+Basic plotting is easy; just call the relevant functions.
+
+```r
+plot(airquality$Wind, airquality$Ozone)
+```
+
+&lt;img src="Lec7_files/figure-html/unnamed-chunk-2-1.png" width="45%" height="45%" /&gt;
+
+--
+
+But we should always add a meaningful title and axis labels...
+---
+# Base R plots
+Basic plotting is easy; just call the relevant functions.
+
+```r
+plot(airquality$Wind, airquality$Ozone, main="Ozone and Wind in NYC, 1973",
+     xlab="Wind (mph)", ylab="Ozone (ppb)")
+```
+
+&lt;img src="Lec7_files/figure-html/unnamed-chunk-3-1.png" width="50%" height="50%" /&gt;
+---
+# Adding a trendline
+
+```r
+plot(airquality$Wind, airquality$Ozone, main="Ozone and Wind in NYC, 1973",
+     xlab="Wind (mph)", ylab="Ozone (ppb)")
+air_trend &lt;- lm(airquality$Ozone ~ airquality$Wind)
+abline(air_trend, col = "red")
+```
+
+&lt;img src="Lec7_files/figure-html/unnamed-chunk-4-1.png" width="50%" height="50%" /&gt;
+---
+# Your turn
+Create a scatter plot of Ozone vs. Solar Radiation with a trendline.
+Add a meaningful title and axis labels to the plot.
+
+![](Lec7_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+<div class="countdown" id="timer_62bdd93f" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+---
+# Histograms
+.pull-left[
+
+```r
+hist(airquality$Ozone,
+     main = "Histogram of Ozone",
+     xlab = "Ozone")
+```
+
+![](Lec7_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+]
+--
+.pull-right[
+
+```r
+hist(airquality$Ozone, breaks = 20,
+     main = "Histogram of Ozone",
+     xlab = "Ozone")
+```
+
+![](Lec7_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+]
+---
+# Boxplots
+Boxplots use the `y ~ x` notation. In R, this construct is called a `formula`
+
+
+```r
+boxplot(Ozone ~ Month, airquality, xlab = "Month", ylab = "Ozone (ppb)")
+```
+
+&lt;img src="Lec7_files/figure-html/unnamed-chunk-8-1.png" width="45%" height="45%" /&gt;
+
+Median, percentiles, quartiles, IQR, outliers
+---
+# Formulas
+
+```r
+boxplot(Ozone ~ Month, airquality, xlab = "Month", ylab = "Ozone (ppb)")
+```
+
+&lt;img src="Lec7_files/figure-html/unnamed-chunk-9-1.png" width="45%" height="45%" /&gt;
+
+```r
+class(y ~ x)
+```
+
+```
+## [1] "formula"
+```
+
+---
+# Building plots
+It is common to first create a plot and then layer stuff on top.
+
+
+```r
+x &lt;- 1:3
+y &lt;- c(1, 3, 8)
+plot(x, y) # Creates a new plot
+lmout &lt;- lm(y ~ x)
+abline(lmout) # adds a line "fitting" the points
+```
+
+.pull-left[
+&lt;img src="Lec7_files/figure-html/unnamed-chunk-11-1.png" width="85%" height="80%" /&gt;
+]
+.pull-right[
+&lt;img src="Lec7_files/figure-html/unnamed-chunk-12-1.png" width="85%" height="80%" /&gt;
+]
+---
+# Plot parameters
+
+
+```r
+x &lt;- 1:3
+y &lt;- c(1, 3, 8)
+plot(x, y, cex=2, col="red", pch=19) # Creates a new plot
+lmout &lt;- lm(y ~ x)
+abline(lmout, lty=2, lwd=2) # adds a line "fitting" the points
+```
+
+.pull-left[
+&lt;img src="Lec7_files/figure-html/unnamed-chunk-14-1.png" width="85%" height="80%" /&gt;
+]
+.pull-right[
+&lt;img src="Lec7_files/figure-html/unnamed-chunk-15-1.png" width="85%" height="80%" /&gt;
+]
+---
+# Plot parameters
+Plotting is an art and you should use Google and `?par` to get
+a plot to look nice.
+
+```r
+x &lt;- 1:3
+y &lt;- c(1, 3, 8)
+plot(x, y, cex=3, col="chartreuse4", pch=17) # Creates a new plot
+lmout &lt;- lm(y ~ x)
+abline(lmout, lty=2, lwd=2) # adds a line "fitting" the points
+```
+
+.pull-left[
+&lt;img src="Lec7_files/figure-html/unnamed-chunk-17-1.png" width="85%" height="80%" /&gt;
+]
+.pull-right[
+![:scale 80%](Lec7_files/pch.png)
+]
+
+---
+# Plot parameters
+Plotting is an art and you should use Google and `?par` to get
+a plot to look nice.
+
+```r
+x &lt;- 1:3
+y &lt;- c(1, 3, 8)
+plot(x, y, cex=3, col="chartreuse4", pch=17) # Creates a new plot
+lmout &lt;- lm(y ~ x)
+abline(lmout, lty=2, lwd=2) # adds a line "fitting" the points
+```
+
+.pull-left[
+&lt;img src="Lec7_files/figure-html/unnamed-chunk-19-1.png" width="85%" height="80%" /&gt;
+]
+.pull-right[
+![:scale 75%](Lec7_files/col.png)
+]
+---
+# Building plots
+We see a negative trend with wind and ozone.
+.pull-left[
+
+```r
+plot(airquality$Wind, airquality$Ozone)
+```
+
+![](Lec7_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
+]
+
+--
+
+.pull-right[
+A flat screen can only show two variables.
+
+unless...? 😳
+
+We can add another dimension of information by employing
+*shape* and *color*.
+]
+---
+# Layering Plots Demo 1
+It is common for complex plots to start with an *empty* plot
+and layer stuff on top.
+&lt;img src="Lec7_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
+---
+# Layering Plots Demo 1
+
+```r
+with(airquality, plot(Wind, Ozone, main = "Ozone and Wind in New York City", type = "n"))
+with(filter(airquality, Month != 5), points(Wind, Ozone, col="red", pch=19))
+with(filter(airquality, Month == 5), points(Wind, Ozone, col="blue", pch=17))
+legend("topright", pch = c(17, 19), col = c("blue", "red"),
+       legend = c("May", "Other Months"))
+```
+
+![](Lec7_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
+
+
+---
+# Layering Plots Demo 2
+How does *temperature* relate to ozone and wind?
+![](Lec7_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+
+---
+
+# Plotting functions
+To plot a function, *discretize* the domain into `x` and *evaluate* the function into `y`.
+
+```r
+x &lt;- seq(-2*pi, 2*pi, len = 100)
+y &lt;- sin(x)
+plot(y ~ x)
+```
+
+&lt;img src="Lec7_files/figure-html/unnamed-chunk-24-1.png" width="50%" height="50%" /&gt;
+---
+# Plotting functions
+To plot a function, *discretize* the domain into `x` and *evaluate* the function into `y`.
+
+```r
+x &lt;- seq(-2*pi, 2*pi, len = 100)
+y &lt;- sin(x)
+plot(y ~ x, type="l") # type="1" smooths the line
+```
+
+&lt;img src="Lec7_files/figure-html/unnamed-chunk-25-1.png" width="50%" height="50%" /&gt;
+
+---
+# Plotting functions
+To plot a function, *discretize* the domain into `x` and *evaluate* the function into `y`.
+
+```r
+x &lt;- seq(-2*pi, 2*pi, len = 100)
+y &lt;- sin(x)
+plot(y ~ x, type="l") # type="1" smooths the line
+lines(cos(x) ~ x, type="l", col="blue") # "lines" adds to an existing plot
+```
+
+&lt;img src="Lec7_files/figure-html/unnamed-chunk-26-1.png" width="50%" height="50%" /&gt;
+---
+# Plotting functions
+
+```r
+x &lt;- seq(-2*pi, 2*pi, len = 100)
+y &lt;- sin(x)
+plot(y ~ x, type="l") # type="1" smooths the line
+lines(cos(x) ~ x, type="l", col="blue") # "lines" adds to an existing plot
+legend("topright", lty = 1, col = c("black", "blue"), legend = c("sin(x)", "cos(x)"))
+```
+
+&lt;img src="Lec7_files/figure-html/unnamed-chunk-27-1.png" width="50%" height="50%" /&gt;
+---
+# Your turn
+*Hint*: Use `type`, `lty`, `lwd`, and `col` parameters.
+Remember to check out `?par`.
+
+![](Lec7_files/figure-html/unnamed-chunk-28-1.png)&lt;!-- --&gt;
+
+
+<div class="countdown" id="timer_62bdd803" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">06</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

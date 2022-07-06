@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Lecture 4: Problem Solving</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Robin Liu" />
+    <meta name="date" content="2022-06-26" />
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/middlebury-fonts.css" rel="stylesheet" />
+    <link href="libs/countdown-0.3.5/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown-0.3.5/countdown.js"></script>
+    <link rel="stylesheet" href="ingmar.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Lecture 4: Problem Solving
+]
+.author[
+### Ingmar Sturm
+]
+.institute[
+### UCSB
+]
+.date[
+### 2022-06-26
+]
+.footnote[
+Special thanks to Robin Liu for select slides used with permission.
+]
+
+---
+
+# Problem Solving
+## Today we will tackle some possibly challenging coding problems.
+
+These problems can all be solved using the simple techniques we have learned so far.
+
+During a job interview, you will be asked to solve problems far more challenging
+than what I have here.
+
+Some of these problems were inspired by what I found on leetcode.
+
+https://leetcode.com
+
+To get a coding job you **must** grind leetcode problems.
+---
+# Problem Solving
+I will describe a coding problem which involves writing
+a function taking certain arguments.
+
+The output of your function should match some provided **test cases**.
+
+---
+# Remove element
+You are given a numeric vector `v` and a number `target`.
+Create a function `remove_elt` that returns a vector containing
+elements of `v` but with `target` removed.
+
+```r
+remove_elt &lt;- function(v, target) {
+  # Your code here
+}
+```
+
+
+```r
+remove_elt(c(2, 3, 3, 5), 3)
+```
+
+```
+## [1] 2 5
+```
+
+```r
+remove_elt(c(14, 14, 7, 7, 14, 10), 14)
+```
+
+```
+## [1]  7  7 10
+```
+
+<div class="countdown" id="timer_62b89e21" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+---
+# Print Square
+Write a function `print_square(n)`. `n` is a nonnegative integer and 
+`print_square(n)` prints a square of `*` of dimension `n` by `n`.
+
+```r
+print_square &lt;- function(n) {
+  # Your code here
+}
+```
+
+
+```r
+print_square(2)
+```
+
+```
+## [1] "*" "*"
+## [1] "*" "*"
+```
+
+```r
+print_square(5)
+```
+
+```
+## [1] "*" "*" "*" "*" "*"
+## [1] "*" "*" "*" "*" "*"
+## [1] "*" "*" "*" "*" "*"
+## [1] "*" "*" "*" "*" "*"
+## [1] "*" "*" "*" "*" "*"
+```
+
+<div class="countdown" id="timer_62b89ed9" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+---
+# Print Triangle
+Write a function `print_triangle(n)` that prints a triangle of side length `n`.
+
+```r
+print_triangle &lt;- function(n) {
+  # Your code here
+}
+```
+
+
+```r
+print_triangle(3)
+```
+
+```
+## [1] "*"
+## [1] "*" "*"
+## [1] "*" "*" "*"
+```
+
+```r
+print_triangle(5)
+```
+
+```
+## [1] "*"
+## [1] "*" "*"
+## [1] "*" "*" "*"
+## [1] "*" "*" "*" "*"
+## [1] "*" "*" "*" "*" "*"
+```
+
+<div class="countdown" id="timer_62b89e77" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+---
+# Max vector
+You are given two integer vectors `nums1` and `nums2`, and an integer `n`
+representing the number of elements in `nums1` and `nums2`, which have the same length.
+
+Write a function `max_vec` that
+returns a vector of the element-wise maximum of `nums` and `nums2`.
+
+```r
+max_vec &lt;- function(nums1, nums2, n) {
+  result &lt;- vector(length = n) # this initializes an "empty" vector with length n
+  # Your code here
+  return(result)
+}
+```
+
+
+```r
+max_vec(1:4, c(0, 27, -5, 19), 4)
+```
+
+```
+## [1]  1 27  3 19
+```
+<div class="countdown" id="timer_62b89fc8" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">08</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+---
+# Small Count Simple
+Write a function `small_count_simple(v, target)`
+that takes a numeric vector `v`, a number `target`, and returns how many
+elements of `v` are less than `target`
+
+```r
+small_count_simple &lt;- function(v, target) {
+  # Your code here
+}
+```
+
+
+```r
+small_count_simple(c(10, 15, -2, 5), 11)
+```
+
+```
+## [1] 3
+```
+
+```r
+small_count_simple(c(0, 0, -2, 5), 4)
+```
+
+```
+## [1] 3
+```
+
+*Hint*: Use a *recycling* comparison and the numeric value of logicals.
+Review Lecture 2 slides if necessary.
+
+<div class="countdown" id="timer_62b89de6" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+# Small Count
+Write a function `small_count(v)` that takes a vector `v`
+and returns, for each element `v[i]`, how many elements of `v` are less than `v[i]`.
+
+```r
+small_count &lt;- function(v) {
+  result &lt;- vector(length = length(v))
+  # Your code here
+  return(result)
+}
+```
+
+
+```r
+small_count(c(12, 100, -3))
+```
+
+```
+## [1] 1 2 0
+```
+
+```r
+small_count(c(12, 100, -3, -12))
+```
+
+```
+## [1] 2 3 1 0
+```
+
+<div class="countdown" id="timer_62b89daa" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+# Two Sum
+Write a function `two_sum` that takes a vector `v` and a number `target`
+and returns two *indices* of numbers in `v` that add up to `target`.
+The two indices cannot be equal.
+
+.pull-left[
+
+```r
+two_sum &lt;- function(v, target) {
+  i &lt;- 0
+  j &lt;- 0
+  # Your code here
+  # Hint: one way is to use two for loops
+}
+```
+]
+.pull-right[
+
+
+```r
+two_sum(c(2, 7, 11, 15), 9)
+```
+
+```
+## [1] 2 1
+```
+
+```r
+two_sum(c(3, 2, 4), 6)
+```
+
+```
+## [1] 3 2
+```
+
+```r
+two_sum(c(3, 3), 6)
+```
+
+```
+## [1] 2 1
+```
+]
+
+<div class="countdown" id="timer_62b89d99" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">08</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+# Which
+This is an important function.
+`which` takes a logical vector and returns a vector of indices of TRUE entries.
+
+
+```r
+which(c(T, F, F, T, T))
+```
+
+```
+## [1] 1 4 5
+```
+
+--
+
+Write a function `first_even` that takes a numeric vector `v`
+and returns the first element of `v` that is an even number.
+
+
+
+```r
+first_even(c(1, 3, 5, 6, 7, 8))
+```
+
+```
+## [1] 6
+```
+
+```r
+first_even(c(-1, -4, 0, 2))
+```
+
+```
+## [1] -4
+```
+
+<div class="countdown" id="timer_62b8a080" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+# Last Negative
+Write a function `last_negative` that takes a numeric vector `v`
+and returns the last element that is less than zero.
+
+
+```r
+last_negative(c(1, -9, 0, 6, -7, 0))
+```
+
+```
+## [1] -7
+```
+
+```r
+last_negative(c(-1, -4, 0, 2))
+```
+
+```
+## [1] -4
+```
+
+<div class="countdown" id="timer_62b89d6e" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+# any and all
+These functions are usful. They take a logical vector and return a single logical:
+
+```r
+any(c(F, F, T, F, F))
+```
+
+```
+## [1] TRUE
+```
+
+```r
+all(c(F, F, T, F, F))
+```
+
+```
+## [1] FALSE
+```
+
+```r
+all(c(T, T, T))
+```
+
+```
+## [1] TRUE
+```
+
+Write an expression that tests if a vector contains all negative elements.
+
+<div class="countdown" id="timer_62b89e13" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+---
+# Vectorized Two Sum
+
+```r
+two_sum &lt;- function(v, target) {
+  pairs &lt;- combn(seq_along(v), 2)
+  w &lt;- v[pairs[1, ]] + v[pairs[2, ]] == target
+  pairs[, which(w)]
+}
+```
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
