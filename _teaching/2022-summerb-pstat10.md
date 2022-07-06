@@ -8,4 +8,6 @@ date: 2022-08-01
 location: "Santa Barbara, California"
 ---
 
+Redesigned and taught course on statistics and probability with R and SQL.
+
 [Lecture 1](/courses/pstat10/lectures/Lec1.html)
