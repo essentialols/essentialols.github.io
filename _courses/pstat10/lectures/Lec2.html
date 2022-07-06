@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Lecture 2: Vector and Matrix Operations</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ingmar Sturm" />
+    <meta name="date" content="2022-08-02" />
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/middlebury-fonts.css" rel="stylesheet" />
+    <link href="libs/countdown-0.3.5/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown-0.3.5/countdown.js"></script>
+    <link rel="stylesheet" href="ingmar.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Lecture 2: Vector and Matrix Operations
+]
+.subtitle[
+## Filtering, Recycling, Vectorization
+]
+.author[
+### Ingmar Sturm
+]
+.institute[
+### UCSB
+]
+.date[
+### 2022-08-02
+]
+
+---
+
+
+class: inverse, middle, center
+# Three Important R Techniques
+Filtering, Recycling, and Vectorization
+
+---
+# Filtering
+Recall that we can subset a vector by a logical vector
+
+```r
+x &lt;- 1:10
+subs &lt;- rep(c(F, T), each = 5)
+```
+Quick quiz: what is the result of `x[subs]`?
+<div class="countdown" id="timer_62b35104" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+--
+
+Often we want to select values from `x` that satisfy some property.
+The above can be returned as follows:
+
+
+```r
+x[x &gt; 5]
+```
+
+```
+## [1]  6  7  8  9 10
+```
+---
+# Filtering
+## How did this work?
+
+```r
+x
+```
+
+```
+##  [1]  1  2  3  4  5  6  7  8  9 10
+```
+
+```r
+x &gt; 5
+```
+
+```
+##  [1] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE
+```
+
+```r
+x[x &gt; 5]
+```
+
+```
+## [1]  6  7  8  9 10
+```
+
+We *filtered* `x` based on its values.
+
+---
+# Filtering
+## My gas bill in dollars for every month in order in 2021 is given:
+### 46, 33, 39, 37, 46, 30, 48, 32, 49, 35, 30, and 48.
+Create a vector called `gas_bill`.
+
+1. Verify that all months are accounted for (12 entries total).
+1. Find the number of months where the gas bill exceeded $40. How does this work?
+1. Find the percentage of months where the gas bill exceeded $40.
+1. Find the total of how much I paid in gas over all months where the gas bill exceeded $40.
+
+<div class="countdown" id="timer_62b35184" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+---
+# Recycling
+In most cases, two vectors must have the same length in order to be operated on:
+
+```r
+c(2, 4) + c(6, 3)
+```
+
+```
+## [1] 8 7
+```
+
+For many operations between two vectors, the elements in the shorter vector
+are *recycled* so that the lengths of the two vectors match.
+
+
+```r
+1:4 + c(2, 3)
+```
+
+```
+## [1] 3 5 5 7
+```
+
+--
+
+```r
+1:4 + c(2, 3, 2, 3)
+```
+
+```
+## [1] 3 5 5 7
+```
+---
+# Recycling
+### A warning may appear when...
+
+```r
+1:4 + 1:3
+```
+
+```
+## Warning in 1:4 + 1:3: longer object length is not a multiple of shorter object
+## length
+```
+
+```
+## [1] 2 4 6 5
+```
+
+--
+
+```r
+1:4 + c(1, 2, 3, 1)
+```
+
+```
+## [1] 2 4 6 5
+```
+
+You are warned against possible mistakes.
+---
+# Recycling
+## My gas bill in dollars for every month in order in 2021 is given:
+### 46, 33, 39, 37, 46, 30, 48, 32, 49, 35, 30, and 48.
+
+SoCal Gas overcharged me $3 on odd numbered months (January, March, …) and undercharged me 
+$7 on even numbered months (February, April, …). 
+
+1. Update `gas_bill` to reflect my true gas costs in 2021
+2. What is the difference between what I paid and what I actually owe?
+
+<div class="countdown" id="timer_62b350a7" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+---
+# Recycling
+### Adding a vector to a number.
+
+```r
+x &lt;- 1:10
+x + 6
+```
+
+```
+##  [1]  7  8  9 10 11 12 13 14 15 16
+```
+Did recycling occur?
+
+---
+# Vectorization
+A function `\(f\)` is *vectorized* if applying `\(f\)` to a vector `\(\vec x = (x_1, x_2,\dotsc, x_n)\)`
+results in a vector of `\(f\)` applied to each element of `\(\vec x\)`.
+
+`\(f(\vec x) = (f(x_1), f(x_2), \dotsc, f(x_n))\)`.
+- Vector in, vector out
+--
+
+- Vectorization is *extremely fast*
+--
+
+- Later we will discuss loops. You should always look for a vectorized solution before reaching for a loop in R.
+
+--
+
+Many operations in R are already vectorized
+
+```r
+(x &lt;- (5:10)^2)
+```
+
+```
+## [1]  25  36  49  64  81 100
+```
+
+```r
+log(x)
+```
+
+```
+## [1] 3.218876 3.583519 3.891820 4.158883 4.394449 4.605170
+```
+---
+# Vectorization
+
+1. Find the sum of the square roots of every integer from 1 to 1000.
+1. Find the product of the natural log of every integer from 100 to 200.
+1. Find the sum of the integers between 1 and 100 whose square is between 300 and 500.
+
+<div class="countdown" id="timer_62b35106" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+---
+
+class: inverse, middle, center
+# Matrices, Arrays, and Lists
+Data with dimensionality
+---
+# Data naturally have dimensions
+Often times, a vector (1-D) is not enough.
+
+.center[![:scale 70%](Lec2_files/drone.png)]
+https://trucvietle.me/r/tutorial/2017/01/18/spatial-heat-map-plotting-using-r.html
+---
+# Matrices
+## Create a matrix in several ways
+.pull-left[
+
+```r
+(x &lt;- seq(-5, 5, 2))
+```
+
+```
+## [1] -5 -3 -1  1  3  5
+```
+
+```r
+x_mx &lt;- matrix(x, nrow=2, ncol=3)
+x_mx
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,]   -5   -1    3
+## [2,]   -3    1    5
+```
+]
+--
+.pull-right[
+
+```r
+rbind(c(-5, -1, 3), c(-3, 1, 5))
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,]   -5   -1    3
+## [2,]   -3    1    5
+```
+
+```r
+cbind(c(-5, -3), c(-1, 1), c(3, 5))
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,]   -5   -1    3
+## [2,]   -3    1    5
+```
+]
+
+---
+# Matrices
+## A matrix is just an atomic vector...
+except endowed with extra information: the *dimension*
+
+.pull-left[
+
+```r
+(x &lt;- 1:4)
+```
+
+```
+## [1] 1 2 3 4
+```
+
+```r
+dim(x)
+```
+
+```
+## NULL
+```
+
+```r
+is.matrix(x)
+```
+
+```
+## [1] FALSE
+```
+]
+
+--
+.pull-right[
+
+```r
+dim(x) &lt;- c(2, 2)
+x
+```
+
+```
+##      [,1] [,2]
+## [1,]    1    3
+## [2,]    2    4
+```
+
+```r
+dim(x)
+```
+
+```
+## [1] 2 2
+```
+
+```r
+is.matrix(x)
+```
+
+```
+## [1] TRUE
+```
+]
+
+---
+# Matrices
+Because matrices are just vectors; recycling, filtering, and vectorization
+rules apply to them.
+
+Subsetting a matrix is different: an index is provided to each dimension.
+.pull-left[
+
+```r
+(x &lt;- matrix(1:4, nrow=2, ncol=2))
+```
+
+```
+##      [,1] [,2]
+## [1,]    1    3
+## [2,]    2    4
+```
+
+```r
+x[1, 1]
+```
+
+```
+## [1] 1
+```
+
+```r
+x[2, 1]
+```
+
+```
+## [1] 2
+```
+]
+.pull-right[
+**Omitting** an index returns all items in that dimension
+
+```r
+x[, 2]
+```
+
+```
+## [1] 3 4
+```
+
+```r
+x[1, ]
+```
+
+```
+## [1] 1 3
+```
+]
+---
+# Matrices
+
+```r
+(x &lt;- matrix(1:9, nrow=3, ncol=3))
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,]    1    4    7
+## [2,]    2    5    8
+## [3,]    3    6    9
+```
+What is the result of `x[1:2, -3]`?
+
+<div class="countdown" id="timer_62b351de" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+---
+# Matrices
+Create a `\(4\times 5\)` matrix `mx` of integers 1 through 17 (inclusive).
+Print the matrix. 
+
+1. Did filtering, recycling, or vectorization occur?
+2. Subset `mx` to create the following matrix:
+
+```
+##      [,1] [,2] [,3]
+## [1,]    1    5   17
+## [2,]    4    8    3
+```
+3. Set all entries of `mx` greater than 10 to zero. Did filtering, recycling, or vectorization occur?
+
+<div class="countdown" id="timer_62b350b5" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+# Matrices
+Like vectors, rows and columns of a matrix can be named.
+
+```r
+scores &lt;- matrix(c(7, 6, 9, 8, 8, 9, 10, 5, 7), nrow = 3, ncol = 3)
+colnames(scores) &lt;- c("Anna", "Joe", "Carl")
+rownames(scores) &lt;- c("midterm1", "midterm2", "final")
+scores
+```
+
+```
+##          Anna Joe Carl
+## midterm1    7   8   10
+## midterm2    6   8    5
+## final       9   9    7
+```
+
+.pull-left[
+
+```r
+scores["midterm2", -3]
+```
+
+```
+## Anna  Joe 
+##    6    8
+```
+]
+--
+.pull-right[
+What is the output?
+
+```r
+scores[scores[,3] &gt; 5, ]
+```
+]
+<div class="countdown" id="timer_62b3507c" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">30</span></code>
+</div>
+
+---
+# Image manipulation demo
+
+
+```r
+install.packages("pixmap")
+library(pixmap)
+```
+
+```r
+mtrush1 &lt;- read.pnm("mtrush1.pgm")
+str(mtrush1)
+```
+
+```
+## Formal class 'pixmapGrey' [package "pixmap"] with 6 slots
+##   ..@ grey    : num [1:194, 1:259] 0.278 0.263 0.239 0.212 0.192 ...
+##   ..@ channels: chr "grey"
+##   ..@ size    : int [1:2] 194 259
+##   ..@ cellres : num [1:2] 1 1
+##   ..@ bbox    : num [1:4] 0 0 259 194
+##   ..@ bbcent  : logi FALSE
+```
+---
+# Image manipulation demo
+`mtrush1@grey` is a matrix containing pixel intensities.
+
+What is the intensity of the pixel at row 70, column 120?
+
+
+Blur out Teddy Roosevelt's face at `\(84\colon163 \times 135\colon177\)`
+![](Lec2_files/figure-html/unnamed-chunk-27-1.png)&lt;!-- --&gt;
+---
+# Arrays
+Higher (&gt;2) dimensional vectors are called *arrays*
+
+```r
+rubiks &lt;- array(1:27, c(3, 3, 3))
+dim(rubiks)
+```
+
+```
+## [1] 3 3 3
+```
+
+```r
+hypercube &lt;- array(1:16, c(2, 2, 2, 2))
+dim(hypercube)
+```
+
+```
+## [1] 2 2 2 2
+```
+
+--
+.center[
+![](Lec2_files/rubiks.png)
+[![](Lec2_files/dali.png)](https://en.wikipedia.org/wiki/Crucifixion_%28Corpus_Hypercubus%29)
+![:scale 25%](Lec2_files/tesseract.gif)
+]
+---
+# Arrays
+.pull-left[
+
+```r
+rubiks
+```
+
+```
+## , , 1
+## 
+##      [,1] [,2] [,3]
+## [1,]    1    4    7
+## [2,]    2    5    8
+## [3,]    3    6    9
+## 
+## , , 2
+## 
+##      [,1] [,2] [,3]
+## [1,]   10   13   16
+## [2,]   11   14   17
+## [3,]   12   15   18
+## 
+## , , 3
+## 
+##      [,1] [,2] [,3]
+## [1,]   19   22   25
+## [2,]   20   23   26
+## [3,]   21   24   27
+```
+]
+.pull-right[
+
+```r
+hypercube
+```
+
+```
+## , , 1, 1
+## 
+##      [,1] [,2]
+## [1,]    1    3
+## [2,]    2    4
+## 
+## , , 2, 1
+## 
+##      [,1] [,2]
+## [1,]    5    7
+## [2,]    6    8
+## 
+## , , 1, 2
+## 
+##      [,1] [,2]
+## [1,]    9   11
+## [2,]   10   12
+## 
+## , , 2, 2
+## 
+##      [,1] [,2]
+## [1,]   13   15
+## [2,]   14   16
+```
+]
+---
+# Application of Arrays
+### Color images are often represented as a 3D array
+
+.center[![](Lec2_files/channels.png)]
+
+---
+# Lists
+### A **list** is also a vector, but is not atomic.
+Usually "vector" means "atomic vector".
+Recall that atomic vectors can only hold one data type.
+Lists are also vectors, but can hold many different data types.
+
+For the rest of the class,
+I will say "vector" to mean "atomic vector" and "list" to mean "list".
+But in the R literature, lists are vectors. 
+
+.center[![](Lec2_files/listhier.png)]
+
+---
+# Lists
+
+```r
+x &lt;- list(first = 1:10, second = "cat", third = c(T, F))
+```
+Single brackets `[ ]` return a list while double brackets `[[ ]]` return the element.
+
+--
+
+
+```r
+x[1]
+```
+
+```
+## $first
+##  [1]  1  2  3  4  5  6  7  8  9 10
+```
+
+```r
+x[[1]]
+```
+
+```
+##  [1]  1  2  3  4  5  6  7  8  9 10
+```
+
+--
+
+Getting an element by name:
+
+```r
+x$first
+```
+
+```
+##  [1]  1  2  3  4  5  6  7  8  9 10
+```
+
+---
+# Lists
+### Is it possible to create a vector of vectors?
+
+```r
+c(1:10, 66, 3:7)
+```
+---
+# Checking the structure
+- Is `x` an atomic vector? `is.atomic(x)`
+- Is `x` a list? `is.list(x)`
+- Is `x` a matrix? `is.matrix(x)`
+- Is `x` an array? `is.array(x)`
+
+.pull-left[
+But beware:
+
+```r
+x &lt;- rbind(1:2, 3:4)
+is.atomic(x)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+is.matrix(x)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+is.array(x)
+```
+
+```
+## [1] TRUE
+```
+]
+.pull-right[
+Sometimes better to check the *class*
+
+```r
+class(x)
+```
+
+```
+## [1] "matrix" "array"
+```
+]
+---
+# AVOID is.vector
+`is.vector` does not do what you think it does.
+
+---
+# Summary
+- Practice filtering, recycling, and vectorization.
+- Practice subsetting matrices.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
