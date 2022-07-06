@@ -1,0 +1,243 @@
+# Lecture 4 demo code
+
+#### 2022-06-27
+
+## Remove element (slide 4)
+
+### Loop approach
+
+Let's try using a loop first. A preliminary idea is as follows: 1.
+Construct a result vector `result` 2. Loop through the input `v` - if
+`v[i]` does not equal `target`, add it to `result` - otherwise, do not
+add it to `result` (do nothing) 3. Return `result`
+
+Here is this idea implemented:
+
+```{r}
+remove_elt <- function(v, target) {
+  result <- numeric(0)
+  for (i in seq_along(v)) {
+    if(v[i] != target) {
+      result <- c(result, v[i])
+    }
+  }
+  return(result)
+}
+remove_elt(c(14, 14, 7, 7, 14, 10), 14)
+```
+
+### Vectorized approach
+
+Instead of a loop, we can do a *vectorized* comparison and then filter
+for the desired values of `v`.
+
+```{r}
+remove_elt <- function(v, target) {
+  v[v != target]
+}
+remove_elt(c(14, 14, 7, 7, 14, 10), 14)
+```
+
+In the above, `v != target` is a vector of logicals which we use to
+subset `v` itself. Please make sure you are comfortable with this
+operation.
+
+## Print Square (slide 5)
+
+### Matrix approach
+
+The first approach is clever: just print a matrix.
+
+```{r}
+print_square <- function(n) {
+  m <- matrix("*", nrow = n, ncol = n)
+  print(m)
+}
+
+print_square(5)
+```
+
+Think about how *recycling* occurs so that a single `*` becomes `n^2`
+`*`s.
+
+### Loop approach
+
+Let's build a vector of `n` `*`s and then use a loop to print it `n`
+times.
+
+```{r}
+print_square <- function(n) {
+  asts <- rep("*", n)
+  for (i in seq_len(n)) {
+    print(asts)
+  }
+}
+print_square(4)
+```
+
+## Print triangle (slide 6)
+
+A matrix approach is less straightforward in this case. But we can
+easily adapt the above loop. Now, the number of asterisks depends on the
+loop index.
+
+```{r}
+print_triangle <- function(n) {
+  for (i in seq_len(n)) {
+    asts <- rep("*", i)
+    print(asts)
+  }
+}
+print_triangle(4)
+```
+
+## Max vector (slide 7)
+
+### Loop with comparison
+
+We want to compare `nums1` and `nums2` element-wise, so it makes sense
+to loop over them. The vectors are guaranteed to be of length `n`, so we
+can use this.
+
+```{r}
+max_vec <- function(nums1, nums2, n) {
+  result <- vector(length = n) # this initializes an "empty" vector with length n
+  for (i in seq_len(n)) {
+    if (nums1[i] < nums2[i]) {
+      result[i] <- nums2[i] # Since nums2[i] is larger, place it into the result
+    } else {
+      result[i] <- nums1[i] # Since nums1[i] is larger, place it into the result
+    }
+    # Note that if they are equal, it does not matter which we put in.
+  }
+  return(result)
+}
+max_vec(1:4, c(0, 27, -5, 19), 4)
+```
+
+### Loop with builtin max
+
+It is always good to check if R already implements some basic operation.
+In this case, `max(a, b)` returns the larger of `a` and `b`.
+
+```{r}
+max_vec <- function(nums1, nums2, n) {
+  result <- vector(length = n)
+  for (i in seq_len(n)) {
+    result[i] <- max(nums1[i], nums2[i]) # use the builtin max function
+  }
+  return(result)
+}
+max_vec(1:4, c(0, 27, -5, 19), 4)
+```
+
+The above saves us from explicitly writing a branch.
+
+### pmax
+
+A *even better* way is to use Google to find the `pmax` function, which
+does everything for us.
+
+```{r}
+pmax(1:4, c(0, 27, -5, 19))
+```
+
+## Small Count Simple (slide 8)
+
+It is possible to do this with a loop. But let's use a vectorized
+approach:
+
+```{r}
+small_count_simple <- function(v, target) {
+  sum(v < target)
+}
+small_count_simple(c(10, 15, -2, 5), 11)
+```
+
+`v < target` results in a logical vector. Summing up the result gives
+the number of TRUE elements.
+
+## Small Count (slide 9)
+
+Loop over a `result` vector and fill in the values using the approach
+from the previous problem.
+
+```{r}
+small_count <- function(v) {
+  result <- vector(length = length(v))
+  for (i in seq_along(v)) {
+    result[i] <- sum(v < v[i])
+  }
+  return(result)
+  small_count(c(12, 100, -3, -12))
+}
+```
+
+## Two Sum (slide 10)
+
+For this problem, we must be able to enumerate pairs of indices going
+from `1` to `length(v)`. In other words, if `v` has 4 elements, we need
+to check the following pairs:
+
+> (i, j) \<= (1, 2), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4)
+
+Then if we look at `v[i] + v[j]`, we will see the sum of all pairs of
+elements of `v`. Think: why were `(2, 1), (4, 2), ...` not included?
+
+### Loop approach
+
+The idea is to use two loops: `i` going from 1 to `length(v)` and `j`
+going from 1 to `i-1`. This ensures we go over each pair exactly once
+(why?).
+
+```{r}
+two_sum <- function(v, target) {
+  i <- 0
+  j <- 0
+  for (i in seq_along(v)) {
+    for (j in seq_len(i-1)) {
+      if (v[i] + v[j] == target) {
+        return(c(i, j))
+      }
+    }
+  }
+}
+two_sum(c(2, 7, 11, 15), 9)
+```
+
+## First Even (slide 11)
+
+The expression `(v %% 2) == 0` gives a vector of logicals indicating
+TRUE if the entry of `v` is even and FALSE otherwise. Calling `which` on
+this logical vector gives all the indices of TRUE, which are all the
+indices of even numbers of `v`. Then index with `[1]` to find the first
+such index.
+
+```{r}
+first_even <- function(v) {
+  w_idx <- which((v %% 2) == 0)[1]
+  v[w_idx]
+}
+first_even(c(-1, -4, 0, 2))
+```
+
+It may be clearer to do the indexing *after* subsetting `v`: Below,
+`w_idx` is now a *vector* of indices, which we use to subset `v`.
+
+```{r}
+first_even <- function(v) {
+  w_idx <- which((v %% 2) == 0)
+  (v[w_idx])[1]
+}
+first_even(c(-1, -4, 0, 2))
+```
+
+## Last Negative (slide 12)
+
+This is an **exercise**; please do this on your own. If you are stuck,
+talk to me.
+
+## Any and all (slide 13)
+
+This is also an **exercise**; please do this on your own. If you are
+stuck, talk to me.

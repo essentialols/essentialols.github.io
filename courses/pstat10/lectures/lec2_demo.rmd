@@ -1,0 +1,107 @@
+# Lecture 2 demo code
+
+#### 2022-06-24
+
+### Filtering
+
+1.  
+
+```{r}
+gas_bill <- c(46, 33, 39, 37, 46, 30, 48, 32, 49, 35, 30, 48)
+length(gas_bill)
+```
+
+2.  
+
+```{r}
+sum(gas_bill > 40)
+```
+
+The expression `gas_bill > 40` is a logical vector. Summing this vector
+gives the number of TRUE elements.
+
+3.  
+
+```{r}
+mean(gas_bill > 40) * 100
+```
+
+The mean of a logical vector is the proportion of TRUE elements.
+
+4.  
+
+```{r}
+sum(gas_bill[gas_bill > 40])
+```
+
+### Recycling (slide 8)
+
+1.  
+
+```{r}
+gas_bill_update <- gas_bill + c(-3, 7)
+```
+
+The shorter vector `c(-3, 7)` is recycled to match the length of
+`gas_bill`.
+
+2.  
+
+```{r}
+sum(gas_bill - gas_bill_update)
+```
+
+So I owe the company 24 dollars.
+
+### Vectorization (slide 11)
+
+1.  
+
+```{r}
+sum(sqrt(1:100))
+```
+
+2.  
+
+```{r}
+prod(log(100:200))
+```
+
+3.  
+
+```{r}
+ints <- 1:100
+ints_sq <- ints^2
+sum(ints[ints_sq > 300 & ints_sq < 500])
+```
+
+Pay special attention to the expression `ints_sq > 300 & ints_sq < 500`
+above.
+
+### Matrices (slide 18)
+
+1.  
+
+```{r}
+(mx <- matrix(1:17, nrow = 4, ncol = 5))
+```
+
+The first three entries of `1:17` were recycled. The warning tells us
+the recycling was not complete.
+
+2.  
+
+```{r}
+mx[c(1, 4), c(1, 2, 5)]
+```
+
+3.  
+
+```{r}
+mx[mx > 10] <- 0
+mx
+```
+
+First, `mx[mx > 10]` filters for the entries larger than 10. Then, `0`
+is recycled to match the length of these entries. Finally, the entries
+are each assigned to 0.
