@@ -1,0 +1,64 @@
+# Lecture 6 demo code
+
+#### Ingmar
+
+#### 2022-06-29
+
+We will need the following packages:
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+library(gapminder)
+library(datasets)
+```
+
+## Filtering (slide 3)
+
+Using matrix operations to subset a tibble.
+
+```{r}
+gapminder[gapminder$country == "Afghanistan" & gapminder$year > 1979,]
+```
+
+## Selecting (slide 5)
+
+```{r}
+gapminder[, c("country", "year", "lifeExp", "pop")]
+```
+
+## Combining select and filter (slide 7)
+
+#### Matrix approach
+
+```{r}
+gapminder[gapminder$country == "Rwanda" &
+            gapminder$year > 1960 & gapminder$year < 1970,
+          c("country", "year", "lifeExp")]
+```
+
+#### `dplyr` approach
+
+```{r}
+select(filter(gapminder, country == "Rwanda", year > 1960, year < 1970),
+       country, year, lifeExp)
+```
+
+## The Pipe (slide 13)
+
+```{r}
+gapminder |> 
+  filter(country == "Chile") |>
+  select(continent, year, lifeExp) |>
+  head(3)
+```
+
+## More practice (slide 16)
+
+```{r}
+gapminder |>
+  filter(gdpPercap < 300, year < 2007) |>
+  select(country, year, gdpPercap)
+```
