@@ -59,10 +59,13 @@ project to a dedicated folder of your choice (not in ```Documents``` or
 
 Next, install and load the ```here``` package.
 
-```{r}
+```{r, results='hide', message=FALSE}
 # install.packages("here")
 library(here)
 ```
+
+`## here() starts at "path/to/your/project"`
+
 
 With this package you can use relative file paths instead of absolute file 
 paths. This can be very helpful when you collaborate on projects. Your 
@@ -74,16 +77,29 @@ running ```set_here()```. This reates an invisible file .here in your project
 directory, which tells R where your root directory is every time you open this
 project.
 
-```{r}
+```{r, results='hide', message=FALSE}
 set_here()
 ```
 
+`## File .here already exists in "path/to/your/project"`
+
+
 Now test ```here```. It converts your relative file path to an absolute one:
 
-```{r}
+```{r, results='hide', message=FALSE}
 here()
+```
+
+`## [1] "path/to/your/project"`
+
+
+```{r, results='hide', message=FALSE}
 here("week1_files")
 ```
+
+
+`## [1] "path/to/your/project/week1_files"`
+
 
 Yay! ```here``` has set our working directory without us having to get into the
 depths of our file system. By adding folders as arguments to ```here```, we can
@@ -113,7 +129,7 @@ summary(heights_df)
 ```
 
 The object ```heights_df``` is a _data frame_, which we will talk much more about later. For now, know that
-summary summarizes the data in a data frame and that the _vector_ called “height” can be accessed with the
+summary summarizes the data in a data frame and that the _vector_ called "height" can be accessed with the
 dollar sign '$':
 
 ```
@@ -158,4 +174,3 @@ Fun fact: Programming languages that automatically coerce values to a given data
 type when incompatible data types are mixed are called _dynamically typed_
 (e.g. R, Python), whereas languages which will not coerce values are called
 _statically typed_ (e.g. Java, C, C++).
-
