@@ -1,6 +1,6 @@
 # Lecture 1 demo code
 
-#### 2022-08-01
+#### 2024-06-24
 
 ### Installing cowsay
 

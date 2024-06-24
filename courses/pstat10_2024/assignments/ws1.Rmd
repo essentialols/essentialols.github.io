@@ -1,7 +1,6 @@
 ---
 title: "PSTAT 10 Worksheet 1"
-subtitle: "Due 8/1/22 11:59pm"
-author: "Ingmar Sturm"
+subtitle: "Due 6/24/24 11:59pm"
 output: pdf_document
 ---
 

@@ -3,8 +3,8 @@
   <head>
     <title>Welcome to PSTAT 10</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Ingmar Sturms" />
-    <meta name="date" content="2022-06-20" />
+    <meta name="author" content="Ingmar Sturm" />
+    <meta name="date" content="2024-06-24" />
     <script src="libs/header-attrs-2.14/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
@@ -31,7 +31,7 @@ class: center, middle, inverse, title-slide
 ### UCSB
 ]
 .date[
-### 2022-08-01
+### 2024-06-24
 ]
 .footnote[
 Special thanks to Robin Liu for select course content used with permission.
@@ -41,10 +41,8 @@ Special thanks to Robin Liu for select course content used with permission.
 
 # A Job Ad
 .center[
-![:scale 80%](Lec1_files/apple_ds4.png)
+![:scale 80%](Lec1-files/boozallen_ds.jpg)
 ]
-
-[link](https://web.archive.org/web/20220325205603/https://jobs.apple.com/en-us/details/200311967/data-scientist-apple-finance-r-shiny)
 
 ---
 # About this class
@@ -89,29 +87,30 @@ Special thanks to Robin Liu for select course content used with permission.
 
 .pull-left[
 ### Week 6
-- ...
+- ... (TBD)
 - Final exam (last day of class)
 ]
 ---
 # Why come to class?
 ## How to draw an owl
 
-![owl1](Lec1_files/owl_miss.png)
+![owl1](Lec1-files/owl_miss.png)
 ---
 # Why come to class?
 ## How to draw an owl
 
-![owl2](Lec1_files/owl_full.png)
+![owl2](Lec1-files/owl_full.png)
 
 ---
 # Grading
-- Lab worksheets 20%
-- Homework 50%
-- Final Exam 30%
-- Discussion forum 3% (extra credit)
+- Lab worksheets: 25%
+- Homework: 25%
+- Midterm exam: 20%
+- Final exam: 30%
+- Discussion forum: (positive) tie-breaker
+- Attendance and participation: (negative) tie-breaker
 
-Lab worksheets are graded based on completion. I will release the
-worksheet solutions before their due date.
+Lab worksheets are graded pass/fail based on completion.
 
 --
 
@@ -131,7 +130,7 @@ If you need help keeping up, please use office hours.
 - If you have questions about course rules or content that might be of interest to others, please ask them in the discussion forum
 - Reserve email for all other questions
 
-![forum](Lec1_files/forum.png)
+![forum](Lec1-files/forum.png)
 
 ---
 
@@ -142,18 +141,18 @@ If you need help keeping up, please use office hours.
 - MA Statistics (Data Science) in 2021
 - Coding in R since 2013
 - Developed R package `fbsamplR`
-- My dog's name is Barbara
+- Fun fact: My dog's name is Barbara
 ]
---
+
 .pull-right[
-![:scale 100%](Lec1_files/babs.jpg)
+![:scale 100%](Lec1-files/babs.jpg)
 ]
 
 ---
 
 # Programming for data science
 
-![](Lec1_files/stack.webp)
+![](Lec1-files/stack.webp)
 ---
 
 # Why R?
@@ -166,7 +165,8 @@ If you need help keeping up, please use office hours.
 --
 
 [The R Graph Gallery](https://r-graph-gallery.com)
-![rgraphs](Lec1_files/rgraphs.png)
+
+![rgraphs](Lec1-files/rgraphs.png)
 
 ---
 
@@ -205,7 +205,6 @@ I encourage you to look at functionality beyond the course material.
 Generally speaking, if your code produces correct output, it is correct.
 Unless the question asks for a particular method.
 
-https://twitter.com/hashtag/rstats
 ---
 # Use the help
 The `?` operator searches the documentation for the given function.
@@ -226,7 +225,7 @@ These websites are your friends. Especially [StackOverflow](https://stackoverflo
 
 Searching for coding solutions online is a *skill*.
 
-![](Lec1_files/stackoverflow.png)
+![](Lec1-files/stackoverflow.png)
 ---
 # Avoid copy pasting code
 
@@ -237,7 +236,34 @@ If you find some code you want to use, you must *type it in manually*.
 
 Typing the code character-for-character will teach you more than copy pasting.
 
-.center[![](Lec1_files/nocp.png)]
+.center[![](Lec1-files/nocp.png)]
+
+---
+# AI — ChatGPT, Google Gemini, Copilot, etc.
+
+AI is a powerful tool. Use it to your advantage by asking questions and learning.
+
+Abusing AI is a form of self-harm. It will hurt you in the long run.
+
+Abusing AI is a form of academic dishonesty. If discovered, you may fail the class.
+
+---
+# Dos and Don'ts with AI
+
+- **Do** use AI to help you learn (e.g. "Explain in different words: ...")
+- **Do** use AI to help you debug (e.g. "R error: object not found", "What's wrong with this code?")
+- **Do** use AI to help you find solutions (e.g. "R how to sort a vector")
+- **Do** use AI to help you understand (e.g. "ELI5 R for loops")
+
+
+- **Don't** use AI to do your work for you
+- **Don't** copy-paste AI answers
+- **Don't** use AI to cheat
+- **Don't** use AI to avoid learning
+- **Don't** use AI to avoid thinking
+
+General recommendation: Use AI to learn/reinforce what we cover in this course. We will notice if you suddenly start using advanced techniques we haven't covered yet.
+
 ---
 # Tools of the trade
 
@@ -246,7 +272,7 @@ Typing the code character-for-character will teach you more than copy pasting.
 
 We will primarily use RStudio, but do note that the above are different things.
 .center[
-![:scale 85%](Lec1_files/rstudio.png)
+![:scale 85%](Lec1-files/rstudio.png)
 ]
 [image credit](https://stats220.earo.me/01-intro.html#21)
 
@@ -254,10 +280,10 @@ We will primarily use RStudio, but do note that the above are different things.
 # Customize RStudio
 
 In RStudio, navigate to Tools &gt; Global Options &gt; Appearance
-and choose a theme that you like. I recommend a dark mode.
+and choose a theme that you like.
 
 Also adjust these settings:
-.center[![](Lec1_files/workspace.png)]
+.center[![](Lec1-files/workspace.png)]
 
 <div class="countdown" id="timer_62b14efa" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
@@ -569,7 +595,7 @@ length(100)
 Scalars are length-one vectors
 
 Vector datatype hierarchy
-![vecttypes](Lec1_files/vector_types.png)
+![vecttypes](Lec1-files/vector_types.png)
 ]
 ---
 # Working with logicals
@@ -805,9 +831,9 @@ x[c("b", "d")] # subsetting by name
 ---
 # Style
 ## Typical R code :(
-.center[![](Lec1_files/badstyle.png)]
+.center[![](Lec1-files/badstyle.png)]
 
-![disappoint](Lec1_files/disappoint.png)
+![disappoint](Lec1-files/disappoint.png)
 
 ---
 # Style
