@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Lecture 8: Probability and Simulation</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Robin Liu" />
+    <meta name="date" content="2022-07-03" />
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/middlebury-fonts.css" rel="stylesheet" />
+    <link href="libs/countdown-0.3.5/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown-0.3.5/countdown.js"></script>
+    <link rel="stylesheet" href="ingmar.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Lecture 8: Probability and Simulation
+]
+.author[
+### Ingmar Sturm
+]
+.institute[
+### UCSB
+]
+.date[
+### 2022-07-03
+]
+.footnote[
+Special thanks to Robin Liu for select course content used with permission.
+]
+
+---
+
+class: inverse, middle, center
+# Probability
+---
+# Rolling two dice
+### Roll two fair dice, one red and one green.
+
+What is the *probability* that their sum equals 6?
+
+![](Lec8_files/twodice.png)
+
+A simulation-based answer.
+
+--
+
+1. Roll the dice
+
+--
+
+2. Sum up the two numbers. 
+
+--
+
+3. Does the sum add up to 6? Write down TRUE or FALSE.
+
+--
+
+4. Write this data as a line in a notebook
+
+--
+
+5. Repeat a **ton** of times.
+
+--
+
+The probability is the proportion of true responses to step 3.
+
+---
+
+# Rolling two dice
+| rep 	|| red 	| green 	| red+green 	| red+green==6? 	|
+|-----	||-----	|-------	|-----------	|---------------	|
+| 1   	|| 4   	| 3     	| 7         	| FALSE         	|
+| 2   	|| 4   	| 2     	| 6         	| TRUE          	|
+| 3   	|| 1   	| 4     	| 5         	| FALSE         	|
+| 4   	|| 2   	| 6     	| 8         	| FALSE         	|
+| 5   	|| 6   	| 1     	| 7         	| FALSE         	|
+
+In 5 replications, we found a proportion of `\(\frac{1}{5}\)` of true responses.
+The *probability* is this proportion when we take
+`\(n\to\infty\)` replications.
+
+--
+
+You might know already the answer is `\(\frac{5}{36}\)`.
+The above connects this theoretical answer to real life experiments;
+it is the **frequentist** interpretation of probability.
+
+--
+
+Since this is a coding class (and not a probability theory class), we will adopt this simulation-based
+"definition" and interpretation of probability.
+
+---
+# Intuitive "definition" of probability
+An **experiment** is repeatable with random outcomes.
+We imagine performing the experiment a **huge** number of times.
+  - Roll two fair dice and add the results
+
+--
+
+An **event** is a logical (TRUE or FALSE) outcome of an experiment.
+  - Does the sum equal 6? Either TRUE or FALSE.
+  
+--
+
+The **probability** of an event is the proportion of TRUE outcomes after a
+**huge** number of replications of the experiment.
+
+We will use R to simulate this experiment and determine the probability.
+---
+# Setting a seed
+Demonstrate pseudorandomness
+
+```r
+sample(1:10)
+```
+
+```
+##  [1]  9  2  5  7  8  3  4  6  1 10
+```
+
+--
+
+
+```r
+set.seed(100)
+sample(1:10)
+```
+
+```
+##  [1] 10  7  6  3  1  2  5  9  4  8
+```
+---
+# Simulating the two dice
+The `sample` function returns a vector of random elements from an input vector.
+
+```r
+# the second argument is the number of elements to return.
+sample(c("cat", "fish", "llama", "hedgehog"), 1) 
+```
+
+```
+## [1] "fish"
+```
+
+```r
+sample(c("cat", "fish", "llama", "hedgehog"), 2) 
+```
+
+```
+## [1] "hedgehog" "llama"
+```
+
+--
+
+We can represent rolling a fair die as follows:
+
+```r
+sample(1:6, 1)
+```
+
+```
+## [1] 6
+```
+---
+# Simulating the two dice
+Roll two dice, one green, one red. What is the probability the sum equals six?
+Simulate using `\(10,000\)` replications.
+
+
+```r
+nreps &lt;- 10000
+count &lt;- 0
+
+for (rep in seq_len(nreps)) {
+  green &lt;- sample(1:6, 1)
+  red &lt;- sample(1:6, 1)
+  dice_sum &lt;- green + red
+  if (dice_sum == 6) {
+    count &lt;- count + 1 # The event occurs, so we increment the counter
+  }
+}
+
+count/nreps
+```
+
+```
+## [1] 0.1396
+```
+
+
+
+Our answer is close to the theoretical value of `\(\frac{5}{36} \approx 0.1389\)`.
+
+---
+# Simulating dice rolls
+Lets generalize to rolling `\(d\)` fair, six-sided dice
+and find the probability their sum equals `\(k\)`.
+
+It will be convenient to `sample` multiple rolls at once.
+
+
+```r
+sample(1:6, 7, replace = T)
+```
+
+```
+## [1] 5 4 2 4 3 5 3
+```
+
+The `replace = T` indicates sampling *with replacement*. It is FALSE by default.
+Without this, we would not be able to simulate rolling the same number twice.
+
+Try running the following line of code:
+
+```r
+sample(1:6, 7) # replace = F by default
+```
+
+---
+# Simulating dice rolls
+Roll 7 fair six-sided dice. What is the probability their sum equals `\(20\)`?
+Simulate using `\(10,000\)` replications.
+
+
+```r
+d &lt;- 7
+k &lt;- 20
+nreps &lt;- 10000
+
+count &lt;- 0 # Count the number of TRUE outcomes
+
+for (rep in seq_len(nreps)) {
+  rolls &lt;- sample(1:6, d, replace = T)
+  if (sum(rolls) == k) {
+    count &lt;- count + 1 # The event occurs, so we increment the counter
+  }
+}
+
+count/nreps
+```
+
+```
+## [1] 0.0546
+```
+The above shows the probability that the sum of 7 dice equals 20
+is roughly 0.055.
+Harder to compute theoretically!
+
+---
+# Simulating dice rolls
+We can further improve this code:
+
+```r
+d &lt;- 7
+k &lt;- 20
+nreps &lt;- 10000
+sums &lt;- vector(length = nreps) # Store the sums in each replication
+
+for (rep in seq_len(nreps)) {
+  rolls &lt;- sample(1:6, d, replace = T)
+  sums[rep] &lt;- sum(rolls)
+}
+mean(sums == k) # !!
+```
+
+```
+## [1] 0.0561
+```
+
+We got rid of the `count` variable.
+--
+
+Take a moment to think about what `mean(sums == k)` is doing.
+<div class="countdown" id="timer_62c26030" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+---
+# Simulating dice rolls
+A final improvement with the `replicate` function.
+
+```r
+replicate(10000, sum(sample(1:6, size =  7, replace = T))) |&gt; head(10)
+```
+
+```
+##  [1] 31 24 24 23 26 24 21 23 26 22
+```
+
+--
+
+Performs 10 replications of the provided expression.
+
+
+```r
+sums &lt;- replicate(10000, sum(sample(1:6, size = 7, replace = T)))
+mean(sums == 20)
+```
+
+```
+## [1] 0.0553
+```
+
+--
+
+We moved the replication to the `replicate` function and no longer need a loop.
+Then we used recycling and vectorization to find the desired proportion.
+
+--
+
+**The key idea:** create a logical vector containing, for each replication, TRUE 
+if the event occurs and FALSE if the event does not occur.
+Then take the mean of this vector. This estimates the probability of the event.
+
+---
+# Your turn
+Roll three fair six-sided dice. What's the probability
+that the minimum of the scores is greater than 2?
+
+*Hint*: Consider using the `min` function:
+
+```r
+min(2, -6, 700, -1)
+```
+
+```
+## [1] -6
+```
+
+
+
+<div class="countdown" id="timer_62c25ed2" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+# More dice rolling
+A pair of fair dice is rolled in order.
+What is the probability that the second die lands on a higher value than the first die?
+
+<div class="countdown" id="timer_62c26166" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+---
+# Derangement
+A **derangement** is a permutation of of numbers `\(1, 2, \dotsc, n\)` such that
+no number is in its original position.
+
+Example: if `\(n=5\)`, 
+- 2, 1, 5, 3, 4 is a derangement
+- 2, 1, 5, 4, 3 is not a derangement; 4 is in the 4th position.
+
+Let `\(n=100\)` and suppose we picked a permutation of numbers 1:100 randomly.
+What is the probability of a derangement?
+Simulate drawing a permutation `nrep=10^4` times.
+
+*Hint:* `sample(1:100)` gives a random permutation of numbers `\(1, 2, \dotsc, 100\)`.
+
+<div class="countdown" id="timer_62c25db6" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">08</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+---
+# Derangement
+Amazingly, it can be shown for large `\(n\)` that the probability of a derangement is approximately
+`\(1/e \approx 0.368\)`.
+
+Create the following plot:
+
+&lt;img src="Lec8_files/figure-html/unnamed-chunk-16-1.png" width="45%" height="45%" /&gt;
+---
+
+# Expectation
+Recall our notebook of experimental results.
+
+| rep 	|| red 	| green 	| red+green 	| red+green==6? 	|
+|-----	||-----	|-------	|-----------	|---------------	|
+| 1   	|| 4   	| 3     	| 7         	| FALSE         	|
+| 2   	|| 4   	| 2     	| 6         	| TRUE          	|
+| 3   	|| 1   	| 4     	| 5         	| FALSE         	|
+
+The columns **red**, **green**, and **red+green** give numerical results
+of each experiment (we will soon call them random variables).
+
+The **expectation** or **expected value** of a column
+is the long-run *average* of all the entries in the column.
+
+$$
+\lim_{n\to\infty} \frac{x_1 + x_2 + \dotsc + x_n}{n}.
+$$
+
+--
+
+We approximate the expectation by performing the experiment a **huge**
+number of times and taking the average.
+---
+# Expectation
+| rep 	|| red 	| green 	| red+green 	| red+green==6? 	|
+|-----	||-----	|-------	|-----------	|---------------	|
+| 1   	|| 4   	| 3     	| 7         	| FALSE         	|
+| 2   	|| 4   	| 2     	| 6         	| TRUE          	|
+| 3   	|| 1   	| 4     	| 5         	| FALSE         	|
+| 4   	|| 2   	| 6     	| 8         	| FALSE         	|
+| 5   	|| 6   	| 1     	| 7         	| FALSE         	|
+
+After 5 replications, what is the estimated expectation of
+the sum of scores on the red and green dice?
+
+--
+
+
+```r
+mean(c(7, 6, 5, 8, 7))
+```
+
+```
+## [1] 6.6
+```
+
+It can be shown the theoretical value is 7.
+
+---
+# Expectation
+We approximate the expectation by performing the experiment a **huge**
+number of times and taking the average.
+
+Estimate the expectation of the sum of two dice using `\(1,000\)` replications:
+
+```r
+sample(1:6, size = 2, replace = T)
+```
+
+```
+## [1] 2 3
+```
+
+```r
+result &lt;- replicate(1000, sum(sample(1:6, size = 2, replace = T)))
+mean(result)
+```
+
+```
+## [1] 6.854
+```
+
+--
+
+We should get closer to the theoretical as we do more replications.
+
+---
+
+# Expectation
+Consider the following experiment.
+
+1. Roll a fair six-sided die 100 times.
+2. Count the number of rolls before the first score of 6 was rolled.
+
+What is the expected number of rolls before a 6 was seen?
+Estimate the expectation using 10,000 replications.
+
+<div class="countdown" id="timer_62c25e1e" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">08</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+
+
+&lt;!-- --- --&gt;
+&lt;!-- # Specifying probabilities in sample --&gt;
+&lt;!-- A vector of probabilities can be passed into sample. --&gt;
+&lt;!-- This simulates rolling a *loaded* die. --&gt;
+&lt;!-- ```{r} --&gt;
+&lt;!-- sample(1:6, 1, prob = c(1/3, 1/3, 1/12, 1/12, 1/12, 1/12)) --&gt;
+&lt;!-- ``` --&gt;
+
+&lt;!-- --- --&gt;
+&lt;!-- # Specifying probabilities in sample --&gt;
+
+&lt;!-- Let's check this works: --&gt;
+
+&lt;!-- ```{r, out.height="50%", out.width="50%"} --&gt;
+&lt;!-- loaded_p &lt;- c(1/3, 1/3, 1/12, 1/12, 1/12, 1/12) --&gt;
+&lt;!-- result &lt;- sample(1:6, 1000, prob = loaded_p, replace = T) --&gt;
+&lt;!-- barplot(table(result) / 1000, ylim = c(0, 0.35), ylab = "Proportion") --&gt;
+&lt;!-- ``` --&gt;
+
+&lt;!-- --- --&gt;
+
+&lt;!-- # Loaded dice --&gt;
+&lt;!-- Two symmetric dice have had two of their sides painted --&gt;
+&lt;!-- red, two painted black, one painted yellow, and the other --&gt;
+&lt;!-- painted white. When this pair of dice is rolled, what is the --&gt;
+&lt;!-- probability that both dice land with the same color face --&gt;
+&lt;!-- up? --&gt;
+
+&lt;!-- Simulate `\(10^4\)` times. Your answer should be close to the theoretical value of --&gt;
+&lt;!-- `\(\frac{5}{18} \approx 2.778\)`. --&gt;
+
+&lt;!-- ```{r, include = F} --&gt;
+&lt;!-- same_color &lt;- function() { --&gt;
+&lt;!--   result &lt;- sample(c("red", "black", "yellow", "white"), 2, --&gt;
+&lt;!--                    prob = c(1/3, 1/3, 1/6, 1/6), replace = T) --&gt;
+&lt;!--   result[1] == result[2] --&gt;
+&lt;!-- } --&gt;
+&lt;!-- result &lt;- replicate(10^4, same_color()) --&gt;
+&lt;!-- mean(result) --&gt;
+&lt;!-- ``` --&gt;
+
+&lt;!-- <div class="countdown" id="timer_62c25e5b" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div> --&gt;
+
+&lt;!-- --- --&gt;
+&lt;!-- # Simulating probabilities directly --&gt;
+&lt;!-- The `runif` function simulates a simple event. --&gt;
+&lt;!-- ```{r} --&gt;
+&lt;!-- runif(1) # generates a random number before 0 and 1 "uniformly" --&gt;
+&lt;!-- ``` --&gt;
+
+&lt;!-- -- --&gt;
+
+&lt;!-- A function that flips a biased coin: --&gt;
+
+&lt;!-- .pull-left[ --&gt;
+&lt;!-- ```{r} --&gt;
+&lt;!-- flip &lt;- function() { --&gt;
+&lt;!--   if (runif(1) &lt; 0.3) { --&gt;
+&lt;!--     return("heads") --&gt;
+&lt;!--   } --&gt;
+&lt;!--   return("tails") --&gt;
+&lt;!-- } --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- ] --&gt;
+&lt;!-- .pull-right[ --&gt;
+&lt;!-- ```{r} --&gt;
+&lt;!-- flip() --&gt;
+&lt;!-- flip() --&gt;
+&lt;!-- flip() --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- ] --&gt;
+
+&lt;!-- --- --&gt;
+&lt;!-- # Coin and dice --&gt;
+&lt;!-- A green die is fair, while a red die has probabilities given by the following table --&gt;
+
+&lt;!-- | 1    	| 2    	| 3    	| 4    	| 5   	| 6   	| --&gt;
+&lt;!-- |------	|------	|------	|------	|-----	|-----	| --&gt;
+&lt;!-- | 1/12 	| 1/12 	| 1/12 	| 1/12 	| 1/3 	| 1/3 	| --&gt;
+
+&lt;!-- A biased coin with `\(p=2/3\)` of heads is flipped. --&gt;
+&lt;!-- If the coin lands heads, the green die is rolled twice. --&gt;
+&lt;!-- Otherwise, the green die and the red die are each rolled once. --&gt;
+&lt;!-- What is the probability that the sum of the two dice rolls exceeds 10? --&gt;
+
+&lt;!-- ```{r, include = F} --&gt;
+&lt;!-- coin_dice &lt;- function() { --&gt;
+&lt;!--   result_sum &lt;- 0 --&gt;
+&lt;!--   if (runif(1) &lt;= 2/3) { --&gt;
+&lt;!--     result_sum &lt;- sum(sample(1:6, 2, replace = T)) --&gt;
+&lt;!--   } --&gt;
+&lt;!--   else { --&gt;
+&lt;!--     red &lt;- sample(1:6, 1, prob = c(1/12, 1/12, 1/12, 1/12, 1/3, 1/3)) --&gt;
+&lt;!--     green &lt;- sample(1:6, 1) --&gt;
+&lt;!--     result_sum &lt;- red + green --&gt;
+&lt;!--   } --&gt;
+&lt;!--   return(result_sum) --&gt;
+&lt;!-- } --&gt;
+&lt;!-- result &lt;- replicate(10^4, coin_dice()) --&gt;
+&lt;!-- mean(result &gt; 10) --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- <div class="countdown" id="timer_62c25f14" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div> --&gt;
+&lt;!-- --- --&gt;
+&lt;!-- # Philosophy --&gt;
+&lt;!-- We defined the probability of an event to be the long run proportion --&gt;
+&lt;!-- of the event occurring in a large number of replications of an experiment. --&gt;
+
+&lt;!-- What is the probability that Joe Biden is reelected in 2024? --&gt;
+&lt;!-- Is our frequentist interpretation of probability meaningful? --&gt;
+
+&lt;!-- --- --&gt;
+&lt;!-- # Summary --&gt;
+&lt;!-- - Finding probabilities via simulation --&gt;
+&lt;!-- - The `replicate` function --&gt;
+
+&lt;!-- The difficult part is representing the problem in R. --&gt;
+&lt;!-- Create a function that returns TRUE if the event occurs, and take --&gt;
+&lt;!-- the mean of the result of `replicate`. --&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

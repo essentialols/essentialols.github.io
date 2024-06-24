@@ -1,0 +1,101 @@
+# Lecture 7 demo code
+
+#### Ingmar
+
+#### 2022-06-30
+
+We will need the following packages:
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+library(gapminder)
+library(datasets)
+```
+
+## Create a scatter plot (slide 7)
+
+```{r}
+plot(airquality$Solar.R, airquality$Ozone)
+trend <- lm(airquality$Ozone ~ airquality$Solar.R)
+abline(trend, col = "red")
+```
+
+## Layering plots demo 1 (slide 17)
+
+```{r}
+plot(airquality$Wind, airquality$Ozone, type="n", 
+     main = "Ozone and Wind in NYC",
+     xlab = "Wind", ylab = "Ozone")
+
+notMay <- filter(airquality, Month != 5)
+may <- filter(airquality, Month == 5)
+
+points(notMay$Wind, notMay$Ozone, col = "red", pch = 19)
+points(may$Wind, may$Ozone, col = "blue", pch = 17)
+legend("topright", pch = c(17, 19), col = c("blue", "red"),
+       legend = c("May", "Other months"))
+```
+
+## Layering plots demo 2 (slide 18)
+
+First is the *data munging* step: manipulating the data frame so we have
+the necessary variables.
+
+Then we use those variables in a plot.
+
+```{r}
+# Data munging
+airqual_hc <- airquality |>
+                mutate(hotorcold =
+                         as.factor(
+                           ifelse(Temp > median(Temp), "hot", "cold"))) |>
+                select(Ozone, Wind, hotorcold)
+airqual_hot <- airqual_hc |>
+                  filter(hotorcold == "hot")
+airqual_cold <- airqual_hc |>
+                  filter(hotorcold == "cold")
+
+# Plotting
+plot(airquality$Wind, airquality$Ozone, type = "n",
+     main = "Ozone and Wind in NYC, 1973",
+     xlab = "Wind (mph)", ylab = "Ozone (ppb)")
+points(airqual_hot$Wind, airqual_hot$Ozone, pch = 19, col = "tomato")
+points(airqual_cold$Wind, airqual_cold$Ozone, pch = 19, col = "cadetblue3")
+trend <- lm(airquality$Ozone ~ airquality$Wind)
+abline(trend)
+legend("topright", pch = 19, col = c("tomato", "cadetblue3"),
+       legend=c("Hot", "Cold"))
+```
+
+## Plot of powers (slide 23)
+
+```{r}
+x <- seq(-1, 5, length = 200)
+y2 <- x^2
+y3 <- x^3
+plot(y2 ~ x, type = "l", col = "tomato", lty = 2, lwd = 2,
+     ylab = "y", main = "Plot of Power")
+lines(y3 ~ x, type = "l", col = "blue", lwd = 2)
+legend("topright", lwd = 2, lty = c(2, 1), col = c("tomato", "blue"), 
+       legend = c("x^2", "x^3"))
+```
+
+### What happens if we plot the cubic curve first?
+
+```{r}
+x <- seq(-1, 5, length = 200)
+y2 <- x^2
+y3 <- x^3
+plot(y3 ~ x, type = "l", col = "blue", lty = 1, lwd = 2,
+     ylab = "y", main = "Plot of Powers")
+lines(y2 ~ x, type = "l", col = "tomato", lwd = 2, lty = 2)
+legend("topright", lwd = 2, lty = c(2, 1), col = c("tomato", "blue"), 
+       legend = c("x^2", "x^3"))
+```
+
+Why is this result different? Because `y3`, the vector containing the
+cubes, spans a larger range than `y2`, the vector containing squares.
+The initial call to `plot` sets the boundary depending on this range.

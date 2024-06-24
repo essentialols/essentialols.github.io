@@ -1,0 +1,139 @@
+# Lecture 3 demo code
+
+#### 2022-08-03
+
+### Functions (slide 7)
+
+1.  
+
+```{r}
+increment_power <- function(x, pwr = 2) {
+  x <- x + 1
+  return(x^pwr)
+}
+```
+
+2.  
+
+```{r}
+increment_power(1:4, pwr = 2)
+```
+
+The vector `2` was recycled to a length four vector. The vector `1` was
+recycled to a length four vector and each component of `1:4` is
+incremented. Then a vectorized power function was applied. The above is
+equivalent to
+
+```{r}
+(2:5)^c(2, 2, 2, 2)
+```
+
+This is vectorized because `^` is a vectorized operator; the result is a
+vector where each component of the base is raised to the corresponding
+component of the exponent.
+
+```{r}
+increment_power(2:5, pwr = c(2, 3))
+```
+
+Similar situation: the shorter vector `c(2, 3)` is recycled to be length
+4. The above is equivalent to
+
+```{r}
+(2:5)^c(2, 3, 2, 3)
+```
+
+### Branching (slide 13)
+
+```{r}
+noise <- function(animal) {
+  if (animal == "cow") {
+    return("moo")
+  }
+  else if (animal == "dog") {
+    return("woof")
+  }
+  else if (animal == "pig") {
+    return("oink")
+  }
+  else if (animal == "owl") {
+    return("hoot")
+  } else {
+    return("Animal not recognized!")
+  }
+}
+
+noise("pig")
+```
+
+```{r}
+noise("hedgehog")
+```
+
+```{r}
+noise("cow")
+```
+
+### Branching (slide 14)
+
+```{r}
+parity <- function(x) {
+  if (x %% 2 == 0) {
+    return("even")
+  } else if (x %% 2 == 1) {
+    return("odd")
+  } else {
+    return("Not an integer!")
+  }
+}
+parity(4)
+```
+
+```{r}
+parity(17)
+```
+
+```{r}
+parity(12.43)
+```
+
+### Function with branch (slide 19)
+
+```{r}
+parity_vec <- function(x) {
+  result <- vector(length = length(x)) # initialize result
+  for (i in seq_along(x)) {
+    result[i] <- parity(x[i]) # call the previously defined function
+  }
+  result # last expression is automatically returned
+}
+
+parity_vec(c(12, 320, 598, 23))
+```
+
+We used `seq_along(x)` so that we have an index `i` to use with
+`result`.
+
+### Vectorized ifelse (slide 20)
+
+```{r}
+parity_vec <- function(x) {
+  ifelse(x %% 2, "odd", "even")
+}
+parity_vec(c(12, 320, 598, 23))
+```
+
+This takes advantage of the fact that numeric `0` is logically FALSE and
+`1` is logically TRUE. Actually, all numeric values other than `0` are
+TRUE. In view of this, the above is actually incorrect; we need to
+account for the `"Not an integer!"` case.
+
+```{r}
+parity_vec <- function(x) {
+  result <- ifelse(x %% 2, "odd", "even")
+  not_int <- (x %% 1) != 0  # This is determines if x contains decimals (not int)
+  result[not_int] <- "Not an integer!"
+  result
+}
+parity_vec(c(12, 320.5, 599, 23.88))
+```
