@@ -1,8 +1,6 @@
 ---
 title: "PSTAT 10 Homework 1"
-subtitle: "Due 8/10/22 11:59pm"
-author: "Ingmar Sturm"
-date: "`r Sys.Date()`"
+subtitle: "Due 7/1/24 11:59pm"
 output: pdf_document
 ---
 
@@ -40,9 +38,9 @@ If you’re wondering how I included an incomplete piece of code in my R Markdow
 The point of this problem is to demonstrate that a community of developers are constantly improving the R
 language.
 
-If you installed R recently, you should be on version 4.2.0 (to check, run R.Version() in the console).
+If you installed R recently, you should be on version 4.4.1 (to check, run R.Version() in the console).
 
-Describe one feature or bug fix that is new in version 4.2.0. This can be found via the *what’s new* link in
+Describe one feature or bug fix that is new in version 4.4.1. This can be found via the *what’s new* link in
 https://mirror.las.iastate.edu/CRAN/. You can simply copy and paste the description for your solution to
 this problem.
 

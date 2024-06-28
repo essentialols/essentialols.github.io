@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Lecture 11: Applications of Simulation</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ingmar Sturm" />
+    <meta name="date" content="2024-07-10" />
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/middlebury-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="robin.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Lecture 11: Applications of Simulation
+]
+.author[
+### Ingmar Sturm
+]
+.institute[
+### UCSB
+]
+.date[
+### 2024-07-10
+]
+.footnote[
+Special thanks to Robin Liu for select course content used with permission.
+]
+
+---
+
+class: inverse, middle, center
+# Monte Carlo Methods
+
+---
+# Monte Carlo Methods
+
+.center[![:scale 60%](Lec11_files/montecarlo.png)]
+
+Simulation is a very powerful tool
+*Monte Carlo* methods are a class of techniques that introduce randomness
+to solve non-random problems.
+
+---
+# Approximating `\(\pi\)`
+Suppose we knew that the area of the unit circle is `\(\pi\)`.
+However, we do not know the numerical value of `\(\pi\)`.
+&lt;img src="Lec11_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" /&gt;
+
+--
+
+**Idea:** Sample points in this figure uniformly.
+The proportion of points that fall within the circle
+should approximate the ratio of the area of the circle to that of
+the surrounding square, which has area 4.
+
+---
+# Approximating `\(\pi\)`
+&lt;img src="Lec11_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
+
+```
+## [1] "8 out of 10 points"
+```
+
+`\(\frac{8}{10} \approx \frac{\pi}{4} \implies \pi \approx 3.2\)`
+
+---
+# Approximating `\(\pi\)`
+&lt;img src="Lec11_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+
+```
+## [1] "88 out of 100 points"
+```
+
+```
+## [1] "3.52"
+```
+
+
+
+---
+# Buffon's Needle
+Throw a length 1 needle onto a sheet of paper with lines length 1 apart.
+
+What is the probability the needle crosses the line?
+
+.center[![](Lec11_files/buffon.png)]
+
+---
+# Buffon's Needle
+Throw a length 1 needle onto a sheet of paper with lines length 1 apart.
+
+What is the probability the needle crosses the line?
+
+.center[![](Lec11_files/hubbard.png)]
+[src](https://matrixeditions.com/5thUnifiedApproach.html)
+
+--
+
+`\(\mathbb{P}(\text{needle crosses line}) = \mathbb{P}(s &lt; \frac{1}{2}\sin\theta)\)`
+
+---
+# Buffon's Needle
+`\(\mathbb{P}(\text{needle crosses line}) = \mathbb{P}(s &lt; \frac{1}{2}\sin\theta)\)`
+
+Assume `\(s \sim \operatorname{Unif}(0, 1/2)\)`, `\(\theta \sim \operatorname{Unif}(0, \pi)\)`.
+
+.center[![:scale 70%](Lec11_files/biunif.png)]
+
+---
+# Buffon's Needle
+Assume `\(s \sim \operatorname{Unif}(0, 1/2)\)`, `\(\theta \sim \operatorname{Unif}(0, \pi)\)`.
+
+The pdf of `\(\operatorname{Unif}(a,b)\)` is `\(\frac{1}{b-a}\)`.
+Hence the pdf of `\((s, \theta)\)` is
+
+`$$f(s,\theta) = \frac{1}{1/2}\cdot \frac{1}{\pi} = \frac{2}{\pi},\; s \in (0, 1/2),\, \theta\in(0,\pi)$$`
+
+--
+
+This yields
+`\begin{align}
+\mathbb{P}(\text{needle crosses line}) &amp;=
+\mathbb{P}\left(s &lt; \frac{1}{2}\sin\theta\right)  \\
+&amp;= \int_0^\pi \int_0^{\frac{1}{2}\sin\theta} f(s,\theta)\mathrm{d}s\, \mathrm{d}\theta \\
+&amp;= \frac{2}{\pi}\int_0^\pi \int_0^{\frac{1}{2}\sin\theta} \mathrm{d}s\, \mathrm{d}\theta \\
+&amp;= \frac{2}{\pi}\int_0^\pi {\frac{1}{2}\sin\theta}\, \mathrm{d}\theta  = \frac{2}{\pi} \approx 0.637
+\end{align}`
+
+---
+# Buffon's Needle
+.center[![](Lec11_files/buffon_area.png)]
+
+`\(\mathbb{P}(\text{needle crosses line}) = \mathbb{P}(s &lt; \frac{1}{2}\sin\theta)\)`
+
+---
+# Buffon's Needle
+`\(\mathbb{P}(\text{needle crosses line}) = \mathbb{P}(s &lt; \frac{1}{2}\sin\theta) = \frac{2}{\pi}\)`
+
+
+```r
+set.seed(100)
+
+nrep &lt;- 1000
+s &lt;- runif(nrep, 0, 1/2)
+theta &lt;- runif(nrep, 0, pi)
+r &lt;- s &lt; sin(theta) / 2
+
+plot(1:nrep, cumsum(r)/1:nrep, type = "l")
+abline(h = 2/pi, col = "red")
+```
+
+---
+# Buffon's Needle
+`\(\mathbb{P}(\text{needle crosses line}) = \frac{2}{\pi}\)`
+
+&lt;img src="Lec11_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+
+[Demo](https://www.ventrella.com/Buffon/)
+
+---
+# Monte Carlo Integration
+Use simulation to compute the following:
+
+`$$\int_0^{10} x^2\, \mathrm{d}x$$`
+
+--
+
+**Idea:** Express the integral as the *expectation* of a certain random variable.
+
+Let `\(X\sim \operatorname{Unif}(0, 10)\)` with pdf `\(f_X(x) = \frac{1}{10}\)` for `\(0&lt; x &lt; 10\)`.
+
+`\begin{align*}
+\int_0^{10} x^2\, \mathrm{d}x
+&amp;= \int_0^{10} 10x^2 \frac{1}{10}\mathrm{d}x \\
+&amp;= \int_0^{10} 10x^2 f_X(x)\mathrm{d}x = \mathbb{E}(10X^2).
+\end{align*}`
+
+---
+# Monte Carlo Integration
+
+Approximate `\(\mathbb{E}(10X^2)\)` where `\(X \sim \operatorname{Unif}(0, 10)\)`
+
+
+```r
+set.seed(100)
+nrep &lt;- 10000
+x &lt;- runif(nrep, min = 0, max = 10)
+mean(10 * x^2)
+```
+
+```
+## [1] 333.0308
+```
+
+`$$\int_0^{10} x^2 \mathrm{d} x = \frac{x^3}{3}\bigg\lvert^{10}_0 = 10^3/3 \approx 333.33$$`
+
+---
+# Monte Carlo Integration
+
+Define `\(f(x) = \sqrt{x^3 + \sqrt{x}} - x^2 \sin(4x)\)`.
+
+
+```r
+f &lt;- function(x) {
+  sqrt(x^3 + sqrt(x)) - x^2 * sin(4 * x)
+}
+curve(f, from = 0, to = pi)
+```
+
+&lt;img src="Lec11_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+
+Compute `\(\int_0^\pi f(x) \mathrm{d}x\)`.
+---
+# Monte Carlo Integration
+`\(f(x) = \sqrt{x^3 + \sqrt{x}} - x^2 \sin(4x)\)`.
+
+Our domain of integration is from `\(0\)` to `\(\pi\)`. We can sample
+uniformly from `\(X\sim \operatorname{Unif}(0, \pi)\)`
+with pdf `\(g_X(x) = 1/\pi\)`.
+
+`\begin{align*}
+\int_0^\pi f(x) \mathrm{d}x
+&amp;= \int_0^\pi \pi f(x) \cdot \frac{1}{\pi}\mathrm{d}x \\
+&amp;= \int_0^\pi \pi f(x) \cdot g_X(x) \mathrm{d}x \\
+&amp;= \mathbb{E}(\pi f(X))
+\end{align*}`
+
+---
+# Monte Carlo Integration
+`\(\int_0^\pi f(x) = \mathbb{E}\left(\pi f(X)\right)\)`, `\(X\sim \operatorname{Unif}(0, \pi)\)`.
+
+
+```r
+f &lt;- function(x) {
+  sqrt(x^3 + sqrt(x)) - x^2 * sin(4 * x)
+}
+
+nrep &lt;- 1600
+x &lt;- runif(nrep, min = 0, max = pi)
+mean(pi * f(x))
+```
+
+```
+## [1] 10.558
+```
+---
+# Monte Carlo Integration
+
+```r
+f &lt;- function(x) {
+  sqrt(x^3 + sqrt(x)) - x^2 * sin(4 * x)
+}
+
+nrep &lt;- 1600
+x &lt;- runif(nrep, min = 0, max = pi)
+y &lt;- cumsum(pi * f(x)) / 1:nrep
+plot(1:nrep, y, type = "l")
+abline(h = pi^2/4 + 0.4*(pi^(5/4)*sqrt(1+pi^(5/2))+asinh(pi^(5/4))), col = "red")
+```
+
+&lt;img src="Lec11_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+class: inverse, middle, center
+# The Bootstrap
+
+---
+# Bootstrap
+The **bootstrap** is a widely applicable and extremely powerful method
+that is used to *quantify uncertainty* of statistical estimators.
+
+The idea is, from a provided sample, draw random samples from it *with replacement*.
+
+--
+
+The `flights` tibble contains **all** flights that departed NYC in 2013.
+
+
+```r
+library(nycflights13)
+library(tidyverse)
+flights
+```
+
+```
+## # A tibble: 336,776 x 19
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1  2013     1     1      517            515         2      830            819
+##  2  2013     1     1      533            529         4      850            830
+##  3  2013     1     1      542            540         2      923            850
+##  4  2013     1     1      544            545        -1     1004           1022
+##  5  2013     1     1      554            600        -6      812            837
+##  6  2013     1     1      554            558        -4      740            728
+##  7  2013     1     1      555            600        -5      913            854
+##  8  2013     1     1      557            600        -3      709            723
+##  9  2013     1     1      557            600        -3      838            846
+## 10  2013     1     1      558            600        -2      753            745
+## # ... with 336,766 more rows, and 11 more variables: arr_delay &lt;dbl&gt;,
+## #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,
+## #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;
+```
+
+---
+# Bootstrap
+
+Since it contains all flights, we know the *true mean* of the duration of the flights,
+in minutes:
+
+
+```r
+(true_mean &lt;- mean(flights$air_time, na.rm = T))
+```
+
+```
+## [1] 150.6865
+```
+
+We need `na.rm = T` since the data has *missing (NA) values*. We can ignore these.
+
+--
+
+Let's pretend we did not have data on all of the flights.
+Instead, we observe a *random sample* of flights from NYC in 2013.
+
+
+```r
+set.seed(101)
+flights_smpl &lt;- flights |&gt;
+                  select(dep_time, arr_time, air_time, distance) |&gt;
+                  slice_sample(n = 50)
+```
+
+---
+# Bootstrap
+`dplyr::slice_sample(n = 50)` gave us a random sample of 50 of flights.
+
+```r
+flights_smpl
+```
+
+```
+## # A tibble: 50 x 4
+##    dep_time arr_time air_time distance
+##       &lt;int&gt;    &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+##  1      819     1103      312     2446
+##  2     1238     1342       47      266
+##  3     1953     2141       62      419
+##  4      608      752       73      419
+##  5     1653     1815      108      765
+##  6     1813     2026       92      569
+##  7     1740     2054      352     2586
+##  8      834     1031       80      479
+##  9     1014     1219      109      708
+## 10     1741     2024      135      944
+## # ... with 40 more rows
+```
+
+---
+# Bootstrap
+Suppose we want to estimate the average `air_time` from the random sample.
+What is a good estimate?
+--
+
+Most obvious: use our sample mean, `\(\bar x\)`.
+
+
+```r
+(xbar &lt;- mean(flights_smpl$air_time, na.rm = T))
+```
+
+```
+## [1] 147.26
+```
+
+&lt;img src="Lec11_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Bootstrap
+`\(\bar x\)` appears to be a good estimate. But how good?
+
+--
+
+Remember we calculated `\(\bar x\)` from one random sample of size 50.
+If we collect a different random sample, we will get a different value of `\(\bar x\)`.
+
+`\(\bar x\)` is an observation of a *random variable* `\(\bar X\)`.
+
+--
+
+One way to assess our estimate is to ask the following:
+what is the *standard deviation* of `\(\bar X\)`?
+
+--
+
+Standard deviation measures how spread out `\(\bar X\)` can be.
+Large standard deviation means less accurate.
+
+--
+
+Standard deviation of `\(\bar X\)` is also called the *standard error*.
+
+---
+# Bootstrap
+I plot additional sample means from samples of size 50.
+Our estimate is different each time.
+&lt;img src="Lec11_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Bootstrap
+Here I plot four estimates of the true mean from a "worse" estimator (using a small sample size).
+&lt;img src="Lec11_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Bootstrap
+We want to estimate the standard deviation of `\(\bar X\)`.
+
+### Idea
+
+- Take 1,000 random samples of size 50 from the *population* of flights.
+- Compute 1,000 sample means
+- Compute the *sample standard deviation* of the 1,000 sample means.
+
+--
+
+### Problem
+We assumed we only see *one sample* of size 50. We cannot keep taking
+random samples if we do not know the population!
+
+--
+
+### Solution
+We take samples of size 50 *from our original sample of size 50*.
+This sampling is done **with replacement**.
+
+---
+# Bootstrap
+
+.center[![](Lec11_files/resample.png)]
+
+Using a sample to represent a population.
+
+[credit](https://www.lock5stat.com/)
+
+---
+# Bootstrap
+&lt;img src="Lec11_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
+
+This is a **bootstrap confidence interval**.
+We only observed a single sample whose sample mean is in blue.
+But we are "confident" that the true mean is within the interval.
+
+---
+# Bootstrap Regression
+### Who will be elected president?
+**Bread and peace model:** Good times predict the incumbent to win.
+
+
+```r
+(hibbs &lt;- as_tibble(read.csv("Lec11_files/hibbs.dat", sep = "")))
+```
+
+```
+## # A tibble: 16 x 5
+##     year growth  vote inc_party_candidate other_candidate
+##    &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;               &lt;chr&gt;          
+##  1  1952   2.4   44.6 Stevenson           Eisenhower     
+##  2  1956   2.89  57.8 Eisenhower          Stevenson      
+##  3  1960   0.85  49.9 Nixon               Kennedy        
+##  4  1964   4.21  61.3 Johnson             Goldwater      
+##  5  1968   3.02  49.6 Humphrey            Nixon          
+##  6  1972   3.62  61.8 Nixon               McGovern       
+##  7  1976   1.08  49.0 Ford                Carter         
+##  8  1980  -0.39  44.7 Carter              Reagan         
+##  9  1984   3.86  59.2 Reagan              Mondale        
+## 10  1988   2.27  53.9 Bush, Sr.           Dukakis        
+## 11  1992   0.38  46.6 Bush, Sr.           Clinton        
+## 12  1996   1.04  54.7 Clinton             Dole           
+## 13  2000   2.36  50.3 Gore                Bush, Jr.      
+## 14  2004   1.72  51.2 Bush, Jr.           Kerry          
+## 15  2008   0.1   46.3 McCain              Obama          
+## 16  2012   0.95  52   Obama               Romney
+```
+
+---
+# Bootstrap Regression
+
+```r
+lm_hibbs &lt;- lm(vote ~ growth, data = hibbs)
+coef(lm_hibbs)
+```
+
+```
+## (Intercept)      growth 
+##   46.247648    3.060528
+```
+
+&lt;img src="Lec11_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Bootstrap Regression
+Assess the quality of this model using bootstrap samples.
+
+&lt;img src="Lec11_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" /&gt;
+
+--
+
+We see there is more uncertainty where there is less data.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

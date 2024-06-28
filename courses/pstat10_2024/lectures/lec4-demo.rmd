@@ -1,6 +1,6 @@
 # Lecture 4 demo code
 
-#### 2022-08-04
+#### 2024-06-27
 
 ## Remove element (slide 4)
 
@@ -15,11 +15,13 @@ Here is this idea implemented:
 
 ```{r}
 remove_elt <- function(v, target) {
-  result <- numeric(0)
+  # result <- NULL # same
+  # result <- vector(length = length(v)) # same
+  result <- numeric(0) # same
   for (i in seq_along(v)) {
     if(v[i] != target) {
       result <- c(result, v[i])
-    }
+    } 
   }
   return(result)
 }
@@ -169,8 +171,9 @@ small_count <- function(v) {
     result[i] <- sum(v < v[i])
   }
   return(result)
-  small_count(c(12, 100, -3, -12))
 }
+
+small_count(c(12, 100, -3, -12))
 ```
 
 ## Two Sum (slide 10)
@@ -192,8 +195,8 @@ going from 1 to `i-1`. This ensures we go over each pair exactly once
 
 ```{r}
 two_sum <- function(v, target) {
-  i <- 0
-  j <- 0
+  # i <- 0
+  # j <- 0
   for (i in seq_along(v)) {
     for (j in seq_len(i-1)) {
       if (v[i] + v[j] == target) {

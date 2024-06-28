@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Lecture 15: More on Databases</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ingmar Sturm" />
+    <meta name="date" content="2024-07-17" />
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/middlebury-fonts.css" rel="stylesheet" />
+    <link href="libs/countdown-0.3.5/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown-0.3.5/countdown.js"></script>
+    <link rel="stylesheet" href="robin.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Lecture 15: More on Databases
+]
+.author[
+### Ingmar Sturm
+]
+.institute[
+### UCSB
+]
+.date[
+### 2024-07-17
+]
+.footnote[
+Special thanks to Robin Liu for select course content used with permission.
+]
+
+---
+
+
+
+class: inverse, middle, center
+# Little Bit About Design
+
+---
+# Database Design
+.pull-left[
+![](Lec15_files/chinook.png)
+]
+.pull-right[
+- Tables should represent distinct real-world concepts.
+- Records should be uniquely identified with a primary key.
+- Relationships between tables represented by primary key/foreign key relations.
+]
+
+---
+# Database Design
+
+.pull-left[
+![](Lec15_files/chinook.png)
+]
+.pull-right[
+**Straightforward relationships**
+- Customer/Employee
+  - An employee can serve multiple customers
+  - A customer has at most one employee support rep
+- Track/Album
+  - An album can contain multiple tracks
+  - A track can be on at most one album.
+]
+
+---
+# Association Table
+.pull-left[
+![](Lec15_files/invoice-track.png)
+]
+.pull-right[
+- An invoice can contain multiple tracks (multiple tracks purchased in one transaction)
+- A track can be in multiple invoices (multiple people buying the same track)
+]
+
+--
+
+To represent this *many-to-many* relationship, we need the *association table*
+InvoiceLine.
+
+---
+# Association Table
+
+```r
+dbGetQuery(chinook_db, "select InvoiceLineId, InvoiceId, TrackId from InvoiceLine
+                          where trackid = 8 or invoiceid = 2")
+```
+
+```
+##   InvoiceLineId InvoiceId TrackId
+## 1             4         2       8
+## 2          1155       214       8
+## 3             3         2       6
+## 4             5         2      10
+## 5             6         2      12
+```
+
+InvoiceLine has foreign keys to Invoice and Track tables.
+
+To associate Track and Invoice, join on the association table.
+
+---
+# Association Table
+
+```r
+dbGetQuery(chinook_db, "select t.Name as TrackName, InvoiceLineId, i.InvoiceId,
+                          t.TrackId from Invoice i
+                            inner join InvoiceLine il on i.InvoiceId = il.InvoiceId
+                            inner join Track t on il.TrackId = t.TrackId
+                          where i.invoiceid = 2")
+```
+
+```
+##               TrackName InvoiceLineId InvoiceId TrackId
+## 1 Put The Finger On You             3         2       6
+## 2      Inject The Venom             4         2       8
+## 3            Evil Walks             5         2      10
+## 4    Breaking The Rules             6         2      12
+```
+
+
+```r
+dbGetQuery(chinook_db, "select t.Name as TrackName, InvoiceLineId, i.InvoiceId,
+                          t.TrackId from Invoice i
+                            inner join InvoiceLine il on i.InvoiceId = il.InvoiceId
+                            inner join Track t on il.TrackId = t.TrackId
+                          where t.trackid = 8")
+```
+
+```
+##          TrackName InvoiceLineId InvoiceId TrackId
+## 1 Inject The Venom             4         2       8
+## 2 Inject The Venom          1155       214       8
+```
+---
+# Association Table
+.pull-left[
+![](Lec15_files/chinook.png)
+]
+.pull-right[
+There is one more association table in Chinook.
+Which table is it?
+]
+
+---
+# Association Table
+Retrieve the track name and playlist names of the track with TrackId = 1.
+
+```
+##   TrackId                               TrackName PlaylistId
+## 1       1 For Those About To Rock (We Salute You)          1
+## 2       1 For Those About To Rock (We Salute You)          8
+## 3       1 For Those About To Rock (We Salute You)         17
+##          PlaylistName
+## 1               Music
+## 2               Music
+## 3 Heavy Metal Classic
+```
+
+Retrieve the track names and playlist name of the tracks in the playlist with id = 8.
+
+```
+##   TrackId                               TrackName PlaylistId PlaylistName
+## 1       1 For Those About To Rock (We Salute You)          8        Music
+## 2       2                       Balls to the Wall          8        Music
+## 3       3                         Fast As a Shark          8        Music
+```
+
+<div class="countdown" id="timer_62d4adb5" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">04</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+# Aggregation
+When using aggregating functions like `sum`, `avg`, `max`, `count`, ...
+
+Only select fields you are aggregating on.
+
+
+```r
+dbGetQuery(chinook_db, "select customerid, invoiceid, invoicedate, total
+                          from Invoice i where customerid = 1")
+```
+
+```
+##   CustomerId InvoiceId         InvoiceDate Total
+## 1          1        98 2010-03-11 00:00:00  3.98
+## 2          1       121 2010-06-13 00:00:00  3.96
+## 3          1       143 2010-09-15 00:00:00  5.94
+## 4          1       195 2011-05-06 00:00:00  0.99
+## 5          1       316 2012-10-27 00:00:00  1.98
+## 6          1       327 2012-12-07 00:00:00 13.86
+## 7          1       382 2013-08-07 00:00:00  8.91
+```
+
+---
+# Bare Columns
+
+```r
+dbGetQuery(chinook_db, "select customerid, count(*), invoiceid, invoicedate, total
+                          from Invoice i
+                          group by customerid
+                            having customerid = 1")
+```
+
+```
+##   CustomerId count(*) InvoiceId         InvoiceDate Total
+## 1          1        7        98 2010-03-11 00:00:00  3.98
+```
+
+Here, InvoiceId, InvoiceDate, and Total are misleading; they are not
+grouped by, so arbitrary values are filled in.
+These are called **bare columns**.
+
+A serious SQL implementation would disallow this.
+SQLite designers made a mistake.
+
+[Discussion](https://stackoverflow.com/questions/67536804/are-there-in-guarantees-about-the-non-aggregated-columns-in-a-group-by-query)
+
+**Moral**: only put aggregates in the `select` line when using `group by`.
+
+---
+# SQL through dplyr
+
+```r
+# library(tidyverse)
+track_tbl &lt;- tbl(chinook_db, "Track")
+track_tbl
+```
+
+```
+## # Source:   table&lt;Track&gt; [?? x 9]
+## # Database: sqlite 3.38.5
+## #   [C:\Users\zhuge\code\pstat\10\my\Chinook_Sqlite.sqlite]
+##    TrackId Name         AlbumId MediaTypeId GenreId Composer Milliseconds  Bytes
+##      &lt;int&gt; &lt;chr&gt;          &lt;int&gt;       &lt;int&gt;   &lt;int&gt; &lt;chr&gt;           &lt;int&gt;  &lt;int&gt;
+##  1       1 For Those A~       1           1       1 Angus Y~       343719 1.12e7
+##  2       2 Balls to th~       2           2       1 &lt;NA&gt;           342562 5.51e6
+##  3       3 Fast As a S~       3           2       1 F. Balt~       230619 3.99e6
+##  4       4 Restless an~       3           2       1 F. Balt~       252051 4.33e6
+##  5       5 Princess of~       3           2       1 Deaffy ~       375418 6.29e6
+##  6       6 Put The Fin~       1           1       1 Angus Y~       205662 6.71e6
+##  7       7 Let's Get I~       1           1       1 Angus Y~       233926 7.64e6
+##  8       8 Inject The ~       1           1       1 Angus Y~       210834 6.85e6
+##  9       9 Snowballed         1           1       1 Angus Y~       203102 6.60e6
+## 10      10 Evil Walks         1           1       1 Angus Y~       263497 8.61e6
+## # ... with more rows, and 1 more variable: UnitPrice &lt;dbl&gt;
+```
+
+---
+# SQL through dplyr
+Amazingly, we can use `dplyr` functions this object.
+
+```r
+track_tbl |&gt;
+  filter(Bytes &gt; 5e8)
+```
+
+```
+## # Source:   lazy query [?? x 9]
+## # Database: sqlite 3.38.5
+## #   [C:\Users\zhuge\code\pstat\10\my\Chinook_Sqlite.sqlite]
+##    TrackId Name         AlbumId MediaTypeId GenreId Composer Milliseconds  Bytes
+##      &lt;int&gt; &lt;chr&gt;          &lt;int&gt;       &lt;int&gt;   &lt;int&gt; &lt;chr&gt;           &lt;int&gt;  &lt;int&gt;
+##  1    2820 Occupation ~     227           3      19 &lt;NA&gt;          5286953 1.05e9
+##  2    2826 Hero             227           3      18 &lt;NA&gt;          2713755 5.07e8
+##  3    2827 Unfinished ~     227           3      18 &lt;NA&gt;          2622038 5.28e8
+##  4    2829 The Eye of ~     227           3      18 &lt;NA&gt;          2618750 5.18e8
+##  5    2830 Rapture          227           3      18 &lt;NA&gt;          2624541 5.08e8
+##  6    2832 The Woman K~     227           3      18 &lt;NA&gt;          2626376 5.53e8
+##  7    2834 Dirty Hands      227           3      18 &lt;NA&gt;          2627961 5.38e8
+##  8    2835 Maelstrom        227           3      18 &lt;NA&gt;          2622372 5.14e8
+##  9    2839 Genesis          228           3      19 &lt;NA&gt;          2611986 5.16e8
+## 10    2841 One Giant L~     228           3      21 &lt;NA&gt;          2607649 5.22e8
+## # ... with more rows, and 1 more variable: UnitPrice &lt;dbl&gt;
+```
+
+---
+# SQL through dplyr
+
+```r
+track_tbl |&gt;
+  mutate(MB = Bytes / 2^20) |&gt;
+  filter(MB &gt; 500) |&gt;
+  select(TrackId, Name, AlbumId, Milliseconds, MB) |&gt;
+  head(5)
+```
+
+```
+## # Source:   lazy query [?? x 5]
+## # Database: sqlite 3.38.5
+## #   [C:\Users\zhuge\code\pstat\10\my\Chinook_Sqlite.sqlite]
+##   TrackId Name                   AlbumId Milliseconds    MB
+##     &lt;int&gt; &lt;chr&gt;                    &lt;int&gt;        &lt;int&gt; &lt;dbl&gt;
+## 1    2820 Occupation / Precipice     227      5286953 1006.
+## 2    2827 Unfinished Business        227      2622038  504.
+## 3    2832 The Woman King             227      2626376  527.
+## 4    2834 Dirty Hands                227      2627961  513.
+## 5    2842 Collision                  228      2605480  502.
+```
+
+How does it do this?
+
+---
+# SQL through dplyr
+
+```r
+class(track_tbl)
+```
+
+```
+## [1] "tbl_SQLiteConnection" "tbl_dbi"              "tbl_sql"             
+## [4] "tbl_lazy"             "tbl"
+```
+
+```r
+class(chinook_db)
+```
+
+```
+## [1] "SQLiteConnection"
+## attr(,"package")
+## [1] "RSQLite"
+```
+
+`track_tbl` is connection to the Track table in the Chinook DB on disk, just like `chinook_db`.
+It behaves like a tibble.
+---
+# SQL through dplyr
+An aggregation example
+
+```r
+track_tbl |&gt;
+  group_by(GenreId) |&gt;
+  summarize(GenreCount = n()) |&gt;
+  head(4)
+```
+
+```
+## # Source:   lazy query [?? x 2]
+## # Database: sqlite 3.38.5
+## #   [C:\Users\zhuge\code\pstat\10\my\Chinook_Sqlite.sqlite]
+##   GenreId GenreCount
+##     &lt;int&gt;      &lt;int&gt;
+## 1       1       1297
+## 2       2        130
+## 3       3        374
+## 4       4        332
+```
+
+---
+# SQL through dplyr
+
+```r
+q &lt;- track_tbl |&gt;
+        group_by(GenreId) |&gt;
+        summarize(GenreCount = n()) |&gt;
+        head(4)
+show_query(q)
+```
+
+```
+## &lt;SQL&gt;
+## SELECT `GenreId`, COUNT(*) AS `GenreCount`
+## FROM `Track`
+## GROUP BY `GenreId`
+## LIMIT 4
+```
+
+---
+# SQL through dplyr
+Another aggregation example
+
+```r
+track_tbl |&gt;
+  group_by(GenreId) |&gt;
+  summarize(AvgLengthMin = mean(Milliseconds) / 60000) |&gt;
+  head(4)
+```
+
+```
+## Warning: Missing values are always removed in SQL.
+## Use `mean(x, na.rm = TRUE)` to silence this warning
+## This warning is displayed only once per session.
+```
+
+```
+## # Source:   lazy query [?? x 2]
+## # Database: sqlite 3.38.5
+## #   [C:\Users\zhuge\code\pstat\10\my\Chinook_Sqlite.sqlite]
+##   GenreId AvgLengthMin
+##     &lt;int&gt;        &lt;dbl&gt;
+## 1       1         4.73
+## 2       2         4.86
+## 3       3         5.16
+## 4       4         3.91
+```
+
+---
+# SQL through dplyr
+An example using `inner_join`
+
+
+```r
+genre_tbl &lt;- tbl(chinook_db, "Genre")
+track_tbl |&gt;
+  mutate(MB = Bytes / 2^20) |&gt;
+  filter(MB &gt; 500) |&gt;
+  inner_join(genre_tbl, by = "GenreId") |&gt;
+  rename(TrackName = "Name.x", GenreName = "Name.y") |&gt;
+  select(TrackName, TrackId, GenreName, GenreId, MB) |&gt;
+  head(5)
+```
+
+```
+## # Source:   lazy query [?? x 5]
+## # Database: sqlite 3.38.5
+## #   [C:\Users\zhuge\code\pstat\10\my\Chinook_Sqlite.sqlite]
+##   TrackName              TrackId GenreName       GenreId    MB
+##   &lt;chr&gt;                    &lt;int&gt; &lt;chr&gt;             &lt;int&gt; &lt;dbl&gt;
+## 1 Occupation / Precipice    2820 TV Shows             19 1006.
+## 2 Unfinished Business       2827 Science Fiction      18  504.
+## 3 The Woman King            2832 Science Fiction      18  527.
+## 4 Dirty Hands               2834 Science Fiction      18  513.
+## 5 Collision                 2842 Drama                21  502.
+```
+---
+# SQL through dplyr
+
+```r
+q &lt;- track_tbl |&gt;
+        mutate(MB = Bytes / 2^20) |&gt;
+        filter(MB &gt; 500) |&gt;
+        inner_join(genre_tbl, by = "GenreId") |&gt;
+        rename(TrackName = "Name.x", GenreName = "Name.y") |&gt;
+        select(TrackName, TrackId, GenreName, GenreId, MB) |&gt;
+        head(5)
+show_query(q)
+```
+
+```
+## &lt;SQL&gt;
+## SELECT `Name.x` AS `TrackName`, `TrackId`, `Name.y` AS `GenreName`, `GenreId`, `MB`
+## FROM (SELECT `TrackId`, `LHS`.`Name` AS `Name.x`, `AlbumId`, `MediaTypeId`, `LHS`.`GenreId` AS `GenreId`, `Composer`, `Milliseconds`, `Bytes`, `UnitPrice`, `MB`, `RHS`.`Name` AS `Name.y`
+## FROM (SELECT *
+## FROM (SELECT `TrackId`, `Name`, `AlbumId`, `MediaTypeId`, `GenreId`, `Composer`, `Milliseconds`, `Bytes`, `UnitPrice`, `Bytes` / POWER(2.0, 20.0) AS `MB`
+## FROM `Track`)
+## WHERE (`MB` &gt; 500.0)) AS `LHS`
+## INNER JOIN `Genre` AS `RHS`
+## ON (`LHS`.`GenreId` = `RHS`.`GenreId`)
+## )
+## LIMIT 5
+```
+
+---
+# SQL through dplyr
+`dplyr` provides a layer of *abstraction* so you don't have to write pure SQL.
+
+The data is still read from the disk!
+Only what we request is loaded into memory: **lazy loading**.
+
+.center[![:scale 50%](Lec15_files/dal.png)]
+[Source](https://rviews.rstudio.com/2017/05/17/databases-using-r/)
+
+---
+# Beyond the Relational Model
+### Relational Model and SQL
+- Developed in the 1970s.
+- Model relationships directly via joins
+- Rigid schema
+- Preserve integrity
+
+### Document Model and NoSQL
+- Developed in the 2000s to handle large volumes of web data
+- Data stored in *documents* instead of tables.
+- Focuses on *scaling* instead of integrity
+- Minimal support for joins
+
+---
+# Data in a Relational Model
+.center[![:scale 70%](Lec15_files/billy.png)]
+Example from [Kleppman - DDIA](https://dataintensive.net/)
+---
+# Data in a Document Model
+```json
+{
+  "user_id": 251,
+  "first_name": "Bill",
+  "last_name": "Gates",
+  "summary": "Co-chair of the Bill &amp; Melinda Gates... Active blogger.",
+  "region_id": "us:91",
+  "industry_id": 131,
+  "photo_url": "/p/7/000/253/05b/308dd6e.jpg",
+  "positions": [
+    {"job_title": "Co-chair", "organization": "Bill &amp; Melinda Gates Foundation"},
+    {"job_title": "Co-founder, Chairman", "organization": "Microsoft"}
+  ],
+  "education": [
+    {"school_name": "Harvard University", "start": 1973, "end": 1975},
+    {"school_name": "Lakeside School, Seattle", "start": null, "end": null}
+  ],
+  "contact_info": {
+    "blog": "http://thegatesnotes.com",
+    "twitter": "http://twitter.com/BillGates"
+  }
+}
+```
+---
+# Beyond the Relational Model
+- The data in a document is stored in JavaScript Object Notation (JSON).
+
+- All the data about Bill is in a single place; no need for multi-way joins.
+
+- Queries are executed directly through an abstraction layer (usually JavaScript)
+
+- Easy to scale information without altering existing tables
+
+- Basically no schema
+
+[SQL vs NoSQL Discussion](https://stackoverflow.com/questions/4160732/nosql-vs-relational-database)
+
+---
+# Beyond the Relational Model
+![](Lec15_files/db_popularity.png)
+---
+# Important Ideas
+
+- `dplyr` provides an *application layer* on top of SQL
+
+- `dplyr::group_by` and `dplyr::summarize` are like SQL `group by` and aggregation.
+
+--
+
+We will become very familiar with `dplyr::group_by` and `dplyr::summarize`
+when we learn `ggplot2`.
+
+`filter`, `select`, `mutate`, `group_by`, and `summarize`
+are very powerful functions in `dplyr`.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"highlightSpans": false,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

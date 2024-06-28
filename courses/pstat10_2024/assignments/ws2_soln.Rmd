@@ -1,0 +1,146 @@
+---
+title: "PSTAT 10 Worksheet 2 Solutions"
+output: html_document
+---
+
+## Problem 1: Basic vector manipulation
+
+1.
+```{r}
+gasbill <- c(46, 33, 39, 37, 46, 30, 48, 32, 49, 35, 30, 48)
+gasbill[12] <- 49
+gasbill
+```
+
+2.
+```{r}
+c(-50:-54, -53:-50)
+```
+
+3.
+```{r}
+x <- seq(1, 10, by = 0.05)
+length(x)
+```
+
+4.
+```{r}
+x <- seq(1, 10, length = 100)
+length(x)
+```
+
+5.
+You should get an error that says “too many arguments”. You are constrained to specify at most one of by and length, which makes sense.
+
+## Problem 2
+
+```{r}
+library(here)
+ws2_df <- read.csv(here("week1_files", "ws2.csv"))
+summary(ws2_df)
+```
+
+Determine the lengths of `x` and `y`.
+
+```{r}
+c(length(ws2_df$x), length(ws2_df$y))
+```
+The lengths of variables in a data frame must be the same.
+
+What is the 40th element of `x` and the 80th element of `y`?
+
+```{r}
+c(ws2_df$x[40], ws2_df$y[80])
+```
+
+What is the average of all the values in the data frame, including both `x` and `y`?
+
+```{r}
+mean(c(ws2_df$x, ws2_df$y))
+```
+
+How many elements of `x` are greater than 70?
+
+```{r}
+sum(ws2_df$x > 70)
+```
+
+How many elements of `x` are greater than or equal to the corresponding element in `y`?
+
+```{r}
+sum(ws2_df$x >= ws2_df$y)
+```
+
+What is the proportion of elements of `x` that are greater than or equal to the corresponding element in `y`?
+
+```{r}
+mean(ws2_df$x >= ws2_df$y)
+```
+
+Why does the above give the proportion? Because the average of the sum of the components of a binary vector is the proportion of 1s. We will use this trick later when we discuss simulation.
+
+How many values in `x` differ from their corresponding value in `y` by more than 10 in absolute value?
+
+```{r}
+sum(abs(ws2_df$x - ws2_df$y) > 10)
+```
+You should work out why the above gives the right answer. Vectorization is very handy for these kinds of operations.
+
+## Problem 3
+
+Create a vector of integers from 1 to 12 inclusive.
+
+```{r}
+x <- 1:12
+```
+
+Use the vector to create a 3x4 matrix. Did recycling occur?
+
+```{r}
+mx <- matrix(x, nrow = 3, ncol = 4)
+mx
+```
+Recycling did not occur; all elements of `x` were used exactly once.
+
+Use the vector to create a 4x4 matrix. Did recycling occur?
+
+```{r}
+mx <- matrix(x, nrow = 4, ncol = 4)
+
+mx
+```
+Recycling occurred; the last column was filled with the first column. We got an error message since the size of the matrix is not a multiple of 12.
+
+## Problem 4
+
+```{r}
+heights_df <- read.csv(here("week1_files", "heights.csv"))
+```
+
+Write a vectorized function `cm_to_inch` that takes a numeric centimeter and converts it to inches. Apply the function to the height vector.
+1cm is approximately 0.39in.
+
+```{r}
+cm_to_inch <- function(cm) {
+  cm * 0.39 # Remember the final expression in a function is automatically returned
+}
+```
+
+```{r}
+head(cm_to_inch(heights_df$height), 10)
+```
+
+Write a vectorized function `cm_to_ft_inch` that converts numerical values given in cm to a feet inch format, rounding to the nearest inch.
+
+```{r}
+cm_to_ft_inch <- function(cm) {
+  inch <- cm_to_inch(cm)
+  ft <- inch %/% 12
+  inch <- round(inch %% 12)
+  paste(ft, inch)
+}
+```
+
+```{r}
+head(cm_to_ft_inch(heights_df$height), 10)
+```

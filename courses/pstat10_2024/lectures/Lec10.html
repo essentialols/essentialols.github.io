@@ -4,14 +4,14 @@
     <title>Lecture 10: Continuous Random Variables</title>
     <meta charset="utf-8" />
     <meta name="author" content="Ingmar Sturm" />
-    <meta name="date" content="2022-06-28" />
+    <meta name="date" content="2024-07-09" />
     <script src="libs/header-attrs-2.14/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/middlebury-fonts.css" rel="stylesheet" />
     <link href="libs/countdown-0.3.5/countdown.css" rel="stylesheet" />
     <script src="libs/countdown-0.3.5/countdown.js"></script>
-    <link rel="stylesheet" href="ingmar.css" type="text/css" />
+    <link rel="stylesheet" href="robin.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -27,10 +27,10 @@ class: center, middle, inverse, title-slide
 ### UCSB
 ]
 .date[
-### 2022-06-28
+### 2024-07-09
 ]
 .footnote[
-Special thanks to Ingmar Sturm for select slides used with permission.
+Special thanks to Robin Liu for select course content used with permission.
 ]
 
 ---
@@ -222,9 +222,29 @@ Compute `\(\mathbb{P}(2.5 \leq X \leq 4.3\; \textbf{OR}\; X &gt; 8)\)` with `pun
 
 &lt;img src="Lec10_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
 
-<div class="countdown" id="timer_62bb231b" style="right:0;bottom:0;" data-warnwhen="0">
-<code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+<div class="countdown" id="timer_62c88b4f" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
+---
+# Uniform distribution
+So what is `\(\mathbb{P}(X = 4)\)`?
+&lt;img src="Lec10_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
+
+--
+
+Probabilities are areas under the curve.
+But the "area under" the curve at the point 4 is a one-dimensional line
+with no area.
+
+--
+
+*The probability a continuous r.v. takes on a single point is ZERO*.
+
+--
+
+What does this say about `\(\mathbb{P}(X \leq 4)\)` vs. 
+`\(\mathbb{P}(X &lt; 4)\)`?
+
 ---
 # Normal distribution
 The *most important* distribution.
@@ -234,7 +254,7 @@ Many continuous r.v.s are (approximately) normally distributed:
   - weights of similar animals
   - measurements of items produced in a factory
   
-![](Lec10_files/figure-html/unnamed-chunk-18-1.png)&lt;!-- --&gt;
+![](Lec10_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
 ---
 # Normal distribution
 The normal distribution has two parameters:
@@ -245,15 +265,15 @@ Write `\(X\sim N(\mu, \sigma)\)`.
 
 `\(N(0, 1)\)` is called the **standard normal**.
 
-![](Lec10_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
-
----
-# Normal distribution
-&lt;img src="Lec10_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
+![](Lec10_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
 
 ---
 # Normal distribution
 &lt;img src="Lec10_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Normal distribution
+&lt;img src="Lec10_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 # Normal distribution
@@ -280,7 +300,7 @@ Can you guess the functions for the normal distribution?
 
 ---
 # Normal distribution
-&lt;img src="Lec10_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Lec10_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" /&gt;
 
 ```r
 dnorm(2, mean = 1, sd = 1.5)
@@ -294,7 +314,7 @@ dnorm(2, mean = 1, sd = 1.5)
 
 ---
 # Normal distribution
-&lt;img src="Lec10_files/figure-html/unnamed-chunk-24-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Lec10_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" /&gt;
 
 ```r
 pnorm(2, mean = 1, sd = 1.5)
@@ -309,7 +329,7 @@ pnorm(2, mean = 1, sd = 1.5)
 
 ---
 # Normal distribution
-&lt;img src="Lec10_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Lec10_files/figure-html/unnamed-chunk-27-1.png" style="display: block; margin: auto;" /&gt;
 
 ```r
 set.seed(101)
@@ -327,7 +347,7 @@ rnorm(10, mean = 1, sd = 1.5)
 Let `\(X \sim N(1, 1.5)\)`.
 Compute `\(\;\mathbb{P}(-1.25 &lt; X \leq 2)\)`
 
-&lt;img src="Lec10_files/figure-html/unnamed-chunk-28-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Lec10_files/figure-html/unnamed-chunk-29-1.png" style="display: block; margin: auto;" /&gt;
 --
 
 ## Method 1: Solve
@@ -336,7 +356,7 @@ $$
 $$
 --
 
-<div class="countdown" id="timer_62bb21e9" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown" id="timer_62c88cab" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">20</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -345,7 +365,7 @@ $$
 Let `\(X \sim N(1, 1.5)\)`.
 Compute `\(\;\mathbb{P}(-1.25 &lt; X \leq 2)\)`
 
-&lt;img src="Lec10_files/figure-html/unnamed-chunk-29-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Lec10_files/figure-html/unnamed-chunk-30-1.png" style="display: block; margin: auto;" /&gt;
 
 ## Method 2: `pnorm`
 
@@ -358,6 +378,16 @@ pnorm(2, mean = 1, sd = 1.5) - pnorm(-1.25, mean = 1, sd = 1.5)
 ```
 
 ---
+# Normal distribution
+Let `\(X \sim N(1, 1.5)\)`.
+Compute `\(\;\mathbb{P}(X \geq 2)\)`
+
+&lt;img src="Lec10_files/figure-html/unnamed-chunk-32-1.png" style="display: block; margin: auto;" /&gt;
+<div class="countdown" id="timer_62c88b58" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">30</span></code>
+</div>
+
+---
 # Assessing normality
 ### Is our data normally distributed?
 A visual way to check this is by using a *Q-Q plot* (quantile-quantile plot).
@@ -368,7 +398,7 @@ qqnorm(iris$Sepal.Width)
 qqline(iris$Sepal.Width, col = "red")
 ```
 
-&lt;img src="Lec10_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Lec10_files/figure-html/unnamed-chunk-33-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 # Assessing normality
@@ -379,7 +409,7 @@ qqnorm(iris$Petal.Length)
 qqline(iris$Petal.Length, col = "red")
 ```
 
-&lt;img src="Lec10_files/figure-html/unnamed-chunk-32-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Lec10_files/figure-html/unnamed-chunk-34-1.png" style="display: block; margin: auto;" /&gt;
 
 This is a visual, heuristic way to check normality, but sometimes its the best we've got.
     </textarea>

@@ -3,15 +3,15 @@
   <head>
     <title>Lecture 9: Random Variables and Expectation</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Robin Liu" />
-    <meta name="date" content="2022-06-26" />
+    <meta name="author" content="Ingmar Sturm" />
+    <meta name="date" content="2024-07-08" />
     <script src="libs/header-attrs-2.14/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/middlebury-fonts.css" rel="stylesheet" />
     <link href="libs/countdown-0.3.5/countdown.css" rel="stylesheet" />
     <script src="libs/countdown-0.3.5/countdown.js"></script>
-    <link rel="stylesheet" href="ingmar.css" type="text/css" />
+    <link rel="stylesheet" href="robin.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -27,7 +27,7 @@ class: center, middle, inverse, title-slide
 ### UCSB
 ]
 .date[
-### 2022-06-26
+### 2024-07-08
 ]
 .footnote[
 Special thanks to Robin Liu for select course content used with permission.
@@ -53,8 +53,18 @@ functions of r.v.s are r.v.s.
 ![](Lec8_files/twodice.png)
 ---
 # Random variables
+
+| rep 	|| X 	| Y 	| X + Y 	| X + Y == 6? 	|
+|-----	||-----	|-------	|-----------	|---------------	|
+| 1   	|| 4   	| 3     	| 7         	| FALSE         	|
+| 2   	|| 4   	| 2     	| 6         	| TRUE          	|
+| 3   	|| 1   	| 4     	| 5         	| FALSE         	|
+| 4   	|| 2   	| 6     	| 8         	| FALSE         	|
+| 5   	|| 6   	| 1     	| 7         	| FALSE         	|
+---
+# Random variables
 Recall an **event** is a logical (TRUE or FALSE) outcome of an experiment.
-Hence the experience `\(X + Y = 6\)` is an event.
+Hence the expression `\(X + Y = 6\)` is an event.
 
 Last time we found the probability of this event via simulation.
 
@@ -72,7 +82,7 @@ the random variable `\(X\)`.
 The randomness of a random variable is determined by its **probabilities**
 which are governed by its **distribution**.
 
-Knowing the distribution means having complete information about the probabilities.
+*Knowing the distribution means having complete information about the probabilities.*
 
 --
 
@@ -133,6 +143,10 @@ What is `\(\mathbb{P}(W = \text{dog})\)`?
 --
 
 The set `\(C\)` **parametrizes** the distribution.
+
+--
+
+Or: the distribution has **parameter** `\(C\)`, the set of possible outcomes.
 
 ---
 # Bernoulli distribution
@@ -279,7 +293,7 @@ that exactly 4 of the darts land on Alaska?
 
 
 
-<div class="countdown" id="timer_62b8d0f0" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown" id="timer_62c5a946" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -289,7 +303,7 @@ What is the probability *less than or equal to* 4 darts land on Alaska?
 
 `\(\mathbb{P}(X \leq 4)\)`.
 
-<div class="countdown" id="timer_62b8d048" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown" id="timer_62c5a779" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 ---
@@ -339,7 +353,7 @@ This is equivalent to
 $$
 \mathbb{P}(X =0) + \mathbb{P}(X = 1)+ \mathbb{P}(X =2)+\mathbb{P}(X =3)
 $$
-<div class="countdown" id="timer_62b8cfbc" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown" id="timer_62c5aa35" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -350,7 +364,7 @@ This is equivalent to
 $$
 \mathbb{P}(X =4) + \mathbb{P}(X = 5)+ \dotsb + \mathbb{P}(X = 10)
 $$
-<div class="countdown" id="timer_62b8d22f" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown" id="timer_62c5a7e2" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -360,6 +374,18 @@ $$
 ### Generating binomial observations
 Let's actually throw the 10 darts at Alaska using R.
 
+
+```r
+sum(sample(0:1, 10, replace = T, prob = c(0.82, 0.18)))
+```
+
+```
+## [1] 3
+```
+
+--
+
+Easier way:
 
 ```r
 rbinom(1, size = 10, prob = 0.18)
@@ -378,7 +404,7 @@ rbinom(5, size = 10, prob = 0.18)
 ```
 
 ```
-## [1] 2 4 2 3 3
+## [1] 0 0 2 4 2
 ```
 
 How many darts did we throw in total?
@@ -391,7 +417,7 @@ of the experiment. The `size` is the number of trials in each observation.
 ---
 # Binomial distribution expectation
 Remember a r.v. is the numerical outcome of a random experiment.
-The **expectation** of r.v. is the long-run average of this outcome
+The **expectation** of a random variable is the long-run average of this outcome
 as we do `\(n\to\infty\)` replications of the experiment.
 
 $$
@@ -417,7 +443,7 @@ mean(rbinom(10000, size = 10, prob = 0.5))
 ```
 
 ```
-## [1] 5.0057
+## [1] 5.0052
 ```
 
 Built-in functions are **very** useful!
@@ -426,14 +452,17 @@ Built-in functions are **very** useful!
 # Distributions in R
 R comes with many named distributions built in.
 
-The functions `dbinom`, `pbinom`, and `rbinom` illustrate a pattern in R.
+The functions below illustrate a pattern in R:
+- `dbinom(x, size, prob)`
+- `pbinom(q, size, prob)`
+- `rbinom(n, size, prob)`
 
 --
 
-Suppose `\(Y\sim \mathrm{booga}\)` (not a real distribution). Then
-- `dbooga(k)` evaluates the pmf (or pdf) of `booga` at `\(k\)`
-- `pbooga(k)` gives the *cumulative* probabilities: `\(\mathbb{P}(Y \leq k)\)`
-- `rbooga(n)` generates `\(n\)` observations of `\(Y\)`. Also called **random variates**.
+Suppose `\(Y\sim \mathrm{booga}(\text{params})\)` (not a real distribution). Then
+- `dbooga(x, params)` evaluates the pmf (or pdf) of `booga` at `\(x\)`
+- `pbooga(q, params)` gives the *cumulative* probabilities: `\(\mathbb{P}(Y \leq q)\)`
+- `rbooga(n, params)` generates `\(n\)` observations of `\(Y\)`. Also called **random variates**.
 
 --
 

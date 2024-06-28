@@ -1,6 +1,6 @@
 # Lecture 2 demo code
 
-#### 2022-08-02
+#### 2024-06-25
 
 ### Filtering
 
@@ -57,17 +57,23 @@ So I owe the company 24 dollars.
 
 1.  
 
+Find the sum of the square roots of every integer from 1 to 1000.
+
 ```{r}
-sum(sqrt(1:100))
+sum(sqrt(1:1000))
 ```
 
 2.  
+
+Find the product of the natural log of every integer from 100 to 200.
 
 ```{r}
 prod(log(100:200))
 ```
 
 3.  
+
+Find the sum of the integers between 1 and 100 whose square is between 300 and 500.
 
 ```{r}
 ints <- 1:100

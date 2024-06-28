@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Lecture 18: Tidy Data</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ingmar Sturm" />
+    <meta name="date" content="2024-07-23" />
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/middlebury-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="robin.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Lecture 18: Tidy Data
+]
+.author[
+### Ingmar Sturm
+]
+.institute[
+### UCSB
+]
+.date[
+### 2024-07-23
+]
+.footnote[
+Special thanks to Robin Liu for select course content used with permission.
+]
+
+---
+
+
+
+class: inverse, middle, center
+# Tidy Data
+
+https://r4ds.had.co.nz/tidy-data.html
+
+---
+# Tidy Data
+We can create a tibble by row as follows:
+
+
+```r
+# library(tidyverse)
+table1 &lt;- tribble(
+  ~country,      ~year, ~cases,  ~population,
+  "Afghanistan", 1999,  745,     19987071,
+  "Afghanistan", 2000,  2666,    20595360,
+  "Brazil",      1999,  37737,   172006362,
+  "Brazil",      2000,  80488,   174504898,
+  "China",       1999,  212258,  1272915272,
+  "China",       2000,  213766,  1280428583
+)
+```
+---
+# Tidy Data
+
+```r
+table1
+```
+
+```
+## # A tibble: 6 x 4
+##   country      year  cases population
+##   &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Afghanistan  1999    745   19987071
+## 2 Afghanistan  2000   2666   20595360
+## 3 Brazil       1999  37737  172006362
+## 4 Brazil       2000  80488  174504898
+## 5 China        1999 212258 1272915272
+## 6 China        2000 213766 1280428583
+```
+
+Each row is an **observation**, or **case**.
+An observation is a country-year.
+
+Each column is a **variable**. They specify attributes of a particular case.
+
+
+---
+# Tidy Data
+
+We are now very familiar with the following operations:
+.pull-left[
+
+```r
+# rate per 10,000
+table1 |&gt;
+  mutate(rate = cases / population * 10000)
+```
+
+```
+## # A tibble: 6 x 5
+##   country      year  cases population  rate
+##   &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt;
+## 1 Afghanistan  1999    745   19987071 0.373
+## 2 Afghanistan  2000   2666   20595360 1.29 
+## 3 Brazil       1999  37737  172006362 2.19 
+## 4 Brazil       2000  80488  174504898 4.61 
+## 5 China        1999 212258 1272915272 1.67 
+## 6 China        2000 213766 1280428583 1.67
+```
+]
+
+--
+
+.pull-right[
+
+```r
+table1 |&gt;
+  group_by(country) |&gt;
+  summarize(case_mean = mean(cases))
+```
+
+```
+## # A tibble: 3 x 2
+##   country     case_mean
+##   &lt;chr&gt;           &lt;dbl&gt;
+## 1 Afghanistan     1706.
+## 2 Brazil         59112.
+## 3 China         213012
+```
+]
+
+---
+# Tidy Data
+These operations are easy to do because the data is **tidy**.
+
+The R language, and `tidyverse` specifically, work best with data
+in the tidy format (hence the name).
+
+--
+
+## A dataset is tidy if:
+1. Each variable has its own column
+1. Each observation has its own row
+
+.center[![:scale 80%](Lec18_files/tidy.png)]
+
+---
+# Tidy Data
+
+|name         | treatmentA| treatmentB|
+|:------------|----------:|----------:|
+|John Smith   |         NA|         18|
+|Jane Doe     |          4|          1|
+|Mary Johnson |          6|          7|
+--
+
+not tidy
+
+--
+
+
+|treatment | John Smith| Jane Doe| Mary Johnson|
+|:---------|----------:|--------:|------------:|
+|a         |         NA|        4|            6|
+|b         |         18|        1|            7|
+
+--
+
+still not tidy
+
+---
+# Tidy Data
+### Tidy
+
+|name         |treatment | value|
+|:------------|:---------|-----:|
+|Jane Doe     |a         |     4|
+|Jane Doe     |b         |     1|
+|John Smith   |a         |    NA|
+|John Smith   |b         |    18|
+|Mary Johnson |a         |     6|
+|Mary Johnson |b         |     7|
+
+--
+
+Each row is a case. Each column is a variable.
+
+"a" and "b" are levels of the treatment variable.
+
+--
+
+Sometimes called *long format*.
+
+---
+# Tidy Data
+.pull-left[
+
+|name         | treatmentA| treatmentB|
+|:------------|----------:|----------:|
+|John Smith   |         NA|         18|
+|Jane Doe     |          4|          1|
+|Mary Johnson |          6|          7|
+]
+.pull-right[
+
+|name         |treatment | value|
+|:------------|:---------|-----:|
+|Jane Doe     |a         |     4|
+|Jane Doe     |b         |     1|
+|John Smith   |a         |    NA|
+|John Smith   |b         |    18|
+|Mary Johnson |a         |     6|
+|Mary Johnson |b         |     7|
+]
+
+--
+
+
+Tidy data is more amenable to data analysis, especially in R.
+
+"Untidy" data is more compact. It is not necessarily bad.
+Most real datasets are untidy to begin with.
+
+---
+# Tidy Data
+.center[![](Lec18_files/census_untidy.png)]
+
+---
+# Tidy Data
+So far we have only looked at tidy data.
+- mtcars, nycflights13, gapminder, iris, ...
+
+--
+
+The process of transforming "raw" data into a form amenable to analysis
+is called **data munging** or **data wrangling**.
+
+--
+
+Some say it comprises up to 90% of data science.
+
+---
+class: inverse, middle, center
+# Data Wrangling
+
+---
+# Data Wrangling
+
+```r
+table2 &lt;- tribble(
+  ~country,      ~year, ~type,        ~count,
+  "Afghanistan", 1999,  "cases",      745,
+  "Afghanistan", 1999,  "population", 19987071,
+  "Afghanistan", 2000,  "cases",      2666,
+  "Afghanistan", 2000,  "population", 20595360,
+  "Brazil",      1999,  "cases",      37737,
+  "Brazil",      1999,  "population", 172006362,
+  "Brazil",      2000,  "cases",      80488,
+  "Brazil",      2000,  "population", 174504898,
+  "China",       1999,  "cases",      212258,
+  "China",       1999,  "population", 1272915272,
+  "China",       2000,  "cases",      213766,
+  "China",       2000,  "population", 1280428583
+)
+```
+
+Not tidy: a single observation is spread across two rows.
+Cases and population are separate variables.
+
+We want to make the tibble *wider*.
+
+---
+# Data Wrangling
+We will use `tidyr::pivot_wider()`, part of `tidyverse`.
+
+
+```r
+table2 |&gt;
+  pivot_wider(names_from = type, values_from = count)
+```
+
+```
+## # A tibble: 6 x 4
+##   country      year  cases population
+##   &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Afghanistan  1999    745   19987071
+## 2 Afghanistan  2000   2666   20595360
+## 3 Brazil       1999  37737  172006362
+## 4 Brazil       2000  80488  174504898
+## 5 China        1999 212258 1272915272
+## 6 China        2000 213766 1280428583
+```
+
+---
+# Data Wrangling
+.center[![:scale 80%](Lec18_files/tidy_wider.png)]
+
+---
+# Data Wrangling
+Untidy data can be spread across different tables.
+
+```r
+# cases table
+table3a &lt;- tribble(
+  ~country,      ~`1999`,     ~`2000`,
+  "Afghanistan", 745,        2666,
+  "Brazil",      37737,      80488,
+  "China",       212258,     213766,
+)
+
+# population table
+table3b &lt;- tribble(
+  ~country,      ~`1999`,    ~`2000`,
+  "Afghanistan", 19987071,   20595360,
+  "Brazil",      172006362,  174504898,
+  "China",       1272915272, 1280428583,
+)
+```
+
+Untidy because the "year" is spread across multiple columns.
+We need to make this tibble *longer*.
+
+---
+# Data Wrangling
+
+```r
+table3a |&gt;
+  pivot_longer(c(`1999`, `2000`), names_to = "year", values_to = "cases")
+```
+
+```
+## # A tibble: 6 x 3
+##   country     year   cases
+##   &lt;chr&gt;       &lt;chr&gt;  &lt;dbl&gt;
+## 1 Afghanistan 1999     745
+## 2 Afghanistan 2000    2666
+## 3 Brazil      1999   37737
+## 4 Brazil      2000   80488
+## 5 China       1999  212258
+## 6 China       2000  213766
+```
+
+.center[![:scale 85%](Lec18_files/tidy_longer.png)]
+
+---
+# Data Wrangling
+
+```r
+table3a |&gt;
+  pivot_longer(c(`1999`, `2000`), names_to = "year", values_to = "cases")
+```
+
+```
+## # A tibble: 6 x 3
+##   country     year   cases
+##   &lt;chr&gt;       &lt;chr&gt;  &lt;dbl&gt;
+## 1 Afghanistan 1999     745
+## 2 Afghanistan 2000    2666
+## 3 Brazil      1999   37737
+## 4 Brazil      2000   80488
+## 5 China       1999  212258
+## 6 China       2000  213766
+```
+
+```r
+table3b |&gt;
+  pivot_longer(c(`1999`, `2000`), names_to = "year", values_to = "population")
+```
+
+```
+## # A tibble: 6 x 3
+##   country     year  population
+##   &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt;
+## 1 Afghanistan 1999    19987071
+## 2 Afghanistan 2000    20595360
+## 3 Brazil      1999   172006362
+## 4 Brazil      2000   174504898
+## 5 China       1999  1272915272
+## 6 China       2000  1280428583
+```
+
+---
+# Data Wrangling
+
+
+.pull-left[
+
+```r
+table3a_long
+```
+
+```
+## # A tibble: 6 x 3
+##   country     year   cases
+##   &lt;chr&gt;       &lt;chr&gt;  &lt;dbl&gt;
+## 1 Afghanistan 1999     745
+## 2 Afghanistan 2000    2666
+## 3 Brazil      1999   37737
+## 4 Brazil      2000   80488
+## 5 China       1999  212258
+## 6 China       2000  213766
+```
+]
+.pull-right[
+
+```r
+table3b_long
+```
+
+```
+## # A tibble: 6 x 3
+##   country     year  population
+##   &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt;
+## 1 Afghanistan 1999    19987071
+## 2 Afghanistan 2000    20595360
+## 3 Brazil      1999   172006362
+## 4 Brazil      2000   174504898
+## 5 China       1999  1272915272
+## 6 China       2000  1280428583
+```
+]
+
+To get the entire tidy dataset, we should *join* on country and year.
+Remember the cases are country-years.
+
+---
+# Data Wrangling
+
+```r
+table3a_long |&gt;
+  inner_join(table3b_long, by = c("country", "year"))
+```
+
+```
+## # A tibble: 6 x 4
+##   country     year   cases population
+##   &lt;chr&gt;       &lt;chr&gt;  &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Afghanistan 1999     745   19987071
+## 2 Afghanistan 2000    2666   20595360
+## 3 Brazil      1999   37737  172006362
+## 4 Brazil      2000   80488  174504898
+## 5 China       1999  212258 1272915272
+## 6 China       2000  213766 1280428583
+```
+
+Tidy :)
+
+---
+# Data Wrangling
+
+```r
+table4 &lt;- tribble(
+  ~country,      ~year, ~rate,
+  "Afghanistan", 1999,  "745/19987071",
+  "Afghanistan", 2000,  "2666/20595360",
+  "Brazil",      1999,  "37737/172006362",
+  "Brazil",      2000,  "80488/174504898",
+  "China",       1999,  "212258/1272915272",
+  "China",       2000,  "213766/1280428583"
+)
+```
+
+Not tidy: one column `rate` contains two variables, `cases` and `population`.
+
+`rate` should be *separated* into two columns.
+
+--
+
+It is fine to have a "rate" column in a tibble.
+But the string representation strongly suggests two variables.
+
+---
+# Data Wrangling
+
+```r
+table4 |&gt;
+  separate(rate, into = c("cases", "population"))
+```
+
+```
+## # A tibble: 6 x 4
+##   country      year cases  population
+##   &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;     
+## 1 Afghanistan  1999 745    19987071  
+## 2 Afghanistan  2000 2666   20595360  
+## 3 Brazil       1999 37737  172006362 
+## 4 Brazil       2000 80488  174504898 
+## 5 China        1999 212258 1272915272
+## 6 China        2000 213766 1280428583
+```
+
+By default, `separate` will split values based on non-alphanumeric characters,
+in this case the forward slash `/`.
+
+--
+
+There is a problem with the above; `cases` and `population` should be numeric.
+
+---
+# Data Wrangling
+
+```r
+table4 |&gt;
+  separate(rate, into = c("cases", "population"), convert = TRUE)
+```
+
+```
+## # A tibble: 6 x 4
+##   country      year  cases population
+##   &lt;chr&gt;       &lt;dbl&gt;  &lt;int&gt;      &lt;int&gt;
+## 1 Afghanistan  1999    745   19987071
+## 2 Afghanistan  2000   2666   20595360
+## 3 Brazil       1999  37737  172006362
+## 4 Brazil       2000  80488  174504898
+## 5 China        1999 212258 1272915272
+## 6 China        2000 213766 1280428583
+```
+
+Tidy :)
+
+---
+# Data Wrangling
+For completeness, there is also a `unite` function which does the opposite.
+
+.pull-left[
+
+```r
+table4_tidy
+```
+
+```
+## # A tibble: 6 x 4
+##   country      year  cases population
+##   &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
+## 1 Afghanistan  1999    745   19987071
+## 2 Afghanistan  2000   2666   20595360
+## 3 Brazil       1999  37737  172006362
+## 4 Brazil       2000  80488  174504898
+## 5 China        1999 212258 1272915272
+## 6 China        2000 213766 1280428583
+```
+]
+
+--
+
+.pull-right[
+
+```r
+table4_tidy |&gt;
+  unite(rate, cases, population, sep = "/")
+```
+
+```
+## # A tibble: 6 x 3
+##   country      year rate             
+##   &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;            
+## 1 Afghanistan  1999 745/19987071     
+## 2 Afghanistan  2000 2666/20595360    
+## 3 Brazil       1999 37737/172006362  
+## 4 Brazil       2000 80488/174504898  
+## 5 China        1999 212258/1272915272
+## 6 China        2000 213766/1280428583
+```
+]
+
+---
+# Data Wrangling
+`pivot_wider`, `pivot_longer`, `separate`, `unite` are functions
+in the `tidyr` package, part of `tidyverse`.
+
+Aims to streamline these operations and minimize the time spent on data wrangling.
+
+Without these tools, one may have to write custom code for each dataset,
+which is time consuming.
+
+.center[![](Lec18_files/time_spent.png)]
+
+---
+# Case Study
+Untidy data from [2014 World Health Organization Global Tuberculosis Report](https://www.who.int/teams/global-tuberculosis-programme/data)
+
+
+```r
+tidyr::who
+```
+
+```
+## # A tibble: 7,240 x 60
+##    country  iso2  iso3   year new_sp_m014 new_sp_m1524 new_sp_m2534 new_sp_m3544
+##    &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;int&gt;       &lt;int&gt;        &lt;int&gt;        &lt;int&gt;        &lt;int&gt;
+##  1 Afghani~ AF    AFG    1980          NA           NA           NA           NA
+##  2 Afghani~ AF    AFG    1981          NA           NA           NA           NA
+##  3 Afghani~ AF    AFG    1982          NA           NA           NA           NA
+##  4 Afghani~ AF    AFG    1983          NA           NA           NA           NA
+##  5 Afghani~ AF    AFG    1984          NA           NA           NA           NA
+##  6 Afghani~ AF    AFG    1985          NA           NA           NA           NA
+##  7 Afghani~ AF    AFG    1986          NA           NA           NA           NA
+##  8 Afghani~ AF    AFG    1987          NA           NA           NA           NA
+##  9 Afghani~ AF    AFG    1988          NA           NA           NA           NA
+## 10 Afghani~ AF    AFG    1989          NA           NA           NA           NA
+## # ... with 7,230 more rows, and 52 more variables: new_sp_m4554 &lt;int&gt;,
+## #   new_sp_m5564 &lt;int&gt;, new_sp_m65 &lt;int&gt;, new_sp_f014 &lt;int&gt;,
+## #   new_sp_f1524 &lt;int&gt;, new_sp_f2534 &lt;int&gt;, new_sp_f3544 &lt;int&gt;,
+## #   new_sp_f4554 &lt;int&gt;, new_sp_f5564 &lt;int&gt;, new_sp_f65 &lt;int&gt;,
+## #   new_sn_m014 &lt;int&gt;, new_sn_m1524 &lt;int&gt;, new_sn_m2534 &lt;int&gt;,
+## #   new_sn_m3544 &lt;int&gt;, new_sn_m4554 &lt;int&gt;, new_sn_m5564 &lt;int&gt;,
+## #   new_sn_m65 &lt;int&gt;, new_sn_f014 &lt;int&gt;, new_sn_f1524 &lt;int&gt;, ...
+```
+
+---
+# Case Study
+Typical real-life data.
+- Redundant columns
+- Strange variable codes
+- many missing values
+
+Good place to start: identify columns that are values and not variables.
+
+Cases appear to be country-years.
+Hence `country`, `iso2`, `iso3`, and `year` are variables.
+
+For now, treat all others as values.
+---
+# Case Study
+The other columns range from `new_sp_m014` to `newrel_f65`.
+Let's put them in a single column `key`.
+
+
+```
+## # A tibble: 76,046 x 6
+##    country     iso2  iso3   year key          cases
+##    &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;chr&gt;        &lt;int&gt;
+##  1 Afghanistan AF    AFG    1997 new_sp_m014      0
+##  2 Afghanistan AF    AFG    1997 new_sp_m1524    10
+##  3 Afghanistan AF    AFG    1997 new_sp_m2534     6
+##  4 Afghanistan AF    AFG    1997 new_sp_m3544     3
+##  5 Afghanistan AF    AFG    1997 new_sp_m4554     5
+##  6 Afghanistan AF    AFG    1997 new_sp_m5564     2
+##  7 Afghanistan AF    AFG    1997 new_sp_m65       0
+##  8 Afghanistan AF    AFG    1997 new_sp_f014      5
+##  9 Afghanistan AF    AFG    1997 new_sp_f1524    38
+## 10 Afghanistan AF    AFG    1997 new_sp_f2534    36
+## # ... with 76,036 more rows
+```
+
+---
+# Case Study
+We must look at the [*data dictionary*](https://www.who.int/teams/global-tuberculosis-programme/data) or *codebook* to figure out the values.
+
+First three letters
+- `new` or `old` cases of TB. We only have new cases in this dataset.
+
+--
+
+Next two letters describe type of TB
+- `rel` cases of relapse
+- `ep` cases of extrapulmonary TB
+- `sn` cases of pulmonary TB not detected by a smear (smear negative)
+- `sp` cases of pulmonary TB detected by a smear (smear positive)
+
+--
+
+Sixth letter describes sex of patient: `m` or `f`
+
+--
+
+Remaining letters give the age group.
+- `014` = 0 to 14 years old
+- ...
+- `5564` = 55 to 64 years old
+- `65` = 65 or older.
+
+---
+# Case Study
+Separate `key` according to the data dictionary.
+
+```
+## Warning: Expected 3 pieces. Missing pieces filled with `NA` in 2580 rows [243,
+## 244, 679, 680, 681, 682, 683, 684, 685, 686, 687, 688, 689, 690, 691, 692, 903,
+## 904, 905, 906, ...].
+```
+
+```
+## # A tibble: 76,046 x 8
+##    country     iso2  iso3   year new   type  sexage cases
+##    &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;int&gt;
+##  1 Afghanistan AF    AFG    1997 new   sp    m014       0
+##  2 Afghanistan AF    AFG    1997 new   sp    m1524     10
+##  3 Afghanistan AF    AFG    1997 new   sp    m2534      6
+##  4 Afghanistan AF    AFG    1997 new   sp    m3544      3
+##  5 Afghanistan AF    AFG    1997 new   sp    m4554      5
+##  6 Afghanistan AF    AFG    1997 new   sp    m5564      2
+##  7 Afghanistan AF    AFG    1997 new   sp    m65        0
+##  8 Afghanistan AF    AFG    1997 new   sp    f014       5
+##  9 Afghanistan AF    AFG    1997 new   sp    f1524     38
+## 10 Afghanistan AF    AFG    1997 new   sp    f2534     36
+## # ... with 76,036 more rows
+```
+
+---
+# Case Study
+Something went wrong.
+
+```r
+who1[243:244, ]
+```
+
+```
+## # A tibble: 2 x 6
+##   country     iso2  iso3   year key         cases
+##   &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;chr&gt;       &lt;int&gt;
+## 1 Afghanistan AF    AFG    2013 newrel_m014  1705
+## 2 Afghanistan AF    AFG    2013 newrel_f014  1749
+```
+
+We have `newrel` instead of `new_rel`.
+
+---
+# Case Study
+Replace `newrel` with `new_rel`. Then,
+
+
+```
+## # A tibble: 76,046 x 8
+##    country     iso2  iso3   year new   type  sexage cases
+##    &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;int&gt;
+##  1 Afghanistan AF    AFG    1997 new   sp    m014       0
+##  2 Afghanistan AF    AFG    1997 new   sp    m1524     10
+##  3 Afghanistan AF    AFG    1997 new   sp    m2534      6
+##  4 Afghanistan AF    AFG    1997 new   sp    m3544      3
+##  5 Afghanistan AF    AFG    1997 new   sp    m4554      5
+##  6 Afghanistan AF    AFG    1997 new   sp    m5564      2
+##  7 Afghanistan AF    AFG    1997 new   sp    m65        0
+##  8 Afghanistan AF    AFG    1997 new   sp    f014       5
+##  9 Afghanistan AF    AFG    1997 new   sp    f1524     38
+## 10 Afghanistan AF    AFG    1997 new   sp    f2534     36
+## # ... with 76,036 more rows
+```
+
+---
+# Case Study
+`new` is constant in this data set. For that matter, let's
+also drop `iso2` and `iso3` since we already have `country`.
+
+
+```
+## # A tibble: 76,046 x 5
+##    country      year type  sexage cases
+##    &lt;chr&gt;       &lt;int&gt; &lt;chr&gt; &lt;chr&gt;  &lt;int&gt;
+##  1 Afghanistan  1997 sp    m014       0
+##  2 Afghanistan  1997 sp    m1524     10
+##  3 Afghanistan  1997 sp    m2534      6
+##  4 Afghanistan  1997 sp    m3544      3
+##  5 Afghanistan  1997 sp    m4554      5
+##  6 Afghanistan  1997 sp    m5564      2
+##  7 Afghanistan  1997 sp    m65        0
+##  8 Afghanistan  1997 sp    f014       5
+##  9 Afghanistan  1997 sp    f1524     38
+## 10 Afghanistan  1997 sp    f2534     36
+## # ... with 76,036 more rows
+```
+
+---
+# Case Study
+Finally, split `sexage` into two columns, `sex` and `age`.
+
+```
+## # A tibble: 76,046 x 6
+##    country      year type  sex   age   cases
+##    &lt;chr&gt;       &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt;
+##  1 Afghanistan  1997 sp    m     014       0
+##  2 Afghanistan  1997 sp    m     1524     10
+##  3 Afghanistan  1997 sp    m     2534      6
+##  4 Afghanistan  1997 sp    m     3544      3
+##  5 Afghanistan  1997 sp    m     4554      5
+##  6 Afghanistan  1997 sp    m     5564      2
+##  7 Afghanistan  1997 sp    m     65        0
+##  8 Afghanistan  1997 sp    f     014       5
+##  9 Afghanistan  1997 sp    f     1524     38
+## 10 Afghanistan  1997 sp    f     2534     36
+## # ... with 76,036 more rows
+```
+
+--
+
+Tidy :)
+
+---
+# Case Study
+*Exercise:* Make the following plot.
+
+
+
+
+&lt;img src="Lec18_files/figure-html/unnamed-chunk-34-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Remarks
+Real data is a [mess](https://data.cityofnewyork.us/Health/DOHMH-Dog-Bite-Data/rsgh-akpg).
+
+--
+
+Work with as much *raw*, unclean data as possible.
+
+https://github.com/rfordatascience/tidytuesday
+
+--
+
+The `tidyverse` workflow from raw data to tidy data to `ggplot` is excellent.
+Underappreciated in the PSTAT department.
+
+https://www.tidyverse.org/
+
+--
+
+Amazingly, we haven't done any *statistics*.
+These visualization tools really shine when combined with statistical modeling.
+
+---
+# Remarks
+This concludes the main content of the course.
+
+--
+
+## Next week
+- Monday: Lecture on a special topic in advanced R.
+- Tuesday: Practice exam administered in class under time constraint.
+- Wednesday: Go over practice exam in section. **No lecture.**
+- Thursday: Final exam. Bring pencil and one sheet/two sides of notes.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"highlightSpans": false,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

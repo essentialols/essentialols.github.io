@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Lecture 12: Relational Databases</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ingmar Sturm" />
+    <meta name="date" content="2024-07-11" />
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/middlebury-fonts.css" rel="stylesheet" />
+    <link href="libs/countdown-0.3.5/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown-0.3.5/countdown.js"></script>
+    <link rel="stylesheet" href="robin.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Lecture 12: Relational Databases
+]
+.author[
+### Ingmar Sturm
+]
+.institute[
+### UCSB
+]
+.date[
+### 2024-07-11
+]
+.footnote[
+Special thanks to Robin Liu for select course content used with permission.
+]
+
+---
+
+
+
+class: inverse, middle, center
+# Why use a database?
+---
+# Why use a database?
+So far we have played around with data in the form of data frames and tibbles.
+
+
+```r
+nycflights13::flights
+```
+
+```
+## # A tibble: 336,776 x 19
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1  2013     1     1      517            515         2      830            819
+##  2  2013     1     1      533            529         4      850            830
+##  3  2013     1     1      542            540         2      923            850
+##  4  2013     1     1      544            545        -1     1004           1022
+##  5  2013     1     1      554            600        -6      812            837
+##  6  2013     1     1      554            558        -4      740            728
+##  7  2013     1     1      555            600        -5      913            854
+##  8  2013     1     1      557            600        -3      709            723
+##  9  2013     1     1      557            600        -3      838            846
+## 10  2013     1     1      558            600        -2      753            745
+## # ... with 336,766 more rows, and 11 more variables: arr_delay &lt;dbl&gt;,
+## #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,
+## #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;
+```
+
+---
+# Why use a database?
+The tibble has 300k observations which seems like a lot. But...
+
+--
+
+
+```r
+format(object.size(nycflights13::flights), units = "Mb")
+```
+
+```
+## [1] "38.8 Mb"
+```
+
+This is not a lot of data in terms of memory!
+
+[Examples of large datasets](https://www.kaggle.com/code/benhamner/competitions-with-largest-datasets/report)
+
+--
+
+Importing a data set into R means loading it into memory.
+You would not be able to load truly large data sets into memory.
+RStudio shows you have much memory it is currently using.
+
+*Exercise:* How much memory (RAM) does your computer have?
+
+<div class="countdown" id="timer_62cc44b6" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+# Why use a database?
+How do we deal with a 100GB data set if we cannot load it into memory?
+
+We usually don't need the entire data set all at once.
+Instead we would like to observe parts of it.
+
+--
+
+**Idea:**
+1. Keep the data set stored on *disk*.
+2. Open up a connection to the data, which is stored on disk.
+3. Load into memory only the parts of the data set we currently care about.
+
+--
+
+*Exercise:* How much *disk space* does your computer have?
+
+The data set, stored on disk, is the **database**.
+
+Later we will open a connection to a database and extract data frames
+from it using **SQL**.
+
+---
+# Data models
+The same data can be *modeled* in different ways. A database
+must cohere to a certain **data model**.
+
+--
+
+.pull-left[
+### Relational model
+![](Lec12_files/chinook.png)
+]
+
+--
+
+.pull-right[
+### Hierarchical model
+![](Lec12_files/hierarchical.webp)
+]
+---
+# The Chinook DB
+We will use the [Chinook DB](https://docs.yugabyte.com/preview/sample-data/chinook/),
+a relational database.
+
+This DB represents a digital media store,
+including tables for artists, albums, media tracks, invoices, and customers.
+
+The data in a relational database is stored in relations, aka **tables**:
+
+```r
+dbListTables(chinook_db)
+```
+
+```
+##  [1] "Album"         "Artist"        "Customer"      "Employee"     
+##  [5] "Genre"         "Invoice"       "InvoiceLine"   "MediaType"    
+##  [9] "Playlist"      "PlaylistTrack" "Track"
+```
+
+--
+
+Each table has rows of tuples, aka **records**, and columns of attributes, aka **fields**.
+
+```r
+dbListFields(chinook_db, "Customer")
+```
+
+```
+##  [1] "CustomerId"   "FirstName"    "LastName"     "Company"      "Address"     
+##  [6] "City"         "State"        "Country"      "PostalCode"   "Phone"       
+## [11] "Fax"          "Email"        "SupportRepId"
+```
+
+
+---
+# The Chinook DB
+
+```r
+dbGetQuery(chinook_db, "select CustomerId, FirstName, LastName, City, Country
+                        from customer limit 10")
+```
+
+```
+##    CustomerId FirstName    LastName                City        Country
+## 1           1      Luís   Gonçalves São José dos Campos         Brazil
+## 2           2    Leonie      Köhler           Stuttgart        Germany
+## 3           3  François    Tremblay            Montréal         Canada
+## 4           4     Bjørn      Hansen                Oslo         Norway
+## 5           5 František Wichterlová              Prague Czech Republic
+## 6           6    Helena        Holý              Prague Czech Republic
+## 7           7    Astrid      Gruber              Vienne        Austria
+## 8           8      Daan     Peeters            Brussels        Belgium
+## 9           9      Kara     Nielsen          Copenhagen        Denmark
+## 10         10   Eduardo     Martins           São Paulo         Brazil
+```
+
+--
+
+If you think the output is just a data frame...
+that's because it is!
+But we extracted it from a database.
+
+---
+# Field metadata
+Unlike a data frame/tibble, there is extra information in a database table
+that expresses relation info between tables.
+
+
+```r
+dbGetQuery(chinook_db, "pragma table_info(customer)")
+```
+
+```
+##    cid         name         type notnull dflt_value pk
+## 1    0   CustomerId      INTEGER       1         NA  1
+## 2    1    FirstName NVARCHAR(40)       1         NA  0
+## 3    2     LastName NVARCHAR(20)       1         NA  0
+## 4    3      Company NVARCHAR(80)       0         NA  0
+## 5    4      Address NVARCHAR(70)       0         NA  0
+## 6    5         City NVARCHAR(40)       0         NA  0
+## 7    6        State NVARCHAR(40)       0         NA  0
+## 8    7      Country NVARCHAR(40)       0         NA  0
+## 9    8   PostalCode NVARCHAR(10)       0         NA  0
+## 10   9        Phone NVARCHAR(24)       0         NA  0
+## 11  10          Fax NVARCHAR(24)       0         NA  0
+## 12  11        Email NVARCHAR(60)       1         NA  0
+## 13  12 SupportRepId      INTEGER       0         NA  0
+```
+
+---
+# Primary key
+The **primary key** is a *unique identifier* of the rows in a table.
+Two rows cannot have the same primary key:
+
+
+```r
+dbGetQuery(chinook_db, "select CustomerId, FirstName, LastName, City, Country
+                        from customer limit 2")
+```
+
+```
+##   CustomerId FirstName  LastName                City Country
+## 1          1      Luís Gonçalves São José dos Campos  Brazil
+## 2          2    Leonie    Köhler           Stuttgart Germany
+```
+
+--
+
+
+```r
+dbExecute(chinook_db, "insert into customer (CustomerId, FirstName, LastName, Email)
+                        values (1, 'Robin', 'Liu', 'r_liu@pstat.ucsb.edu')")
+```
+
+```
+## Error: UNIQUE constraint failed: Customer.CustomerId
+```
+CustomerId is the **primary key** and must be unique.
+
+---
+# Primary key
+Tables are not required to have a primary key, but most do.
+All the tables in Chinook have a primary key.
+
+![:scale 50%](Lec12_files/chinook.png)
+
+---
+# Foreign keys
+The relationship between tables is expressed by primary keys and **foreign keys**.
+Remember we are working with a relational database, following a relational
+data model.
+
+
+```r
+dbGetQuery(chinook_db, "pragma foreign_key_list(customer)")
+```
+
+```
+##   id seq    table         from         to on_update on_delete match
+## 1  0   0 Employee SupportRepId EmployeeId NO ACTION NO ACTION  NONE
+```
+
+.pull-left[
+![](Lec12_files/cust_fk.png)
+]
+.pull-right[
+A foreign key field *points to* the primary key of another table.
+]
+---
+# Foreign keys
+.center[![](Lec12_files/cust_fk.png)]
+**Interpretation**
+
+--
+
+  - Each customer in the store can be assigned a support representative
+  
+--
+
+  - The support rep is an employee at the store and therefore has a unique id
+  
+--
+
+  - This unique id, EmployeeId, is the primary key of the employee table
+  
+--
+
+This real-world relationship is encoded by the relational model
+using primary and foreign key relationships.
+
+---
+# Foreign keys
+What are some other foreign keys in Chinook?
+
+![:scale 55%](Lec12_files/chinook.png)
+---
+# Foreign keys
+Foreign keys must either point to an existing value or be NULL.
+
+
+```r
+dbGetQuery(chinook_db, "select max(EmployeeId) from employee")
+```
+
+```
+##   max(EmployeeId)
+## 1               8
+```
+
+```r
+dbExecute(chinook_db, "insert into customer
+                         (CustomerId, FirstName, LastName, Email, SupportRepId)
+                       values
+                         (888, 'Robin', 'Liu', 'r_liu@pstat.ucsb.edu', 9999)")
+```
+
+```
+## Error: FOREIGN KEY constraint failed
+```
+---
+# Integrity Constraints
+We have seen two examples of *integrity constraints*:
+- Primary keys must be unique (and not NULL)
+- Foreign keys must reference existing primary keys or be NULL
+
+These constraints enforce the *integrity* of a database;
+no bad data or corrupted relationships.
+
+**Keys help maintain the integrity of the data**
+---
+# Database Schema
+The **schema** of a database describes its *structure*:
+- Names of all the tables
+- Names of all fields in each table
+- Primary key/foreign key relationships between tables
+- Other metadata (data types of each field in each table, ...)
+
+Basically everything other than the actual data itself.
+
+--
+
+We have been looking at parts of the schema with the `pragma` keyword.
+
+```r
+dbGetQuery(chinook_db, "pragma table_info(customer)")
+```
+
+```
+##    cid         name         type notnull dflt_value pk
+## 1    0   CustomerId      INTEGER       1         NA  1
+## 2    1    FirstName NVARCHAR(40)       1         NA  0
+## 3    2     LastName NVARCHAR(20)       1         NA  0
+## 4    3      Company NVARCHAR(80)       0         NA  0
+## 5    4      Address NVARCHAR(70)       0         NA  0
+## 6    5         City NVARCHAR(40)       0         NA  0
+## 7    6        State NVARCHAR(40)       0         NA  0
+## 8    7      Country NVARCHAR(40)       0         NA  0
+## 9    8   PostalCode NVARCHAR(10)       0         NA  0
+## 10   9        Phone NVARCHAR(24)       0         NA  0
+## 11  10          Fax NVARCHAR(24)       0         NA  0
+## 12  11        Email NVARCHAR(60)       1         NA  0
+## 13  12 SupportRepId      INTEGER       0         NA  0
+```
+---
+# SQL
+*Structured Query Language* (SQL) is a language designed to 
+create, read data from, and write data to relational databases.
+
+There are many different implementations of SQL, each with unique features.
+Each of these is called a *Relational Database Management System* (RDBMS).
+
+[2021 StackOverflow Developer Survey](https://insights.stackoverflow.com/survey/2021#most-popular-technologies-database)
+
+![:scale 50%](Lec12_files/db_popularity.png)
+
+---
+# SQL
+SQLite is a popular RDBMS designed for simple applications
+
+https://en.wikipedia.org/wiki/SQLite
+
+- Mobile devices
+
+--
+
+- Simple web apps
+
+--
+
+- Poor scaling: not suitable for large, complex apps
+
+--
+
+All SQL implementations support a set of core SQL commands, but they have their
+own quirks.
+
+What we cover in class is applicable across other implementations.
+
+---
+# SQL
+In this class we will use SQLite RDBMS via the `RSQLite` package.
+
+We will focus on standard SQL commands:
+  - `select`, `where`, `join`, ...
+
+But know that there are SQLite-specific commands and behavior
+  - `pragma`
+
+---
+# SQLite
+Here is an example of SQLite-specific behavior:
+
+
+```r
+dbExecute(chinook_db, "insert into customer (FirstName, LastName, Email)
+                         values ('Robin', 'Liu', 'r_liu@pstat.ucsb.edu')")
+```
+
+```
+## [1] 1
+```
+
+```r
+dbGetQuery(chinook_db, "select CustomerId, FirstName, LastName, Email from customer
+                          where FirstName = 'Robin'")
+```
+
+```
+##   CustomerId FirstName LastName                Email
+## 1         60     Robin      Liu r_liu@pstat.ucsb.edu
+```
+
+```r
+dbExecute(chinook_db, "delete from customer where FirstName like '%Robin%'")
+```
+
+```
+## [1] 1
+```
+A new record was added successfully with the next primary key value
+automatically; this is not consistent across all implementations.
+
+---
+# Our tools
+- the R packages `RSQLite`, `sqldf`, `DBI`
+- the database `Chinook_Sqlite.sqlite`
+
+
+```r
+library(RSQLite)
+library(sqldf)
+library(DBI)
+chinook_db &lt;- dbConnect(SQLite(), "Chinook_Sqlite.sqlite") # second argument is a path
+dbExecute(chinook_db, "pragma foreign_keys = on") # Required for foreign-key support
+```
+
+`chinook_db` is now an object representing the  **database connection**.
+
+---
+# SQL
+To read data from a DB, run a **query**: `select...from`
+The result is an R data frame.
+
+```r
+result &lt;- dbGetQuery(chinook_db, "select CustomerId, FirstName, LastName from customer")
+str(result)
+```
+
+```
+## 'data.frame':	59 obs. of  3 variables:
+##  $ CustomerId: int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ FirstName : chr  "Luís" "Leonie" "François" "Bjørn" ...
+##  $ LastName  : chr  "Gonçalves" "Köhler" "Tremblay" "Hansen" ...
+```
+
+```r
+head(result, 5)
+```
+
+```
+##   CustomerId FirstName    LastName
+## 1          1      Luís   Gonçalves
+## 2          2    Leonie      Köhler
+## 3          3  François    Tremblay
+## 4          4     Bjørn      Hansen
+## 5          5 František Wichterlová
+```
+
+The SQL query is the contents of second argument, given by a string.
+
+---
+# SQL
+We opened a connection as follows:
+
+```r
+chinook_db &lt;- dbConnect(SQLite(), "Chinook_Sqlite.sqlite") # second argument is a path
+```
+
+After the end of a session, it is good practice to explicitly close your connection.
+
+```r
+dbDisconnect(chinook_db)
+```
+
+Indeed the connection is closed. Try reading some data:
+
+```r
+dbGetQuery(chinook_db, "select CustomerId, FirstName, LastName from customer")
+```
+
+```
+## Error: Invalid or closed connection
+```
+---
+# Summary
+- Databases are used to store massive amounts of data that cannot fit in memory (RAM).
+- SQL is the language used to manipulate relational databases
+- SQLite is the SQL implementation we will use, provided by the `RSQLite` package.
+
+Next time, introduction to SQL queries.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

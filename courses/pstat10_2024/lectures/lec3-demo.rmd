@@ -1,6 +1,6 @@
 # Lecture 3 demo code
 
-#### 2022-08-03
+#### 2024-06-26
 
 ### Functions (slide 7)
 
@@ -101,7 +101,8 @@ parity(12.43)
 
 ```{r}
 parity_vec <- function(x) {
-  result <- vector(length = length(x)) # initialize result
+  # result <- vector(length = length(x)) # initialize result
+  result <- NULL
   for (i in seq_along(x)) {
     result[i] <- parity(x[i]) # call the previously defined function
   }

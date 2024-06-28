@@ -3,15 +3,15 @@
   <head>
     <title>Lecture 3: Functions and control flow</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Robin Liu" />
-    <meta name="date" content="2022-06-23" />
+    <meta name="author" content="Ingmar Sturm" />
+    <meta name="date" content="2024-06-26" />
     <script src="libs/header-attrs-2.14/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/middlebury-fonts.css" rel="stylesheet" />
     <link href="libs/countdown-0.3.5/countdown.css" rel="stylesheet" />
     <script src="libs/countdown-0.3.5/countdown.js"></script>
-    <link rel="stylesheet" href="ingmar.css" type="text/css" />
+    <link rel="stylesheet" href="robin.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -30,7 +30,7 @@ class: center, middle, inverse, title-slide
 ### UCSB
 ]
 .date[
-### 2022-08-03
+### 2024-06-26
 ]
 .footnote[
 Special thanks to Robin Liu for select course content used with permission.
@@ -620,29 +620,6 @@ while(TRUE) {
 ```
 
 This construct is common, but I didn't want to clutter this lecture.
-It turns out that `for` loops are generally better than `while` loops.
----
-# Main takeaways
-### There was a lot of info today...
-
-- Functions let you perform the same operation on a variety of different inputs
-
---
-
-- Branching and looping are useful ideas within a function.
-
---
-
-- Always look for vectorization before reaching for a loop.
-
---
-
-- Passing in a vector to a function is important.
-If function is not vectorized, consider `sapply`, or more advanced techniques (maybe more later).
-
---
-
-- You must practice this **a lot**.
 
 ---
 # Problem solving
@@ -679,6 +656,30 @@ remove_elt(c(14, 14, 7, 7, 14, 10), 14)
 ```
 ## [1]  7  7 10
 ```
+
+---
+# Main takeaways
+### There was a lot of info today...
+
+- Functions let you perform the same operation on a variety of different inputs
+
+--
+
+- Branching and looping are useful ideas within a function.
+
+--
+
+- Always look for vectorization before reaching for a loop.
+
+--
+
+- Passing in a vector to a function is important.
+If function is not vectorized, consider `sapply`, or more advanced techniques (maybe more later).
+
+--
+
+- You must practice this **a lot**.
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 This is a sample template for your homework and worksheet submissions.
-Knit this .Rmd document to a pdf and submit the pdf on Gradescope.
+Knit this .Rmd document to a pdf and submit the pdf on Canvas.
 
 ## Problem 1
 Clearly label which problem you are solving.

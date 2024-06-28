@@ -1,20 +1,20 @@
 ---
 title: "PSTAT 10 Worksheet 2"
-subtitle: "Due 8/2/2022 11:59pm"
-author: "Ingmar Sturm"
+subtitle: "Due 6/26/2024 11:59pm"
 output: pdf_document
 ---
 
 # Problem 1: Basic vector manipulation
 
-1. Recall from lecture my 2021 monthly gas bill in order was given by:
+1. Recall from lecture my 2023 monthly gas bill in order was given by:
 
 ```{r}
 gasbill <- c(46, 33, 39, 37, 46, 30, 48, 32, 49, 35, 30, 48)
 ```
 
-It turns out the charge for December should have been 49 instead of 48. Update the ```gasbill``` to reflect the
-true charge. Try not to “cheat” and just type in all the old values again; use the existing ```gasbill``` vector.
+It turns out the charge for December should have been 49 instead of 48. Update 
+the ```gasbill``` to reflect the true charge. Try not to “cheat” and just type 
+in all the old values again; use the existing ```gasbill``` vector.
 
 2. Recreate the following numeric vector. Avoid typing in all of the values manually.
 
@@ -22,18 +22,17 @@ true charge. Try not to “cheat” and just type in all the old values again; u
 ## [1] -50 -51 -52 -53 -54 -53 -52 -51 -50
 ```
 
-3. Create a vector from 1 to 10 with increments of 0.05. What is the length of this vector? Hint: Use `seq`
-with `by` argument.
+3. Create a vector from 1 to 10 with increments of 0.05. What is the length of this vector? Hint: Use `seq` with `by` argument.
 
-4. Create a vector of length 100 from 1 to 10 with uniform increments. What is the increment? Hint: Use
-`seq` with `length` argument.
+4. Create a vector of length 100 from 1 to 10 with uniform increments. What is the increment? Hint: Use `seq` with `length` argument.
 
 5. What happens if you try to use `seq` with both the `length` and `by` arguments specified?
 
 # Problem 2
 
-Download the file `ws2.csv` from the course website and import it into R. This data set has two variables
-named `x` and `y`.
+Download the file `ws2.csv` from the course website and import it into R. This data set has two variables named `x` and `y`.
+
+Make sure to change your `here()` function to point to your `ws2.csv` file.
 
 ```{r}
 library(here)
@@ -41,8 +40,7 @@ ws2_df <- read.csv(here("assignments", "week1_files", "ws2.csv"))
 summary(ws2_df)
 ```
 
-Remember the variables in a data frame are accessed by name with the dollar sign (and that the result is a
-vector).
+Remember the variables in a data frame are accessed by name with the dollar sign (and that the result is a vector).
 
 1. Determine the lengths of x and y.
 2. What is the 40th element of x and the 80th element of y?
@@ -88,8 +86,7 @@ head(cm_to_inch(heights_df$height), 10) # the head function gives the first elem
 ## [1] 62.40 67.08 65.52 71.37 68.25 73.71 60.84 65.13 76.05 64.35
 ```
 
-2. Write a vectorized function cm_to_ft_inch that converts numerical values given in cm to a feet inch
-format, rounding to the nearest inch.
+2. Write a vectorized function cm_to_ft_inch that converts numerical values given in cm to a feet inch format, rounding to the nearest inch.
 For example,
 
 ```{r}

@@ -4,14 +4,14 @@
     <title>Lecture 2: Vector and Matrix Operations</title>
     <meta charset="utf-8" />
     <meta name="author" content="Ingmar Sturm" />
-    <meta name="date" content="2022-08-02" />
+    <meta name="date" content="2024-06-25" />
     <script src="libs/header-attrs-2.14/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/middlebury-fonts.css" rel="stylesheet" />
     <link href="libs/countdown-0.3.5/countdown.css" rel="stylesheet" />
     <script src="libs/countdown-0.3.5/countdown.js"></script>
-    <link rel="stylesheet" href="ingmar.css" type="text/css" />
+    <link rel="stylesheet" href="robin.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -30,7 +30,7 @@ class: center, middle, inverse, title-slide
 ### UCSB
 ]
 .date[
-### 2022-08-02
+### 2024-06-25
 ]
 .footnote[
 Special thanks to Robin Liu for select course content used with permission.
@@ -100,7 +100,7 @@ We *filtered* `x` based on its values.
 
 ---
 # Filtering
-## My gas bill in dollars for every month in order in 2021 is given:
+## My gas bill in dollars for every month in order in 2023 is given:
 ### 46, 33, 39, 37, 46, 30, 48, 32, 49, 35, 30, and 48.
 Create a vector called `gas_bill`.
 
@@ -175,13 +175,13 @@ are *recycled* so that the lengths of the two vectors match.
 You are warned against possible mistakes.
 ---
 # Recycling
-## My gas bill in dollars for every month in order in 2021 is given:
+## My gas bill in dollars for every month in order in 2023 is given:
 ### 46, 33, 39, 37, 46, 30, 48, 32, 49, 35, 30, and 48.
 
 SoCal Gas overcharged me $3 on odd numbered months (January, March, …) and undercharged me 
 $7 on even numbered months (February, April, …). 
 
-1. Update `gas_bill` to reflect my true gas costs in 2021
+1. Update `gas_bill` to reflect my true gas costs in 2023
 2. What is the difference between what I paid and what I actually owe?
 
 <div class="countdown" id="timer_62b350a7" style="right:0;bottom:0;" data-warnwhen="0">
@@ -735,6 +735,8 @@ class(x)
 ---
 # AVOID is.vector
 `is.vector` does not do what you think it does.
+
+`is.vector` checks for a basic, atomic vector _without additional attributes_ (except names), not just any one-dimensional structure.
 
 ---
 # Summary
