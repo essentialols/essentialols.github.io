@@ -1,0 +1,222 @@
+---
+title: "PSTAT 10 Worksheet 4"
+output:
+  pdf_document:
+    latex_engine: xelatex
+---
+
+In this worksheet, we will go through the steps to make the following plot in base R:
+
+```{r, echo = FALSE, fig.align = "center", fig.dim=c(10, 7), out.width="60%", out.height="60%"}
+x <- 1:20
+y <- c(-1.49, 3.37, 2.59, -2.78, -3.94, -0.92, 6.43, 8.51, 3.41, -8.23,
+  -12.01, -6.58, 2.87, 14.12, 9.63, -4.58, -14.78, -11.67, 1.17, 15.62)
+plot(x, y, type = "n", main = "A Sweet Plot")
+abline(h = c(-5, 5), col = "red", lty = 2, lwd = 2)
+segments(x0 = c(5, 15), y0 = c(-5, -5), x1 = c(5, 15), y1 = c(5, 5),
+         col = "red", lty = 3, lwd = 2)
+points(x[y >= 5], y[y >= 5], pch = 4, col = "darkmagenta", cex = 2)
+points(x[y <= -5], y[y <= -5], pch = 3, col = "darkgreen", cex = 2)
+points(x[(x >= 5 & x <= 15) & (y > -5 & y < 5)],
+       y[(x >= 5 & x <= 15)& (y > -5 & y < 5)],
+       pch = 19, col = "blue")
+points(x[(x < 5 | x > 15) & (y > -5 & y < 5)],
+       y[(x < 5 | x > 15) & (y > -5 & y < 5)])
+lines(x, y, lty = 4)
+arrows(x0 = 8, y0 = 14, x1 = 11, y1 = 2.5)
+text(8, 15, labels = "sweet spot")
+legend("bottomleft",
+  legend = c("sweet", "standard", "too big", "too small"),
+  pch = c(19, 1, 4, 3),
+  col = c("blue", "black", "darkmagenta", "darkgreen"),
+  pt.cex = c(1, 1, 2, 2)
+)
+```
+
+The idea is to plot 20 data points and graphically mark them depending on where they fall within provided bounds. E.g. points within the “sweet spot” are marked as such with blue solid points.
+
+In what follows, you may need to adjust the figure output from R Markdown. I used the following settings within a code chunk. `fig.dim` sets the width and height of a figure in inches `out.width` and `out.height` scale the figure.
+
+```r
+{r, fig.align = "center", fig.dim=c(10, 7), out.width="60%", out.height="60%"}
+```
+
+## Step 0: Generate the data
+
+```{r}
+x <- 1:20
+y <- c(-1.49, 3.37, 2.59, -2.78, -3.94, -0.92, 6.43, 8.51, 3.41, -8.23,
+  -12.01, -6.58, 2.87, 14.12, 9.63, -4.58, -14.78, -11.67, 1.17, 15.62)
+```
+
+## Step 1: Create an empty plot with a title.
+
+```{r, echo = FALSE}
+plot(x, y, type = "n", main = "A Sweet Plot")
+```
+
+## Step 2: y limits
+
+The abline function adds straight lines to an existing plot: `abline(b, m)` plots a line with y-intercept `b` and slope `m`. Alternatively, the `abline` has named arguments `h` and `v` that make it easy to plot horizontal and vertical lines: check out the help with `?abline`.
+
+Update the plot with two horizontal lines. Play around with `col`, `lty`, and `lwd` to get the line right.
+
+```{r, echo = FALSE}
+plot(x, y, type = "n", main = "A Sweet Plot")
+abline(h = c(-5, 5), col = "red", lty = 2, lwd = 2)
+```
+
+## Step 3: x limits
+
+The segments function adds line segments to an existing plot. `segments(x0, y0, x1, y1)` draws a line segment connecting the point `(x0, y0)` to `(x1, y1)`. Remember to check out the help: `?segments`.
+
+Add two vertical line segments connecting (5,−5) to (5,5) and connecting (15,−5) to (15,5). Remember to adjust the line type as needed.
+
+```{r, echo = FALSE}
+plot(x, y, type = "n", main = "A Sweet Plot")
+abline(h = c(-5, 5), col = "red", lty = 2, lwd = 2)
+segments(x0 = c(5, 15), y0 = c(-5, -5), x1 = c(5, 15), y1 = c(5, 5),
+         col = "red", lty = 3, lwd = 2)
+```
+
+## Step 4: Add “too big” points
+
+Using our vectors x and y, plot the pairs (x,y) such that y≥5. *Hint:* Use filtering to identify the points; filter both `x` and `y` vectors with some logical vector. I’ve use the R color “darkmagenta” and `cex=2` to enlarge the symbol. Find the correct × symbol for pch.
+
+```{r, echo = FALSE}
+plot(x, y, type = "n", main = "A Sweet Plot")
+abline(h = c(-5, 5), col = "red", lty = 2, lwd = 2)
+segments(x0 = c(5, 15), y0 = c(-5, -5), x1 = c(5, 15), y1 = c(5, 5),
+         col = "red", lty = 3, lwd = 2)
+points(x[y >= 5], y[y >= 5], pch = 4, col = "darkmagenta", cex = 2)
+```
+
+## Step 5: Add “too small” points
+
+Plot the points *(x,y)* such that y≤−5, using “darkgreen” + signs.
+
+```{r, echo = FALSE}
+plot(x, y, type = "n", main = "A Sweet Plot")
+abline(h = c(-5, 5), col = "red", lty = 2, lwd = 2)
+segments(x0 = c(5, 15), y0 = c(-5, -5), x1 = c(5, 15), y1 = c(5, 5),
+         col = "red", lty = 3, lwd = 2)
+points(x[y >= 5], y[y >= 5], pch = 4, col = "darkmagenta", cex = 2)
+points(x[y <= -5], y[y <= -5], pch = 3, col = "darkgreen", cex = 2)
+```
+
+## Step 6: Add “sweet spot” points
+
+Plot the points satisfying all of x≥5, x≤15, y>−5, and y<5 using blue solid dots. Remember that & is a vectorized logical AND operator.
+
+```{r, echo = FALSE}
+plot(x, y, type = "n", main = "A Sweet Plot")
+abline(h = c(-5, 5), col = "red", lty = 2, lwd = 2)
+segments(x0 = c(5, 15), y0 = c(-5, -5), x1 = c(5, 15), y1 = c(5, 5),
+         col = "red", lty = 3, lwd = 2)
+points(x[y >= 5], y[y >= 5], pch = 4, col = "darkmagenta", cex = 2)
+points(x[y <= -5], y[y <= -5], pch = 3, col = "darkgreen", cex = 2)
+points(x[(x >= 5 & x <= 15) & (y > -5 & y < 5)],
+       y[(x >= 5 & x <= 15) & (y > -5 & y < 5)], pch = 19, col = "blue")
+```
+
+## Step 7: Add the rest of the points
+
+Finally, we must account for the rest of the points. These points satisfy (x<5 OR x>15) AND (y>−5 AND y<5). Plot them with no graphical parameters (so they are black empty circles by default).
+
+```{r, echo = FALSE}
+plot(x, y, type = "n", main = "A Sweet Plot")
+abline(h = c(-5, 5), col = "red", lty = 2, lwd = 2)
+segments(x0 = c(5, 15), y0 = c(-5, -5), x1 = c(5, 15), y1 = c(5, 5),
+         col = "red", lty = 3, lwd = 2)
+points(x[y >= 5], y[y >= 5], pch = 4, col = "darkmagenta", cex = 2)
+points(x[y <= -5], y[y <= -5], pch = 3, col = "darkgreen", cex = 2)
+points(x[(x >= 5 & x <= 15) & (y > -5 & y < 5)], 
+       y[(x >= 5 & x <= 15) & (y > -5 & y < 5)], pch = 19, col = "blue")
+points(x[(x < 5 | x > 15) & (y > -5 & y < 5)], y[(x < 5 | x > 15) & (y > -5 & y < 5)])
+```
+
+## Step 8: Connect the dots
+
+Use `lines` to connect the dots as follows:
+
+```{r, echo = FALSE}
+plot(x, y, type = "n", main = "A Sweet Plot")
+abline(h = c(-5, 5), col = "red", lty = 2, lwd = 2)
+segments(x0 = c(5, 15), y0 = c(-5, -5), x1 = c(5, 15), y1 = c(5, 5),
+         col = "red", lty = 3, lwd = 2)
+points(x[y >= 5], y[y >= 5], pch = 4, col = "darkmagenta", cex = 2)
+points(x[y <= -5], y[y <= -5], pch = 3, col = "darkgreen", cex = 2)
+points(x[(x >= 5 & x <= 15) & (y > -5 & y < 5)],
+       y[(x >= 5 & x <= 15) & (y > -5 & y < 5)], pch = 19, col = "blue")
+points(x[(x < 5 | x > 15) & (y > -5 & y < 5)], y[(x < 5 | x > 15) & (y > -5 & y < 5)])
+lines(x, y, lty = 4)
+```
+
+## Step 9: Add sweet spot arrow
+
+Use `arrows` to add an arrow. This function is a lot like `segments` from Step 3, except there is an arrow head at one end. Add an arrow pointing from (8,14)
+ to (11,2.5)
+
+```{r, echo = FALSE}
+plot(x, y, type = "n", main = "A Sweet Plot")
+abline(h = c(-5, 5), col = "red", lty = 2, lwd = 2)
+segments(x0 = c(5, 15), y0 = c(-5, -5), x1 = c(5, 15), y1 = c(5, 5),
+         col = "red", lty = 3, lwd = 2)
+points(x[y >= 5], y[y >= 5], pch = 4, col = "darkmagenta", cex = 2)
+points(x[y <= -5], y[y <= -5], pch = 3, col = "darkgreen", cex = 2)
+points(x[(x >= 5 & x <= 15) & (y > -5 & y < 5)],
+       y[(x >= 5 & x <= 15) & (y > -5 & y < 5)], pch = 19, col = "blue")
+points(x[(x < 5 | x > 15) & (y > -5 & y < 5)], y[(x < 5 | x > 15) & (y > -5 & y < 5)])
+lines(x, y, lty = 4)
+arrows(x0 = 8, y0 = 14, x1 = 11, y1 = 2.5)
+```
+
+
+## Step 10: Add a “sweet spot” label to the arrow
+
+Text is added to an existing plot with the `text` function. Add the text “sweet spot” at the point (8,15) as follows:
+
+```r
+text(8, 15, labels = "sweet spot")
+```
+
+```{r, echo = FALSE}
+plot(x, y, type = "n", main = "A Sweet Plot")
+abline(h = c(-5, 5), col = "red", lty = 2, lwd = 2)
+segments(x0 = c(5, 15), y0 = c(-5, -5), x1 = c(5, 15), y1 = c(5, 5),
+         col = "red", lty = 3, lwd = 2)
+points(x[y >= 5], y[y >= 5], pch = 4, col = "darkmagenta", cex = 2)
+points(x[y <= -5], y[y <= -5], pch = 3, col = "darkgreen", cex = 2)
+points(x[(x >= 5 & x <= 15) & (y > -5 & y < 5)],
+       y[(x >= 5 & x <= 15) & (y > -5 & y < 5)], pch = 19, col = "blue")
+points(x[(x < 5 | x > 15) & (y > -5 & y < 5)],
+       y[(x < 5 | x > 15) & (y > -5 & y < 5)])
+lines(x, y, lty = 4)
+arrows(x0 = 8, y0 = 14, x1 = 11, y1 = 2.5)
+text(8, 15, labels = "sweet spot")
+```
+
+## Step 11: Add a legend
+
+```{r, echo = FALSE}
+plot(x, y, type = "n", main = "A Sweet Plot")
+abline(h = c(-5, 5), col = "red", lty = 2, lwd = 2)
+segments(x0 = c(5, 15), y0 = c(-5, -5), x1 = c(5, 15), y1 = c(5, 5),
+         col = "red", lty = 3, lwd = 2)
+points(x[y >= 5], y[y >= 5], pch = 4, col = "darkmagenta", cex = 2)
+points(x[y <= -5], y[y <= -5], pch = 3, col = "darkgreen", cex = 2)
+points(x[(x >= 5 & x <= 15) & (y > -5 & y < 5)],
+       y[(x >= 5 & x <= 15)& (y > -5 & y < 5)],
+       pch = 19, col = "blue")
+points(x[(x < 5 | x > 15) & (y > -5 & y < 5)],
+       y[(x < 5 | x > 15) & (y > -5 & y < 5)])
+lines(x, y, lty = 4)
+arrows(x0 = 8, y0 = 14, x1 = 11, y1 = 2.5)
+text(8, 15, labels = "sweet spot")
+legend("bottomleft",
+  legend = c("sweet", "standard", "too big", "too small"),
+  pch = c(19, 1, 4, 3),
+  col = c("blue", "black", "darkmagenta", "darkgreen"),
+  pt.cex = c(1, 1, 2, 2)
+)
+```

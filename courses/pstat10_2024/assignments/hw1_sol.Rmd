@@ -1,0 +1,203 @@
+---
+title: "PSTAT 10 Homework 1 Solutions"
+output: html_document
+---
+
+# Problem 1: Exploring the ecosystem
+
+(Unzip the tarball, navigate to an R script, and copy and paste a function’s 
+name and arguments (but not the body) to your homework solution. Comment on the 
+name of the function and how many arguments it has.)
+
+Various answers.
+
+# Problem 2: More ecosystem exploration
+
+CHANGES IN R 4.4.1:
+
+* C-LEVEL FACILITIES:
+
+    - Functions R_atof and R_strtod declared in header R_ext/Utils.h
+      are now documented in 'Writing R Extensions' and so formally part
+      of the API.
+
+    - The non-API entry points Rf_setSVector, Rf_StringFalse,
+      Rf_StringTrue and Rf_isBlankString have been added to those
+      reported by R CMD check.
+
+    - The new function Rf_allocLang is now available. This provides an
+      alternative to the idiom of calling Rf_allocList followed by
+      SET_TYPEOF.
+
+*  UTILITIES:
+    - R CMD check now reports as warnings what gfortran calls 'Fortran
+      2018 deleted features', all of which have long been marked as
+      'obsolescent' and some of which were deleted in Fortran 2008 or
+      earlier.  Fortran compilers are no longer required to support
+      these.
+
+*  BUG FIXES:
+    - as.numeric(), scan(), type.convert() and other places which use
+      the internal C function R_strtod now require a _non-empty_ digit
+      sequence in a decimal or binary exponent.  This aligns with the
+      C/POSIX standard for strtod and with ?NumericConstants.
+    - as.data.frame(m, make.names=NA) now works correctly for a matrix
+      m with NA's in row names.
+    - The error message from <POSIXlt>[["hour"]] and similar now
+      mentions *[[, "hour"]], as wished for in PR#17409 and proposed by
+      Michael Chirico.
+    - qbinom() and potentially qpois(), qnbinom(), no longer sometimes
+      fail accurate inversion (of pbinom(), etc), thanks to Christopher
+      Chang's report and patch in PR#18711.
+    - The internal help server on Windows can again serve requests sent
+      in quick succession, fixing a regression in R 4.4.0.
+    - debugcall(<S3Generic>()) now also works when a corresponding
+      S4-generic version is in the methods cache (PR#18143).
+    - Package tools' toTitleCase(ch0) now returns character(0) when ch0
+      is of zero length; fixing PR#18724, reported by David Hugh Jones.
+    - R CMD check is no longer broken (without a check result and no
+      explanation in 00check.log) for a package which declares an
+      invalid VignetteBuilder in DESCRIPTION but has no vignettes.
+
+# Problem 3: State areas
+
+```{r}
+library(datasets)
+```
+
+
+Find the mean area of all states.
+
+```{r}
+mean(state.area)
+```
+
+
+Find the median area of all states.
+
+```{r}
+median(state.area)
+```
+
+Find the name and the area of the smallest state.
+
+```{r}
+smallest <- which.min(state.area)
+c(state.area[smallest], state.name[smallest])
+```
+
+Find the name and the area of the largest state.
+```{r}
+largest <- which.max(state.area)
+c(state.area[largest], state.name[largest])
+```
+
+# Problem 4: Dot product
+
+```{r}
+dot_product <- function(x, y) {
+  if (is.numeric(x) && is.numeric(y)) {
+    return(sum(x * y))
+  }
+  print("Both arguments must be numeric!")
+}
+dot_product(1:3, c(0, 1, 5))
+```
+
+```{r}
+dot_product(2, 4)
+```
+
+```{r}
+dot_product(c(1, 1), c("dog", "cat"))
+```
+
+
+# Problem 5: Frobenius norm
+```{r}
+frobenius_norm <- function(mx) {
+  if (!is.numeric(mx)) {
+    print("Argument must be numeric!")
+  } else if (!is.matrix(mx)) {
+    print("Argument must be a matrix!")
+  } else {
+    sqrt(sum(mx^2))
+  }
+}
+frobenius_norm(matrix(1:4, nrow = 2, ncol = 2))
+```
+
+```{r}
+frobenius_norm(c(3,5,7,10,15,21))
+```
+
+```{r}
+frobenius_norm(matrix(c(3,5,7,10,15,21), nrow = 2, ncol = 3))
+```
+
+```{r}
+frobenius_norm(matrix(c(3,"fish",7,10,15,21), nrow = 2, ncol = 3))
+```
+
+# Problem 6: Compare Count
+
+```{r}
+compare_count <- function(x, y, comp = ">") {
+  if(!is.numeric(x) || !is.numeric(y)) {
+    print("Both vectors must be numeric!")
+    return()
+  }
+  if (length(x) != length(y)){
+    print("Both vectors must have the same length!")
+    return()
+  }
+  
+  if (!(comp %in% c('>', '<', '='))) {
+    print("Unrecognized compare operator!")
+    return()
+  }
+  
+  if (comp == '>') {
+    return(sum(x > y))
+  }
+  
+  if (comp == '<') {
+    return(sum(x < y))
+  }
+  
+  if (comp == '=') {
+    return(sum(x == y))
+  }
+}
+compare_count(rep(1, 5), rep(2, 5))
+```
+
+
+```{r}
+compare_count(rep(1, 5), rep(2, 5), ">")
+```
+
+
+```{r}
+compare_count(c(1, 2, 1, 2, 1), rep(2, 5), "<")
+```
+
+```{r}
+compare_count(c(1, 2, 1, 2, 1), rep(2, 5), "=")
+```
+
+```{r}
+compare_count(c(1, 2, 1, 2, 1), rep(2, 5), ">=")
+```
+
+```{r}
+compare_count(c(1, 2, 1, 2, 1), rep(2, 6), "=")
+```
+
+```{r}
+compare_count(c(1, 2, 1, 2, "owl"), rep(2, 6))
+```
+
+# Problem 7: Styling your code
+
+Code should be styled according to tidyverse style guide.

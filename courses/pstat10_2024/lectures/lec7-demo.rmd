@@ -2,7 +2,7 @@
 
 #### Ingmar
 
-#### 2022-06-30
+#### 2022-07-03
 
 We will need the following packages:
 
@@ -18,7 +18,8 @@ library(datasets)
 ## Create a scatter plot (slide 7)
 
 ```{r}
-plot(airquality$Solar.R, airquality$Ozone)
+plot(airquality$Solar.R, airquality$Ozone, main = "Solar Radiation vs. Ozone",
+     xlab = "Solar Radiation (lang)", ylab = "Ozone (ppb)")
 trend <- lm(airquality$Ozone ~ airquality$Solar.R)
 abline(trend, col = "red")
 ```

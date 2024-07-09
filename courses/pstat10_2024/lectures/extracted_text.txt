@@ -1,0 +1,3912 @@
+PSTAT 10
+Principles of Data Science
+Lecture 1: Course logistics, the R ecosystem, Vectors
+Ingmar Sturm
+UCSB
+2024-06-24
+Special thanks to Robin Liu for select course content used with permission.
+
+A Job Ad
+
+2 / 42
+
+
+
+functions
+...
+3 / 42
+
+Why come to class?
+How to draw an owl
+
+4 / 42
+
+Why come to class?
+How to draw an owl
+
+5 / 42
+
+Grading
+Lab worksheets: 25%
+Homework: 25%
+Midterm exam: 20%
+Final exam: 30%
+Discussion forum: (positive) tie-breaker
+Attendance and participation: (negative) tie-breaker
+Lab worksheets are graded pass/fail based on completion.
+
+Don't fall behind!!
+I have designed this class so that contents will build on top of each other. This means
+the lectures may refer to material in the lab worksheets or homework. Skipping an
+assignment will mean missing a large portion of the material.
+If you need help keeping up, please use office hours.
+
+6 / 42
+
+Discussion Forum, Office Hours, and Email Policy
+It is normal to have questions and we are happy to answer them
+Email overload is a thing
+So please try to ask your questions either during or after class or during our office
+hours
+If you have questions about course rules or content that might be of interest to
+others, please ask them in the discussion forum
+Reserve email for all other questions
+
+7 / 42
+
+About me
+PhD Student in the Political Science
+department since 2017
+MA Statistics (Data Science) in 2021
+Coding in R since 2013
+Developed R package fbsamplR
+Fun fact: My dog's name is Barbara
+
+8 / 42
+
+Programming for data science
+
+9 / 42
+
+Why R?
+Designed for statistical research
+R is open source
+Large ecosystem (a lot of people use it)
+Easy to simulate random experiments
+Intuitive data exploration, manipulation, and plotting
+The R Graph Gallery
+
+10 / 42
+
+The R Ecosystem
+What does it mean to be open source?
+Not only is R free to use, you can download its source code
+https://mirror.las.iastate.edu/CRAN/sources.html
+A community of researchers continually add functionality in the form of packages
+These packages are also open source
+https://mirror.las.iastate.edu/CRAN/
+Many of our faculty at PSTAT have developed their own packages as part of their
+research
+Exercise: find out what packages and by whom.
+
+11 / 42
+
+The difficulty of teaching an intro class
+R contains a lot of functionality. I am still constantly finding out new things about R.
+It was hard to pick what to include and exclude from this class.
+I encourage you to look at functionality beyond the course material.
+Generally speaking, if your code produces correct output, it is correct. Unless the
+question asks for a particular method.
+
+12 / 42
+
+Use the help
+The ? operator searches the documentation for the given function. This is displayed in
+the RStudio help window.
+What does the seq_len function do?
+?seq_len
+
+01:00
+13 / 42
+
+Use Google and StackOverflow
+These websites are your friends. Especially StackOverflow.
+Searching for coding solutions online is a skill.
+
+14 / 42
+
+Avoid copy pasting code
+I encourage you to work together and to search online for help.
+But avoid simply copy/pasting code. If you find some code you want to use, you must
+type it in manually.
+Typing the code character-for-character will teach you more than copy pasting.
+
+15 / 42
+
+AI — ChatGPT, Google Gemini, Copilot, etc.
+AI is a powerful tool. Use it to your advantage by asking questions and learning.
+Abusing AI is a form of self-harm. It will hurt you in the long run.
+Abusing AI is a form of academic dishonesty. If discovered, you may fail the class.
+
+16 / 42
+
+Dos and Don'ts with AI
+Do use AI to help you learn (e.g. "Explain in different words: ...")
+Do use AI to help you debug (e.g. "R error: object not found", "What's wrong with
+this code?")
+Do use AI to help you find solutions (e.g. "R how to sort a vector")
+Do use AI to help you understand (e.g. "ELI5 R for loops")
+Don't use AI to do your work for you
+Don't copy-paste AI answers
+Don't use AI to cheat
+Don't use AI to avoid learning
+Don't use AI to avoid thinking
+General recommendation: Use AI to learn/reinforce what we cover in this course. We
+will notice if you suddenly start using advanced techniques we haven't covered yet.
+
+17 / 42
+
+Tools of the trade
+R console: a program that interprets R code, one line at a time
+RStudio: an integrated development environment (IDE)
+We will primarily use RStudio, but do note that the above are different things.
+
+image credit
+
+18 / 42
+
+Customize RStudio
+In RStudio, navigate to Tools > Global Options > Appearance and choose a theme that
+you like.
+Also adjust these settings:
+
+05:00
+19 / 42
+
+Installing a Package
+install.packages("cowsay")
+
+If you don't like this package...
+remove.packages("cowsay")
+
+Exercise: Where on your computer are these packages actually installed?
+
+20 / 42
+
+Week 1: Programming Concepts
+https://iqss.github.io/dss-workshops/R/Rintro/base-r-cheat-sheet.pdf
+
+21 / 42
+
+R as a calculator
+2 + 3
+## [1] 5
+2 * 3
+## [1] 6
+2^3
+## [1] 8
+exp(4.2) # raise 4.2 to the power of e
+## [1] 66.68633
+log(exp(4.2))
+## [1] 4.2
+22 / 42
+
+Calculator
+Evaluate
+5
+
+7
+
+− 2√ 4
+
+log2 (100)
+
+Hint: Type ?log and ?sqrt in the console to access the help.
+
+05:00
+23 / 42
+
+Assignment operator
+Assignment operator: we usually want to save the result of an expression using <Three datatypes: Numeric, Character, Logical
+hello <- "Hello world!"
+print(hello)
+# [1] "Hello world!"
+result <- 55 + 77
+result # print function not needed if executing in the console
+# [1] 132
+istrue <- 10 == 10
+print(istrue)
+# [1] TRUE
+
+24 / 42
+
+Assignment operator
+A trick I will sometimes use
+
+hello <- "Hello world!"
+hello
+
+(hello <- "Hello world!")
+## [1] "Hello world!"
+
+## [1] "Hello world!"
+
+The dreaded '+' in the console
+Run the following
+hello <- "Hello world!
+
+What happens?
+
+25 / 42
+
+Assignment operator
+This may be surprising...
+my_vector <- c(5, 3, 7, 1, 0)
+sort(my_vector)
+## [1] 0 1 3 5 7
+
+What is the new value of my_vector ?
+my_vector
+## [1] 5 3 7 1 0
+
+my_vector was unchanged by sort ! We must change it by hand:
+my_vector <- sort(my_vector)
+
+26 / 42
+
+Vectors
+The most fundamental data structure in R
+
+27 / 42
+
+Vectors
+Vectors are called atomic because they can contain only one data type.
+Ways to create (atomic) vectors: combine function, colon operator, seq, and rep
+
+vec_comb <- c(1, 2, 3, 4, 5, 6)
+print(vec_comb)
+
+vec_seq2 <- seq_len(6)
+print(vec_seq2)
+
+## [1] 1 2 3 4 5 6
+
+## [1] 1 2 3 4 5 6
+
+vec_colon <- 1:6
+print(vec_colon)
+
+vec_rep <- rep(1:3, 3)
+print(vec_rep)
+
+## [1] 1 2 3 4 5 6
+
+## [1] 1 2 3 1 2 3 1 2 3
+
+vec_seq <- seq(1, 6, 2)
+print(vec_seq)
+
+vec_rep_each <- rep(1:3, each = 3)
+print(vec_rep_each)
+
+## [1] 1 3 5
+
+## [1] 1 1 1 2 2 2 3 3 3
+28 / 42
+
+Vectors
+Create a vector x containing values (1, 2, 6) and a vector y containing values (1, 1, 1).
+What is the result of the following?
+x + y
+
+02:00
+29 / 42
+
+Vectors
+length and typeof
+length(0:89)
+
+length(100)
+
+## [1] 90
+
+## [1] 1
+
+typeof(0:89)
+
+Scalars are length-one vectors
+
+## [1] "integer"
+
+Vector datatype hierarchy
+
+length(c(TRUE, FALSE))
+## [1] 2
+typeof(c(TRUE, FALSE))
+## [1] "logical"
+
+30 / 42
+
+Working with logicals
+A logical statement is either TRUE or FALSE
+Comparing numerics
+
+Comparing strings
+
+10 > 10
+
+"cat" == "dog"
+
+## [1] FALSE
+
+## [1] FALSE
+
+10 >= 10
+
+"cat" != "dog"
+
+## [1] TRUE
+
+## [1] TRUE
+
+5 == 10
+
+"cat" < "dog" # ?? best to avoid
+
+## [1] FALSE
+
+## [1] TRUE
+
+5 != 10
+## [1] TRUE
+
+31 / 42
+
+Logicals
+Combining logical expressions
+5 < 10 & "cat" == "dog" # logical and
+## [1] FALSE
+5 < 10 | "cat" == "dog" # logical or
+## [1] TRUE
+
+32 / 42
+
+Logicals
+Weird but useful facts
+TRUE and FALSE can be abbreviated T and F
+FALSE has numeric value 0
+TRUE has numeric value 1
+What is TRUE + TRUE * FALSE + FALSE?
+T + T * F + F
+## [1] 1
+
+33 / 42
+
+Vectors
+Some built-in functions
+x <- 11:99
+sum(x)
+
+y <- c(T, F, F, T, T)
+sum(y)
+
+## [1] 4895
+
+## [1] 3
+
+mean(x)
+## [1] 55
+median(x)
+## [1] 55
+summary(x)
+##
+##
+
+Min. 1st Qu.
+11
+33
+
+Median
+55
+
+Mean 3rd Qu.
+55
+77
+
+Max.
+99
+34 / 42
+
+Vectors
+Subsetting
+x <- c(1, 3, 5, 6)
+x[c(1, 3)] # using a numeric vector
+## [1] 1 5
+x[c(T, F, T, T)] # using a logical vector
+## [1] 1 5 6
+x[-3] # using a negative index
+## [1] 1 3 6
+
+What is the result of x[-c(1, 3)] ?
+
+01:00
+35 / 42
+
+Named Vectors
+We can name each element of a vector
+x <- c(1, 3, 5, 6)
+names(x) <- c("a", "b", "c", "d")
+x
+## a b c d
+## 1 3 5 6
+x[c("b", "d")] # subsetting by name
+## b d
+## 3 6
+
+36 / 42
+
+Vectors
+Suppose we have test scores for 5 students: Bob, Alice, Alex, Juan and Amy.
+Their scores are 8, 7, 8, 10, and 5 respectively.
+1. Create a vector of these scores.
+2. Find the mean score in two ways (using mean and using sum ).
+3. Find the median score.
+4. Assign the name of each student to their test score.
+5. Retrieve Alice's score in two ways.
+6. Retrieve Amy's and Alice's score, in that order.
+7. Retrieve all except Amy's score.
+
+10:00
+37 / 42
+
+Style
+Typical R code :(
+
+38 / 42
+
+Style
+Follow the tidyverse style guide
+A major part of coding is communicating with other developers. It is very important to
+adhere to a style convention.
+This is what I use and suggest. Take some time to look at chapters 1 - 3.
+https://style.tidyverse.org/
+I thought about grading your code style but decided against it. But if your code is
+unreadable points will be deducted
+Consider using the styler addin for RStudio.
+
+39 / 42
+
+Style
+In RStudio you should see a faint line at the 80 character mark. It is widespread coding
+practice across all languages to keep your lines of code under 80 characters per line.
+x <- 1000 # Make sure you don't go past the 80 character mark or else your code might look
+
+40 / 42
+
+A note about comments
+Explain tricky code with comments, but do not overuse them.
+In my experience, a bad comment is worse than no comment at all.
+In this class, comments will sometimes be required for grading purposes. Assignment
+will say "Comment with the answer".
+# assign to result the value of 45 plus 64
+result <- 45 + 64
+print(result) # print the result
+## [1] 109
+
+# Were the above comments really necessary?
+
+41 / 42
+
+Summary
+R Ecosystem
+Vectors
+numeric, character (strings), logical
+Subsetting Vectors
+
+42 / 42
+
+Lecture 3: Functions and control flow
+The heart of any programming language
+Ingmar Sturm
+UCSB
+2024-06-26
+
+Special thanks to Robin Liu for select course content used with permission.
+
+Functions
+What is a function?
+
+img credit: Robert Ghrist
+
+This function, called d, takes some inputs (red arrow) and returns some output (green
+arrow).
+The inputs to a function are also called arguments.
+
+2 / 27
+
+Functions
+Anatomy of a function in R
+increment_power <- function(x, pwr = 2) {
+x <- x + 1
+return(x^pwr)
+}
+increment_power(2, 3)
+## [1] 27
+increment_power(5)
+## [1] 36
+
+increment_power is the name of this function. It has two arguments. The body of
+increment_power are the two lines below. It returns the value of x^pwr .
+x <- x + 1
+return(x^pwr)
+3 / 27
+
+Functions
+Anatomy of a function in R
+increment_power <- function(x, pwr = 2) {
+x <- x + 1
+return(x^pwr)
+}
+increment_power(2, 3)
+## [1] 27
+increment_power(5)
+## [1] 36
+
+pwr is a default argument with default value 2. You see default arguments
+everywhere in the R help:
+matrix(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
+dimnames = NULL)
+4 / 27
+
+Functions
+Anatomy of a function in R
+increment_power <- function(x, pwr = 2) {
+x <- x + 1
+return(x^pwr)
+}
+increment_power(x = 2, pwr = 3)
+## [1] 27
+increment_power(x = 5)
+## [1] 36
+
+Specifying the name of the argument often improves code readability.
+Last class, we specified these names:
+x <- matrix(1:6, nrow = 2, ncol = 3)
+5 / 27
+
+Functions
+Default arguments
+Another example from the R help.
+## Default S3 method:
+seq(from = 1, to = 1, by = ((to - from)/(length.out - 1)),
+length.out = NULL, along.with = NULL, ...)
+seq(1, 4, 0.5)
+## [1] 1.0 1.5 2.0 2.5 3.0 3.5 4.0
+seq(1, 4, by = 0.5)
+## [1] 1.0 1.5 2.0 2.5 3.0 3.5 4.0
+
+Remember a main goal of coding is to communicate with other coders.
+
+6 / 27
+
+Functions
+increment_power <- function(x, pwr = 2) {
+x <- x + 1
+return(x^pwr)
+}
+
+1. Implement the increment_power function
+2. What happens if you pass in a vector for x ? For pwr ? For both?
+3. Is this function vectorized? Did recycling occur?
+You should always test your function on a variety of different inputs. What is the
+result of increment_power("cat") ?
+
+03:00
+7 / 27
+
+Functions
+The value of the last statement in a function is automatically returned.
+This is a quirk if you're used to other languages.
+increment_power <- function(x, pwr = 2) {
+x <- x + 1
+x^pwr # No "return" keyword!
+}
+increment_power(2, 3)
+## [1] 27
+
+8 / 27
+
+Branching
+if, else, ifelse
+
+9 / 27
+
+Branching
+We often want to decide what to do based on the truth-value of a logical expression.
+logical_exp <- FALSE
+if (logical_exp) {
+print("It is true")
+} else {
+print("It is false")
+}
+## [1] "It is false"
+
+Most useful in functions and loops.
+
+10 / 27
+
+Branching
+What is the result of the following?
+
+What about this one?
+
+logical_exp1 <- TRUE
+logical_exp2 <- TRUE
+
+logical_exp1 <- TRUE
+logical_exp2 <- TRUE
+
+if (logical_exp1) {
+print("A")
+} else if (logical_exp2) {
+print("B")
+} else {
+print("C")
+}
+
+if (logical_exp1) {
+print("A")
+}
+if (logical_exp2) {
+print("B")
+} else {
+print("C")
+}
+
+00:30
+11 / 27
+
+Branching in a function
+How I will assign grades for the class
+grade <- function(x) {
+if (x > 90) {
+"A"
+} else if (x > 80) {
+"B"
+} else if (x > 50) {
+"C"
+} else {
+"F"
+}
+}
+
+grade("89.999")
+## [1] "B"
+
+jk
+12 / 27
+
+Branching
+Create a function noise that takes a farm animal and returns its sound. Possible
+animals are cow, pig, dog, and owl.
+
+noise("cow")
+
+noise("dog")
+
+## [1] "moo"
+
+## [1] "woof"
+
+noise("pig")
+
+noise("capybara")
+
+## [1] "oink"
+
+## [1] "Animal is not recognized!"
+
+noise("owl")
+## [1] "hoot"
+
+05:00
+13 / 27
+
+Branching
+Create a function parity that takes a number and returns whether its even or odd. If
+neither even or odd (e.g. input is a decimal), return "Not an integer!".
+Hint: the %% operator is the modulus operator. x %% y gives the remainder when x is
+divided by y .
+parity(4)
+## [1] "even"
+parity(17)
+## [1] "odd"
+parity(12.43)
+## [1] "Not an integer!"
+
+05:00
+14 / 27
+
+Loops
+
+15 / 27
+
+For loop
+Typical scenario: loop over a vector of stuff.
+for (animal in c("cow", "pig", "dog", "owl")) {
+print(paste(animal, "says", noise(animal)))
+}
+## [1] "cow says moo"
+## [1] "pig says oink"
+## [1] "dog says woof"
+## [1] "owl says hoot"
+
+16 / 27
+
+For loop
+There are equivalent ways to do the previous loop.
+animals <- c("cow", "pig", "dog", "owl")
+seq_along(animals)
+## [1] 1 2 3 4
+for(i in seq_along(animals)) {
+print(paste(animals[i], "says", noise(animals[i])))
+}
+## [1] "cow says moo"
+## [1] "pig says oink"
+## [1] "dog says woof"
+## [1] "owl says hoot"
+
+Now we have the loop index i we can use for other stuff.
+The letters i , j , and k are typically used as the loop index variable. Follow this!
+17 / 27
+
+For loop
+Modify the previous loop to create a vector of animal sounds.
+animals <- c("cow", "pig", "dog", "owl")
+noises <- vector(length = length(animals)) # an "initialized" vector to fill out
+for(i in seq_along(animals)) {
+noises[i] <- noise(animals[i])
+}
+noises
+## [1] "moo"
+
+"oink" "woof" "hoot"
+
+We needed a loop index to fill out the result vector.
+
+18 / 27
+
+Function with branching loop
+Create a function parity_vec that takes a vector and returns a vector of "even" or
+"odd" depending on the corresponding entry.
+parity_vec(1:5)
+## [1] "odd"
+
+"even" "odd"
+
+"even" "odd"
+
+parity_vec(c(12, 320, 598, 23))
+## [1] "even" "even" "even" "odd"
+
+05:00
+19 / 27
+
+Vectorized ifelse
+ifelse(c(T, F, T, T), "hello", "goodbye")
+## [1] "hello"
+
+"goodbye" "hello"
+
+"hello"
+
+Here is an example of when a vectorized solution beats using a loop. Rewrite
+parity_vec to use the vectorized ifelse .
+Hint: The modulus operator %% is vectorized: run 1:10 %% 2 in the console.
+parity_vec(1:5)
+## [1] "odd"
+
+"even" "odd"
+
+"even" "odd"
+
+parity_vec(c(12, 320, 598, 23))
+## [1] "even" "even" "even" "odd"
+
+Now our function is vectorized.
+It wasn't before because we used a loop.
+
+02:00
+20 / 27
+
+sapply
+A common operation
+Recall our noise function. What if we wanted to pass in a vector of animals and return
+a vector of sounds?
+> noise(c("cow", "owl"))
+Error in if (animal == "cow") { : the condition has length > 1
+
+noise is not a vectorized function
+sapply(c("cow", "owl"), noise)
+##
+##
+
+cow
+owl
+"moo" "hoot"
+
+Behind the scenes sapply creates a loop and applies noise to each element of c("cow",
+"owl") , returning a vector of results
+
+21 / 27
+
+sapply
+sapply simplifies this kind of operation:
+animals <- c("cow", "pig", "dog", "owl")
+noises <- vector(length = length(animals))
+for(i in seq_along(animals)) {
+noises[i] <- noise(animals[i])
+}
+noises
+## [1] "moo"
+
+"oink" "woof" "hoot"
+
+sapply(animals, noise)
+##
+##
+
+cow
+pig
+dog
+owl
+"moo" "oink" "woof" "hoot"
+
+22 / 27
+
+sapply
+Do we always need it?
+Not if our function is already vectorized!
+increment_power <- function(x, pwr = 2) {
+x <- x + 1
+return(x^pwr)
+}
+sapply(1:4, increment_power)
+## [1]
+
+4 9 16 25
+
+increment_power(1:4) # faster since no loop is created
+## [1]
+
+4 9 16 25
+
+23 / 27
+
+Not covered
+I did not mention while and break in this class. Here it is finally:
+i <- 1
+while(TRUE) {
+if (i == 4) {
+break
+}
+print("this takes a while")
+i <- i + 1
+}
+## [1] "this takes a while"
+## [1] "this takes a while"
+## [1] "this takes a while"
+
+This construct is common, but I didn't want to clutter this lecture. It turns out that for
+loops are generally better than while loops.
+
+24 / 27
+
+Problem solving
+We now have enough tools to solve some basic programming puzzles.
+Next lecture, we will explore some leetcode problems with R.
+Main tools: vectors, functions, branching, loops.
+
+25 / 27
+
+Problem solving example
+You are given a numeric vector v and a number target . Create a function
+remove_elt(v, target) that returns a vector containing elements of v but with target
+removed.
+remove_elt <- function(v, target) {
+# Your code here
+}
+
+remove_elt(c(2, 3, 3, 5), 3)
+## [1] 2 5
+remove_elt(c(14, 14, 7, 7, 14, 10), 14)
+## [1]
+
+7 7 10
+
+26 / 27
+
+Main takeaways
+There was a lot of info today...
+Functions let you perform the same operation on a variety of different inputs
+Branching and looping are useful ideas within a function.
+Always look for vectorization before reaching for a loop.
+Passing in a vector to a function is important. If function is not vectorized,
+consider sapply , or more advanced techniques (maybe more later).
+You must practice this a lot.
+
+27 / 27
+
+Lecture 2: Vector and Matrix Operations
+Filtering, Recycling, Vectorization
+Ingmar Sturm
+UCSB
+2024-06-25
+
+Special thanks to Robin Liu for select course content used with permission.
+
+Three Important R Techniques
+Filtering, Recycling, and Vectorization
+
+2 / 30
+
+Filtering
+Recall that we can subset a vector by a logical vector
+x <- 1:10
+subs <- rep(c(F, T), each = 5)
+
+Quick quiz: what is the result of x[subs] ?
+Often we want to select values from x that satisfy some property. The above can be
+returned as follows:
+x[x > 5]
+## [1]
+
+6 7
+
+8
+
+9 10
+
+01:00
+3 / 30
+
+Filtering
+How did this work?
+x
+##
+
+[1]
+
+1 2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9 10
+
+x > 5
+##
+
+[1] FALSE FALSE FALSE FALSE FALSE
+
+TRUE
+
+TRUE
+
+TRUE
+
+TRUE
+
+TRUE
+
+x[x > 5]
+## [1]
+
+6 7
+
+8
+
+9 10
+
+We filtered x based on its values.
+
+4 / 30
+
+Filtering
+My gas bill in dollars for every month in order in 2023 is given:
+46, 33, 39, 37, 46, 30, 48, 32, 49, 35, 30, and 48.
+Create a vector called gas_bill .
+1. Verify that all months are accounted for (12 entries total).
+2. Find the number of months where the gas bill exceeded $40. How does this work?
+3. Find the percentage of months where the gas bill exceeded $40.
+4. Find the total of how much I paid in gas over all months where the gas bill
+exceeded $40.
+
+05:00
+5 / 30
+
+Recycling
+In most cases, two vectors must have the same length in order to be operated on:
+c(2, 4) + c(6, 3)
+## [1] 8 7
+
+For many operations between two vectors, the elements in the shorter vector are
+recycled so that the lengths of the two vectors match.
+1:4 + c(2, 3)
+## [1] 3 5 5 7
+1:4 + c(2, 3, 2, 3)
+## [1] 3 5 5 7
+
+6 / 30
+
+Recycling
+A warning may appear when...
+1:4 + 1:3
+## Warning in 1:4 + 1:3: longer object length is not a multiple of shorter object
+## length
+## [1] 2 4 6 5
+1:4 + c(1, 2, 3, 1)
+## [1] 2 4 6 5
+
+You are warned against possible mistakes.
+
+7 / 30
+
+Recycling
+My gas bill in dollars for every month in order in 2023 is given:
+46, 33, 39, 37, 46, 30, 48, 32, 49, 35, 30, and 48.
+SoCal Gas overcharged me $3 on odd numbered months (January, March, …) and
+undercharged me $7 on even numbered months (February, April, …).
+1. Update gas_bill to reflect my true gas costs in 2023
+2. What is the difference between what I paid and what I actually owe?
+
+05:00
+8 / 30
+
+Recycling
+Adding a vector to a number.
+x <- 1:10
+x + 6
+##
+
+[1]
+
+7 8
+
+9 10 11 12 13 14 15 16
+
+Did recycling occur?
+
+9 / 30
+
+Vectorization
+→ = (x1 , x2 , … , xn ) results in a
+A function f is vectorized if applying f to a vector x
+→.
+vector of f applied to each element of x
+→
+
+f (x) = (f (x1 ), f (x2 ), … , f (xn ))
+
+.
+
+Vector in, vector out
+Vectorization is extremely fast
+Later we will discuss loops. You should always look for a vectorized solution
+before reaching for a loop in R.
+Many operations in R are already vectorized
+(x <- (5:10)^2)
+## [1]
+
+25 36
+
+49
+
+64
+
+81 100
+
+log(x)
+## [1] 3.218876 3.583519 3.891820 4.158883 4.394449 4.605170
+10 / 30
+
+Vectorization
+1. Find the sum of the square roots of every integer from 1 to 1000.
+2. Find the product of the natural log of every integer from 100 to 200.
+3. Find the sum of the integers between 1 and 100 whose square is between 300 and
+500.
+
+10:00
+11 / 30
+
+Matrices, Arrays, and Lists
+Data with dimensionality
+
+12 / 30
+
+Data naturally have dimensions
+Often times, a vector (1-D) is not enough.
+
+https://trucvietle.me/r/tutorial/2017/01/18/spatial-heat-map-plotting-using-r.html
+13 / 30
+
+Matrices
+Create a matrix in several ways
+(x <- seq(-5, 5, 2))
+## [1] -5 -3 -1
+
+1
+
+3
+
+rbind(c(-5, -1, 3), c(-3, 1, 5))
+5
+
+x_mx <- matrix(x, nrow=2, ncol=3)
+x_mx
+
+##
+## [1,]
+## [2,]
+
+[,1] [,2] [,3]
+-5
+-3
+
+-1
+1
+
+3
+5
+
+cbind(c(-5, -3), c(-1, 1), c(3, 5))
+##
+[,1] [,2] [,3]
+## [1,]
+-5 -1
+3
+## [2,]
+-3
+1
+5
+
+##
+[,1] [,2] [,3]
+## [1,] -5 -1
+3
+## [2,] -3
+1
+5
+
+14 / 30
+
+Matrices
+A matrix is just an atomic vector...
+except endowed with extra information: the dimension
+
+(x <- 1:4)
+
+dim(x) <- c(2, 2)
+x
+
+## [1] 1 2 3 4
+dim(x)
+
+##
+[,1] [,2]
+## [1,]
+1
+3
+## [2,]
+2
+4
+
+## NULL
+dim(x)
+is.matrix(x)
+## [1] 2 2
+## [1] FALSE
+is.matrix(x)
+## [1] TRUE
+15 / 30
+
+Matrices
+Because matrices are just vectors; recycling, filtering, and vectorization rules apply to
+them.
+Subsetting a matrix is different: an index is provided to each dimension.
+
+(x <- matrix(1:4, nrow=2, ncol=2))
+
+Omitting an index returns all items in
+that dimension
+
+##
+[,1] [,2]
+## [1,]
+1
+3
+## [2,]
+2
+4
+
+x[, 2]
+## [1] 3 4
+
+x[1, 1]
+x[1, ]
+## [1] 1
+## [1] 1 3
+x[2, 1]
+## [1] 2
+16 / 30
+
+Matrices
+(x <- matrix(1:9, nrow=3, ncol=3))
+##
+[,1] [,2] [,3]
+## [1,]
+1
+4
+7
+## [2,]
+2
+5
+8
+## [3,]
+
+3
+
+6
+
+9
+
+What is the result of x[1:2, -3] ?
+
+01:00
+17 / 30
+
+Matrices
+Create a 4 × 5 matrix mx of integers 1 through 17 (inclusive). Print the matrix.
+1. Did filtering, recycling, or vectorization occur?
+2. Subset mx to create the following matrix:
+##
+[,1] [,2] [,3]
+## [1,]
+1
+5 17
+## [2,]
+
+4
+
+8
+
+3
+
+1. Set all entries of mx greater than 10 to zero. Did filtering, recycling, or
+vectorization occur?
+
+05:00
+18 / 30
+
+Matrices
+Like vectors, rows and columns of a matrix can be named.
+scores <- matrix(c(7, 6, 9, 8, 8, 9, 10, 5, 7), nrow = 3, ncol = 3)
+colnames(scores) <- c("Anna", "Joe", "Carl")
+rownames(scores) <- c("midterm1", "midterm2", "final")
+scores
+##
+Anna Joe Carl
+## midterm1
+7
+8
+10
+## midterm2
+6
+8
+5
+## final
+
+9
+
+9
+
+scores["midterm2", -3]
+## Anna
+##
+6
+
+Joe
+8
+
+7
+
+What is the output?
+scores[scores[,3] > 5, ]
+
+00:30
+19 / 30
+
+Image manipulation demo
+install.packages("pixmap")
+library(pixmap)
+
+mtrush1 <- read.pnm("mtrush1.pgm")
+str(mtrush1)
+## Formal class 'pixmapGrey' [package "pixmap"] with 6 slots
+##
+..@ grey
+: num [1:194, 1:259] 0.278 0.263 0.239 0.212 0.192 ...
+##
+..@ channels: chr "grey"
+##
+..@ size
+: int [1:2] 194 259
+##
+..@ cellres : num [1:2] 1 1
+##
+##
+
+..@ bbox
+..@ bbcent
+
+: num [1:4] 0 0 259 194
+: logi FALSE
+
+20 / 30
+
+Image manipulation demo
+mtrush1@grey is a matrix containing pixel intensities.
+What is the intensity of the pixel at row 70, column 120?
+Blur out Teddy Roosevelt's face at 84: 163 × 135: 177
+
+21 / 30
+
+Arrays
+Higher (>2) dimensional vectors are called arrays
+rubiks <- array(1:27, c(3, 3, 3))
+dim(rubiks)
+## [1] 3 3 3
+hypercube <- array(1:16, c(2, 2, 2, 2))
+dim(hypercube)
+## [1] 2 2 2 2
+
+22 / 30
+
+Arrays
+rubiks
+
+hypercube
+
+## , , 1
+
+## , , 1, 1
+
+##
+##
+[,1] [,2] [,3]
+## [1,]
+1
+4
+7
+## [2,]
+2
+5
+8
+## [3,]
+3
+6
+9
+##
+## , , 2
+##
+##
+[,1] [,2] [,3]
+## [1,]
+10 13 16
+## [2,]
+11 14 17
+
+##
+##
+[,1] [,2]
+## [1,]
+1
+3
+## [2,]
+2
+4
+##
+## , , 2, 1
+##
+##
+[,1] [,2]
+## [1,]
+5
+7
+## [2,]
+6
+8
+##
+
+## [3,]
+12 15 18
+##
+## , , 3
+##
+##
+[,1] [,2] [,3]
+## [1,]
+19 22 25
+
+## , , 1, 2
+##
+##
+[,1] [,2]
+## [1,]
+9 11
+## [2,] 10 12
+##
+
+23 / 30
+
+Application of Arrays
+Color images are often represented as a 3D array
+
+24 / 30
+
+Lists
+A list is also a vector, but is not atomic.
+Usually "vector" means "atomic vector". Recall that atomic vectors can only hold one
+data type. Lists are also vectors, but can hold many different data types.
+For the rest of the class, I will say "vector" to mean "atomic vector" and "list" to mean
+"list". But in the R literature, lists are vectors.
+
+25 / 30
+
+Lists
+x <- list(first = 1:10, second = "cat", third = c(T, F))
+
+Single brackets [ ] return a list while double brackets [[ ]] return the element.
+x[1]
+## $first
+## [1] 1 2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9 10
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9 10
+
+x[[1]]
+##
+
+[1]
+
+1 2
+
+Getting an element by name:
+x$first
+##
+
+[1]
+
+1 2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9 10
+26 / 30
+
+Lists
+Is it possible to create a vector of vectors?
+c(1:10, 66, 3:7)
+
+27 / 30
+
+Checking the structure
+Is x an atomic vector? is.atomic(x)
+Is x a list? is.list(x)
+Is x a matrix? is.matrix(x)
+Is x an array? is.array(x)
+But beware:
+
+Sometimes better to check the class
+
+x <- rbind(1:2, 3:4)
+is.atomic(x)
+
+class(x)
+## [1] "matrix" "array"
+
+## [1] TRUE
+is.matrix(x)
+## [1] TRUE
+is.array(x)
+## [1] TRUE
+
+28 / 30
+
+AVOID is.vector
+is.vector does not do what you think it does.
+is.vector checks for a basic, atomic vector without additional attributes (except
+names), not just any one-dimensional structure.
+
+29 / 30
+
+Summary
+Practice filtering, recycling, and vectorization.
+Practice subsetting matrices.
+
+30 / 30
+
+Lecture 6: Working with data frames
+(and tibbles)
+Ingmar Sturm
+UCSB
+2024-07-02
+
+Special thanks to Robin Liu for select course content used with permission.
+
+Load the libraries
+library(tidyverse)
+library(gapminder)
+
+Recall what's in gapminder
+head(gapminder, 6)
+## # A tibble: 6 x 6
+##
+country
+continent year lifeExp
+pop gdpPercap
+##
+<fct>
+<fct>
+<int> <dbl>
+<int>
+<dbl>
+## 1 Afghanistan Asia
+1952
+28.8 8425333
+779.
+## 2 Afghanistan Asia
+1957
+30.3 9240934
+821.
+## 3 Afghanistan Asia
+1962
+32.0 10267083
+853.
+## 4 Afghanistan Asia
+1967
+34.0 11537966
+836.
+## 5 Afghanistan Asia
+1972
+36.1 13079460
+740.
+## 6 Afghanistan Asia
+1977
+38.4 14880372
+786.
+
+2 / 24
+
+Filtering
+Retrieve the data for Afghanistan for years after 1979.
+## # A tibble: 6 x 6
+##
+country
+continent
+
+year lifeExp
+
+##
+<fct>
+<fct>
+## 1 Afghanistan Asia
+## 2 Afghanistan Asia
+## 3 Afghanistan Asia
+
+<int>
+1982
+1987
+1992
+
+<dbl>
+<int>
+39.9 12881816
+40.8 13867957
+41.7 16317921
+
+<dbl>
+978.
+852.
+649.
+
+## 4 Afghanistan Asia
+## 5 Afghanistan Asia
+
+1997
+2002
+
+41.8 22227415
+42.1 25268405
+
+635.
+727.
+
+## 6 Afghanistan Asia
+
+2007
+
+43.8 31889923
+
+975.
+
+pop gdpPercap
+
+03:00
+3 / 24
+
+Filtering
+A much better way using dplyr::filter() (which is part of tidyverse ).
+filter(gapminder, country == "Afghanistan", year > 1979)
+## # A tibble: 6 x 6
+##
+country
+continent
+
+year lifeExp
+
+##
+<fct>
+<fct>
+## 1 Afghanistan Asia
+## 2 Afghanistan Asia
+## 3 Afghanistan Asia
+## 4 Afghanistan Asia
+## 5 Afghanistan Asia
+## 6 Afghanistan Asia
+
+<int>
+1982
+1987
+1992
+1997
+2002
+2007
+
+pop gdpPercap
+
+<dbl>
+<int>
+39.9 12881816
+40.8 13867957
+41.7 16317921
+41.8 22227415
+42.1 25268405
+43.8 31889923
+
+<dbl>
+978.
+852.
+649.
+635.
+727.
+975.
+
+Less repetition, easier to read.
+
+4 / 24
+
+Selecting
+head(gapminder)
+## # A tibble: 6 x 6
+##
+country
+continent year lifeExp
+##
+<fct>
+<fct>
+<int> <dbl>
+## 1 Afghanistan Asia
+## 2 Afghanistan Asia
+## 3 Afghanistan Asia
+## 4 Afghanistan Asia
+## 5 Afghanistan Asia
+## 6 Afghanistan Asia
+
+1952
+1957
+1962
+1967
+1972
+1977
+
+pop gdpPercap
+<int>
+<dbl>
+
+28.8 8425333
+30.3 9240934
+32.0 10267083
+34.0 11537966
+36.1 13079460
+38.4 14880372
+
+779.
+821.
+853.
+836.
+740.
+786.
+
+Select only country , year , lifeExp , and pop variables.
+
+02:00
+5 / 24
+
+Selecting
+Easier way with dplyr::select()
+head(select(gapminder, country, year, lifeExp, pop), 3)
+## # A tibble: 3 x 4
+##
+country
+year lifeExp
+pop
+##
+<fct>
+<int> <dbl>
+<int>
+## 1 Afghanistan 1952
+28.8 8425333
+## 2 Afghanistan 1957
+30.3 9240934
+## 3 Afghanistan 1962
+32.0 10267083
+
+Also works with negative indices:
+head(select(gapminder, -country, -year, -lifeExp, -pop), 3)
+## # A tibble: 3 x 2
+##
+continent gdpPercap
+##
+<fct>
+<dbl>
+## 1 Asia
+779.
+## 2 Asia
+821.
+## 3 Asia
+853.
+
+6 / 24
+
+Combining select and filter
+head(gapminder)
+## # A tibble: 6 x 6
+##
+country
+continent year lifeExp
+##
+<fct>
+<fct>
+<int> <dbl>
+## 1 Afghanistan Asia
+## 2 Afghanistan Asia
+## 3 Afghanistan Asia
+## 4 Afghanistan Asia
+## 5 Afghanistan Asia
+## 6 Afghanistan Asia
+
+1952
+1957
+1962
+1967
+1972
+1977
+
+pop gdpPercap
+<int>
+<dbl>
+
+28.8 8425333
+30.3 9240934
+32.0 10267083
+34.0 11537966
+36.1 13079460
+38.4 14880372
+
+779.
+821.
+853.
+836.
+740.
+786.
+
+Return the country , year , and lifeExp for Rwanda in years between 1960 and 1970.
+## # A tibble: 2 x 3
+##
+country year lifeExp
+##
+<fct> <int>
+<dbl>
+## 1 Rwanda 1962
+43
+## 2 Rwanda 1967
+44.1
+
+03:00
+7 / 24
+
+The Pipe
+The operator |> pipes the left-hand side as the first argument to the right-hand side,
+and returns the result.
+25 |> sqrt() # no argument passed in explicitly
+## [1] 5
+increment_power <- function(x, pwr = 2) {
+x <- x + 1
+return(x^pwr)
+}
+1 |> increment_power() # equiv. increment_power(1)
+## [1] 4
+1 |> increment_power(3) # equiv. increment_power(1, 3)
+## [1] 8
+8 / 24
+
+The Pipe
+Use the pipe |> to simplify common operations.
+select(filter(gapminder, country == "Rwanda", year > 1960, year < 1970),
+country, year, lifeExp)
+## # A tibble: 2 x 3
+##
+country year lifeExp
+##
+<fct> <int>
+<dbl>
+## 1 Rwanda 1962
+43
+## 2 Rwanda 1967
+44.1
+gapminder |>
+filter(country == "Rwanda", year > 1960, year < 1970) |>
+select(country, year, lifeExp)
+## # A tibble: 2 x 3
+##
+country year lifeExp
+##
+<fct> <int>
+<dbl>
+## 1 Rwanda 1962
+43
+## 2 Rwanda
+
+1967
+
+44.1
+
+9 / 24
+
+The Pipe
+Another approach you may have tried:
+filtered_gap <- filter(gapminder, country == "Rwanda", year > 1960, year < 1970)
+select(filtered_gap, country, year, lifeExp)
+## # A tibble: 2 x 3
+##
+country year lifeExp
+##
+<fct> <int>
+<dbl>
+## 1 Rwanda 1962
+43
+## 2 Rwanda 1967
+44.1
+gapminder |>
+filter(country == "Rwanda", year > 1960, year < 1970) |>
+select(country, year, lifeExp)
+## # A tibble: 2 x 3
+##
+country year lifeExp
+##
+<fct> <int>
+<dbl>
+## 1 Rwanda 1962
+43
+## 2 Rwanda 1967
+44.1
+
+10 / 24
+
+The Pipe
+gapminder |>
+filter(country == "Rwanda", year > 1960, year < 1970) |>
+select(country, year, lifeExp)
+## # A tibble: 2 x 3
+##
+country year lifeExp
+##
+<fct> <int>
+<dbl>
+## 1 Rwanda 1962
+43
+## 2 Rwanda 1967
+44.1
+
+11 / 24
+
+The Pipe
+
+img credit
+12 / 24
+
+The Pipe
+Return the first 3 rows of continent , year , and lifeExp of the "Americas" continent by
+rewriting the following code using pipes.
+head(select(filter(gapminder, country == "Chile"), continent, year, lifeExp), 3)
+## # A tibble: 3 x 3
+##
+continent year lifeExp
+##
+<fct>
+<int>
+<dbl>
+## 1 Americas
+1952
+54.7
+## 2 Americas
+1957
+56.1
+## 3 Americas
+1962
+57.9
+
+03:00
+13 / 24
+
+dplyr and tidyverse
+Reminder that select() and filter() are functions in the dplyr package which is
+part of the tidyverse . You must call library(dplyr) or library(tidyverse) to use it.
+library(tidyverse) automatically loads dplyr ; it is sometimes called a meta-package.
+Interestingly |> is a base R pipe.
+tidyverse has its own pipe which looks like %>% ; you might see this in the wild. It
+became so popular that |> was recently added to base R.
+Which one should you use? It's a matter of preference but, in short, use %>% if you
+want greater flexibility and you want your code to work without the tidyverse . Use
+|> if you want speed. comparison
+25 |> sqrt()
+## [1] 5
+25 %>% sqrt()
+## [1] 5
+
+14 / 24
+
+Comparing dplyr and base R
+gapminder |>
+filter(country == "Chile") |>
+select(continent, year, lifeExp) |>
+head(3)
+## # A tibble: 3 x 3
+##
+continent year lifeExp
+##
+<fct>
+<int>
+<dbl>
+## 1 Americas
+1952
+54.7
+## 2 Americas
+1957
+56.1
+## 3 Americas
+1962
+57.9
+head(gapminder[gapminder$country == "Chile", c("continent", "year", "lifeExp")], 3)
+## # A tibble: 3 x 3
+##
+continent year lifeExp
+##
+<fct>
+<int>
+<dbl>
+## 1 Americas
+1952
+54.7
+## 2 Americas
+1957
+56.1
+## 3 Americas
+1962
+57.9
+
+15 / 24
+
+More practice
+Return a tibble containing country , year , and gdpPercap for countries with GDP per
+cap less than 300 for years before 2007.
+## # A tibble: 3 x 3
+##
+country
+##
+<fct>
+
+year gdpPercap
+<int>
+<dbl>
+
+## 1 Congo, Dem. Rep.
+## 2 Guinea-Bissau
+## 3 Lesotho
+
+2002
+1952
+1952
+
+241.
+300.
+299.
+
+05:00
+16 / 24
+
+Creating a tibble (or a data frame)
+(dogs <- tibble(name = c("Ralph", "Sully", "Capsule"),
+age = c(3, 12, 1)))
+## # A tibble: 3 x 2
+##
+name
+age
+##
+<chr> <dbl>
+## 1 Ralph
+3
+## 2 Sully
+12
+## 3 Capsule
+1
+is_rescue <- c(F, F, T)
+(dogs <- tibble(name = c("Ralph", "Sully", "Capsule"),
+age = c(3, 12, 1),
+rescue = is_rescue))
+## # A tibble: 3 x 3
+##
+name
+age rescue
+##
+<chr> <dbl> <lgl>
+## 1 Ralph
+3 FALSE
+## 2 Sully
+12 FALSE
+## 3 Capsule
+1 TRUE
+
+17 / 24
+
+Adding variables to an existing tibble
+(dogs <- tibble(name = c("Ralph", "Sully", "Capsule"),
+age = c(3, 12, 1)))
+## # A tibble: 3 x 2
+##
+name
+age
+##
+<chr> <dbl>
+## 1 Ralph
+3
+## 2 Sully
+12
+## 3 Capsule
+1
+is_rescue <- c(F, F, T)
+dogs$rescue <- is_rescue
+dogs
+## # A tibble: 3 x 3
+##
+name
+age rescue
+##
+<chr> <dbl> <lgl>
+## 1 Ralph
+3 FALSE
+## 2 Sully
+12 FALSE
+## 3 Capsule
+1 TRUE
+
+18 / 24
+
+Adding variables to an existing tibble
+head(gapminder, 1)
+## # A tibble: 1 x 6
+##
+country
+continent year lifeExp
+##
+<fct>
+<fct>
+<int> <dbl>
+## 1 Afghanistan Asia
+
+1952
+
+pop gdpPercap
+<int>
+<dbl>
+
+28.8 8425333
+
+779.
+
+Return the total GDP for each row. This is pop × gdpPercap.
+my_gap <- gapminder # create a copy so we don't overwrite gapminder
+my_gap$totalGdp <- my_gap$pop * my_gap$gdpPercap
+head(my_gap, 2)
+## # A tibble: 2 x 7
+##
+country
+continent year lifeExp
+pop gdpPercap
+totalGdp
+##
+<fct>
+<fct>
+<int> <dbl> <int>
+<dbl>
+<dbl>
+## 1 Afghanistan Asia
+1952
+28.8 8425333
+779. 6567086330.
+## 2 Afghanistan Asia
+1957
+30.3 9240934
+821. 7585448670.
+
+Remember my_gap$pop and my_gap$gdpPercap are vectors.
+
+19 / 24
+
+dplyr::Mutate()
+(dogs <- tibble(name = c("Ralph", "Sully", "Capsule"),
+age = c(3, 12, 1)))
+## # A tibble: 3 x 2
+##
+name
+age
+##
+<chr> <dbl>
+## 1 Ralph
+3
+## 2 Sully
+12
+## 3 Capsule
+1
+dogs <- tibble(name = c("Ralph", "Sully", "Capsule"),
+age = c(3, 12, 1))
+dogs |> mutate(rescue = c(F, F, T))
+## # A tibble: 3 x 3
+##
+name
+age rescue
+##
+<chr> <dbl> <lgl>
+## 1 Ralph
+3 FALSE
+## 2 Sully
+12 FALSE
+## 3 Capsule
+1 TRUE
+
+20 / 24
+
+Adding Variables
+Return a tibble containing country , year , and total GDP for countries with GDP per
+cap less than 300 for years before 2007.
+gapminder |>
+mutate(totalGdp = pop * gdpPercap) |>
+filter(gdpPercap < 300, year < 2007) |>
+select(country, year, totalGdp)
+## # A tibble: 3 x 3
+##
+country
+year
+totalGdp
+##
+<fct>
+<int>
+<dbl>
+## 1 Congo, Dem. Rep. 2002 13355730548.
+## 2 Guinea-Bissau
+## 3 Lesotho
+
+1952
+1952
+
+174108987.
+223760205.
+
+head(gapminder, 1) # Remember the original tibble is unmodified!!
+## # A tibble: 1 x 6
+##
+country
+continent year lifeExp
+pop gdpPercap
+##
+<fct>
+<fct>
+<int> <dbl> <int>
+<dbl>
+## 1 Afghanistan Asia
+1952
+28.8 8425333
+779.
+
+21 / 24
+
+Saving the result to a new tibble
+my_gap <- gapminder |>
+mutate(totalGdp = pop * gdpPercap) |>
+filter(gdpPercap < 300, year < 2007) |>
+select(country, year, totalGdp)
+my_gap
+## # A tibble: 3 x 3
+##
+country
+year
+totalGdp
+##
+<fct>
+<int>
+<dbl>
+## 1 Congo, Dem. Rep. 2002 13355730548.
+## 2 Guinea-Bissau
+1952 174108987.
+## 3 Lesotho
+1952 223760205.
+
+22 / 24
+
+Summary
+It is common to manipulate tibbles and data frames
+filter , select , and mutate are useful functions in dplyr which is part of the
+tidyverse meta-package
+the pipe |> operator simplifies a lot of operations, but don't go overboard!!
+
+57 − 2√ 4
+log2 (100)
+(5^7 - 2*sqrt(4)) / log(100, base = 2)
+## [1] 11758.38
+5 %>% # I'm using %>% here because this is not allowed with |>
+'^'(7) %>%
+'-'(2 %>% '*'(4 %>% sqrt())) %>%
+'/'(100 %>% log(2))
+## [1] 11758.38
+
+23 / 24
+
+More on dplyr
+dplyr contains many more functions for data wrangling (aka data munging).
+See the dplyr cheatsheet
+Most important things I left out: group_by and summarize .
+gapminder |>
+group_by(continent) |>
+summarize(avg_life_exp = mean(lifeExp), avg_gdpPercap = mean(gdpPercap))
+## # A tibble: 5 x 3
+##
+continent avg_life_exp avg_gdpPercap
+##
+<fct>
+<dbl>
+<dbl>
+## 1 Africa
+48.9
+2194.
+## 2 Americas
+64.7
+7136.
+## 3 Asia
+60.1
+7902.
+## 4 Europe
+71.9
+14469.
+## 5 Oceania
+74.3
+18622.
+
+24 / 24
+
+Lecture 7: Base R Plots
+Ingmar Sturm
+UCSB
+2024-07-03
+
+Special thanks to Robin Liu for select course content used with permission.
+
+Analyzing Poll Results (like a data scientist)
+
+2 / 34
+
+Numerical Variables
+
+3 / 34
+
+Sentiment Analysis 1/4
+
+4 / 34
+
+Sentiment Analysis 2/4
+
+5 / 34
+
+Sentiment Analysis 3/4
+
+6 / 34
+
+Sentiment Analysis 4/4
+
+7 / 34
+
+Word Cloud 1/4
+
+8 / 34
+
+Word Cloud 2/4
+
+9 / 34
+
+Word Cloud 3/4
+
+10 / 34
+
+Word Cloud 4/4
+
+11 / 34
+
+Now: Plotting in Base R
+
+12 / 34
+
+airquality
+We will use the airquality data frame in the library datasets
+library(tidyverse)
+## -- Attaching packages --------------------------------------- tidyverse 1.3.1 -## v ggplot2 3.3.6
+## v tibble 3.1.7
+## v tidyr 1.2.0
+## v readr 2.1.2
+
+v purrr
+0.3.4
+v dplyr
+1.0.9
+v stringr 1.4.0
+v forcats 0.5.1
+
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() -## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()
+masks stats::lag()
+library(datasets)
+
+13 / 34
+
+airquality
+?airquality will give you the metadata in the help window.
+Description
+Daily air quality measurements in New York, May to September 1973.
+Format
+A data frame with 153 observations on 6 variables.
+[,1]
+[,2]
+[,3]
+[,4]
+
+Ozone
+numeric
+Ozone (ppb)
+Solar.R
+numeric
+Solar R (lang)
+Wind
+numeric
+Wind (mph)
+Temp
+numeric
+Temperature (degrees F)
+
+[,5]
+[,6]
+
+Month
+Day
+
+numeric
+numeric
+
+Month (1--12)
+Day of month (1--31)
+
+14 / 34
+
+Base R plots
+Basic plotting is easy; just call the relevant functions.
+plot(airquality$Wind, airquality$Ozone)
+
+But we should always add a meaningful title and axis labels...
+15 / 34
+
+Base R plots
+Basic plotting is easy; just call the relevant functions.
+plot(airquality$Wind, airquality$Ozone, main="Ozone and Wind in NYC, 1973",
+xlab="Wind (mph)", ylab="Ozone (ppb)")
+
+16 / 34
+
+Adding a trendline
+plot(airquality$Wind, airquality$Ozone, main="Ozone and Wind in NYC, 1973",
+xlab="Wind (mph)", ylab="Ozone (ppb)")
+air_trend <- lm(airquality$Ozone ~ airquality$Wind)
+abline(air_trend, col = "red")
+
+17 / 34
+
+Your turn
+Create a scatter plot of Ozone vs. Solar Radiation with a trendline. Add a meaningful
+title and axis labels to the plot.
+
+02:00
+18 / 34
+
+Histograms
+hist(airquality$Ozone,
+main = "Histogram of Ozone",
+xlab = "Ozone")
+
+hist(airquality$Ozone, breaks = 20,
+main = "Histogram of Ozone",
+xlab = "Ozone")
+
+19 / 34
+
+Boxplots
+Boxplots use the y ~ x notation. In R, this construct is called a formula
+boxplot(Ozone ~ Month, airquality, xlab = "Month", ylab = "Ozone (ppb)")
+
+Median, percentiles, quartiles, IQR, outliers
+
+20 / 34
+
+Formulas
+boxplot(Ozone ~ Month, airquality, xlab = "Month", ylab = "Ozone (ppb)")
+
+class(y ~ x)
+## [1] "formula"
+
+21 / 34
+
+Building plots
+It is common to first create a plot and then layer stuff on top.
+x <- 1:3
+y <- c(1, 3, 8)
+plot(x, y) # Creates a new plot
+lmout <- lm(y ~ x)
+abline(lmout) # adds a line "fitting" the points
+
+22 / 34
+
+Plot parameters
+x <- 1:3
+y <- c(1, 3, 8)
+plot(x, y, cex=2, col="red", pch=19) # Creates a new plot
+lmout <- lm(y ~ x)
+abline(lmout, lty=2, lwd=2) # adds a line "fitting" the points
+
+23 / 34
+
+Plot parameters
+Plotting is an art and you should use Google and ?par to get a plot to look nice.
+x <- 1:3
+y <- c(1, 3, 8)
+plot(x, y, cex=3, col="chartreuse4", pch=17) # Creates a new plot
+lmout <- lm(y ~ x)
+abline(lmout, lty=2, lwd=2) # adds a line "fitting" the points
+
+24 / 34
+
+Plot parameters
+Plotting is an art and you should use Google and ?par to get a plot to look nice.
+x <- 1:3
+y <- c(1, 3, 8)
+plot(x, y, cex=3, col="chartreuse4", pch=17) # Creates a new plot
+lmout <- lm(y ~ x)
+abline(lmout, lty=2, lwd=2) # adds a line "fitting" the points
+
+25 / 34
+
+Building plots
+We see a negative trend with wind and ozone.
+
+plot(airquality$Wind, airquality$Ozone)
+
+A flat screen can only show two
+variables.
+unless...?
+
+😳
+
+We can add another dimension of
+information by employing shape and
+color.
+
+26 / 34
+
+Layering Plots Demo 1
+It is common for complex plots to start with an empty plot and layer stuff on top.
+
+27 / 34
+
+Layering Plots Demo 1
+with(airquality, plot(Wind, Ozone, main = "Ozone and Wind in New York City", type = "n"))
+with(filter(airquality, Month != 5), points(Wind, Ozone, col="red", pch=19))
+with(filter(airquality, Month == 5), points(Wind, Ozone, col="blue", pch=17))
+legend("topright", pch = c(17, 19), col = c("blue", "red"),
+legend = c("May", "Other Months"))
+
+28 / 34
+
+Layering Plots Demo 2
+How does temperature relate to ozone and wind?
+
+29 / 34
+
+Plotting functions
+To plot a function, discretize the domain into x and evaluate the function into y .
+x <- seq(-2*pi, 2*pi, len = 100)
+y <- sin(x)
+plot(y ~ x)
+
+30 / 34
+
+Plotting functions
+To plot a function, discretize the domain into x and evaluate the function into y .
+x <- seq(-2*pi, 2*pi, len = 100)
+y <- sin(x)
+plot(y ~ x, type="l") # type="1" smooths the line
+
+31 / 34
+
+Plotting functions
+To plot a function, discretize the domain into x and evaluate the function into y .
+x <- seq(-2*pi, 2*pi, len = 100)
+y <- sin(x)
+plot(y ~ x, type="l") # type="1" smooths the line
+lines(cos(x) ~ x, type="l", col="blue") # "lines" adds to an existing plot
+
+32 / 34
+
+Plotting functions
+x <- seq(-2*pi, 2*pi, len = 100)
+y <- sin(x)
+plot(y ~ x, type="l") # type="1" smooths the line
+lines(cos(x) ~ x, type="l", col="blue") # "lines" adds to an existing plot
+legend("topright", lty = 1, col = c("black", "blue"), legend = c("sin(x)", "cos(x)"))
+
+33 / 34
+
+Your turn
+Hint: Use type , lty , lwd , and col parameters. Remember to check out ?par .
+
+06:00
+34 / 34
+
+Lecture 5: Factors, Data frames, Tibbles
+Finally working with data
+Ingmar Sturm
+UCSB
+2024-07-01
+
+Special thanks to Robin Liu for select course content used with permission.
+
+Week 2: Working with data
+
+2 / 35
+
+Packages for this lecture
+Before we proceed install the following packages:
+tidyverse is a suite of R packages that streamline common data analysis tasks.
+gapminder is a data set from a non-profit org. https://www.gapminder.org/
+datasets is a default R package containing example data sets. It is usually loaded
+automatically.
+install.packages(c("tidyverse", "gapminder"))
+
+library(tidyverse)
+library(gapminder)
+library(datasets)
+
+02:00
+3 / 35
+
+Summarizing Data
+Measurements in centimeters of the petal length of 150 iris flowers
+iris$Petal.Length
+##
+##
+##
+##
+##
+##
+
+[1] 1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 1.5 1.6 1.4 1.1 1.2 1.5 1.3 1.4
+[19] 1.7 1.5 1.7 1.5 1.0 1.7 1.9 1.6 1.6 1.5 1.4 1.6 1.6 1.5 1.5 1.4 1.5 1.2
+[37] 1.3 1.4 1.3 1.5 1.3 1.3 1.3 1.6 1.9 1.4 1.6 1.4 1.5 1.4 4.7 4.5 4.9 4.0
+[55] 4.6 4.5 4.7 3.3 4.6 3.9 3.5 4.2 4.0 4.7 3.6 4.4 4.5 4.1 4.5 3.9 4.8 4.0
+[73] 4.9 4.7 4.3 4.4 4.8 5.0 4.5 3.5 3.8 3.7 3.9 5.1 4.5 4.5 4.7 4.4 4.1 4.0
+[91] 4.4 4.6 4.0 3.3 4.2 4.2 4.2 4.3 3.0 4.1 6.0 5.1 5.9 5.6 5.8 6.6 4.5 6.3
+
+## [109] 5.8 6.1 5.1 5.3 5.5 5.0 5.1 5.3 5.5 6.7 6.9 5.0 5.7 4.9 6.7 4.9 5.7 6.0
+## [127] 4.8 4.9 5.6 5.8 6.1 6.4 5.6 5.1 5.6 6.1 5.6 5.5 4.8 5.4 5.6 5.1 5.1 5.9
+## [145] 5.7 5.2 5.0 5.2 5.4 5.1
+
+Numerical summaries help us understand the data
+summary(iris$Petal.Length)
+##
+##
+
+Min. 1st Qu.
+1.000 1.600
+
+Median
+4.350
+
+Mean 3rd Qu.
+3.758 5.100
+
+Max.
+6.900
+
+4 / 35
+
+Summarizing Data
+Visual summaries are even better
+
+boxplot(iris$Petal.Length,
+main = "Petal Lengths (cm)")
+
+hist(iris$Petal.Length,
+main = "Petal Lengths (cm)")
+
+5 / 35
+
+Summarizing Data
+Are two variables correlated?
+plot(iris$Petal.Length, iris$Petal.Width)
+
+cor(iris$Petal.Length, iris$Petal.Width)
+## [1] 0.9628654
+
+6 / 35
+
+Summarizing Data
+How "spread out" are the data?
+summary(red)
+##
+Min. 1st Qu.
+Median
+Mean
+## -2.31933 -0.69237 -0.01444 -0.03719
+
+3rd Qu.
+0.57118
+
+Max.
+1.85215
+
+summary(blue)
+##
+Min. 1st Qu. Median
+Mean 3rd Qu.
+## -4.2345 -1.0976 -0.2257 -0.0630 0.8056
+
+Max.
+3.2002
+
+7 / 35
+
+Summarizing Data
+The standard deviation measures the spread.
+
+sd(red)
+
+sd(blue)
+
+## [1] 0.934071
+
+## [1] 1.506259
+
+8 / 35
+
+The need for visualization
+Exploratory data analysis is a crucial step in a data science project. Before we can
+apply any fancy machine learning method, we must understand the data through
+visual checks.
+Numerical summaries (mean, median, mode, etc.) are not enough. Take a look at the
+datasaurus dozen:
+
+9 / 35
+
+Representing categorical data with factors
+
+10 / 35
+
+Factors
+Categorical vs Quantitative data
+Numerics represent quantitative data
+Factors represent categorical data
+
+11 / 35
+
+Factors
+Categorical data
+Categorical variables have a fixed, known set of possible values
+They can be ordered or unordered
+
+12 / 35
+
+Factors
+Creating factors
+Pass in the values along with the possible levels
+flavors <- c("chocolate", "vanilla", "strawberry")
+x <- c(rep("chocolate", 60),
+rep("vanilla", 25),
+rep("strawberry", 15))
+ice_cream <- factor(x, levels = flavors)
+
+summary(ice_cream)
+##
+##
+
+chocolate
+60
+
+vanilla strawberry
+25
+15
+
+Now run ice_cream in the console.
+
+13 / 35
+
+Factors
+ice_cream
+##
+##
+##
+
+[1] chocolate
+[7] chocolate
+[13] chocolate
+
+chocolate
+chocolate
+chocolate
+
+chocolate
+chocolate
+chocolate
+
+chocolate
+chocolate
+chocolate
+
+chocolate
+chocolate
+chocolate
+
+chocolate
+chocolate
+chocolate
+
+##
+##
+##
+##
+##
+##
+##
+
+[19] chocolate
+[25] chocolate
+[31] chocolate
+[37] chocolate
+[43] chocolate
+[49] chocolate
+[55] chocolate
+
+chocolate
+chocolate
+chocolate
+chocolate
+chocolate
+chocolate
+chocolate
+
+chocolate
+chocolate
+chocolate
+chocolate
+chocolate
+chocolate
+chocolate
+
+chocolate
+chocolate
+chocolate
+chocolate
+chocolate
+chocolate
+chocolate
+
+chocolate
+chocolate
+chocolate
+chocolate
+chocolate
+chocolate
+chocolate
+
+chocolate
+chocolate
+chocolate
+chocolate
+chocolate
+chocolate
+chocolate
+
+## [61] vanilla
+vanilla
+vanilla
+vanilla
+vanilla
+vanilla
+## [67] vanilla
+vanilla
+vanilla
+vanilla
+vanilla
+vanilla
+## [73] vanilla
+vanilla
+vanilla
+vanilla
+vanilla
+vanilla
+## [79] vanilla
+vanilla
+vanilla
+vanilla
+vanilla
+vanilla
+## [85] vanilla
+strawberry strawberry strawberry strawberry strawberry
+## [91] strawberry strawberry strawberry strawberry strawberry strawberry
+## [97] strawberry strawberry strawberry strawberry
+## Levels: chocolate vanilla strawberry
+
+14 / 35
+
+Factors
+levels(ice_cream)
+## [1] "chocolate"
+
+"vanilla"
+
+"strawberry"
+
+nlevels(ice_cream)
+## [1] 3
+barplot(table(ice_cream), main="Ice Cream Barplot")
+
+15 / 35
+
+Data frames (and Tibbles)
+
+16 / 35
+
+Data frames
+The fundamental object for data
+Pretty much all of the data sets you will work with in R will be in the form of data
+frames.
+Many data frames are readily available for you
+library(datasets)
+class(iris)
+## [1] "data.frame"
+class(mtcars)
+## [1] "data.frame"
+
+17 / 35
+
+Data frames
+First thing to do with a data frame is explore it:
+str(iris) # "str" stands for structure
+## 'data.frame':
+150 obs. of 5 variables:
+## $ Sepal.Length: num 5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+## $ Sepal.Width : num 3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+## $ Petal.Length: num 1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+## $ Petal.Width : num 0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+## $ Species
+: Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
+summary(iris)
+##
+##
+##
+##
+##
+##
+##
+
+Sepal.Length
+Min. :4.300
+1st Qu.:5.100
+Median :5.800
+Mean :5.843
+3rd Qu.:6.400
+Max. :7.900
+
+##
+
+Species
+
+Sepal.Width
+Min. :2.000
+1st Qu.:2.800
+Median :3.000
+Mean :3.057
+3rd Qu.:3.300
+Max. :4.400
+
+Petal.Length
+Min. :1.000
+1st Qu.:1.600
+Median :4.350
+Mean :3.758
+3rd Qu.:5.100
+Max. :6.900
+
+Petal.Width
+Min. :0.100
+1st Qu.:0.300
+Median :1.300
+Mean :1.199
+3rd Qu.:1.800
+Max. :2.500
+
+18 / 35
+
+Data frames
+View(iris) # View df in a separate window. Note the uppercase 'V' in View.
+?iris # Brings out the help for a data set. May contain useful info.
+
+iris # prints entire df to console, undesirable for large dfs
+##
+## 1
+## 2
+## 3
+## 4
+## 5
+## 6
+## 7
+## 8
+## 9
+## 10
+## 11
+## 12
+## 13
+## 14
+
+Sepal.Length Sepal.Width Petal.Length Petal.Width
+5.1
+3.5
+1.4
+0.2
+4.9
+3.0
+1.4
+0.2
+4.7
+3.2
+1.3
+0.2
+4.6
+3.1
+1.5
+0.2
+5.0
+3.6
+1.4
+0.2
+5.4
+4.6
+5.0
+4.4
+4.9
+5.4
+4.8
+4.8
+4.3
+
+3.9
+3.4
+3.4
+2.9
+3.1
+3.7
+3.4
+3.0
+3.0
+
+1.7
+1.4
+1.5
+1.4
+1.5
+1.5
+1.6
+1.4
+1.1
+
+0.4
+0.3
+0.2
+0.2
+0.1
+0.2
+0.2
+0.1
+0.1
+
+Species
+setosa
+setosa
+setosa
+setosa
+setosa
+setosa
+setosa
+setosa
+setosa
+setosa
+setosa
+setosa
+setosa
+setosa
+
+19 / 35
+
+Data frames
+str(iris)
+## 'data.frame':
+150 obs. of 5 variables:
+## $ Sepal.Length: num 5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+## $ Sepal.Width : num 3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+##
+##
+##
+
+$ Petal.Length: num 1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+$ Petal.Width : num 0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+$ Species
+: Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
+
+20 / 35
+
+Data frames
+Extract a column in a df as a vector with $
+iris$Petal.Length
+##
+##
+
+[1] 1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 1.5 1.6 1.4 1.1 1.2 1.5 1.3 1.4
+[19] 1.7 1.5 1.7 1.5 1.0 1.7 1.9 1.6 1.6 1.5 1.4 1.6 1.6 1.5 1.5 1.4 1.5 1.2
+
+## [37] 1.3 1.4 1.3 1.5 1.3 1.3 1.3 1.6 1.9 1.4 1.6 1.4 1.5 1.4 4.7 4.5 4.9 4.0
+## [55] 4.6 4.5 4.7 3.3 4.6 3.9 3.5 4.2 4.0 4.7 3.6 4.4 4.5 4.1 4.5 3.9 4.8 4.0
+## [73] 4.9 4.7 4.3 4.4 4.8 5.0 4.5 3.5 3.8 3.7 3.9 5.1 4.5 4.5 4.7 4.4 4.1 4.0
+## [91] 4.4 4.6 4.0 3.3 4.2 4.2 4.2 4.3 3.0 4.1 6.0 5.1 5.9 5.6 5.8 6.6 4.5 6.3
+## [109] 5.8 6.1 5.1 5.3 5.5 5.0 5.1 5.3 5.5 6.7 6.9 5.0 5.7 4.9 6.7 4.9 5.7 6.0
+## [127] 4.8 4.9 5.6 5.8 6.1 6.4 5.6 5.1 5.6 6.1 5.6 5.5 4.8 5.4 5.6 5.1 5.1 5.9
+## [145] 5.7 5.2 5.0 5.2 5.4 5.1
+
+21 / 35
+
+Data frames
+A histogram plots the frequencies of the data after grouping them into bins.
+
+hist(iris$Petal.Length)
+
+hist(iris$Petal.Length,
+main = "Histogram of Petal Length",
+xlab = "Petal Length (cm)")
+
+22 / 35
+
+Data frames
+Specifying breaks changes the number of bins.
+
+hist(iris$Petal.Length,
+main = "Histogram of Petal Length",
+xlab = "Petal Length (cm)",
+breaks = 5)
+
+hist(iris$Petal.Length,
+main = "Histogram of Petal Length",
+xlab = "Petal Length (cm)",
+breaks = seq(0, 8, by=0.5))
+
+23 / 35
+
+Tibbles
+Tibbles are a special flavor of data frame. They have extended functionality and are
+usually easier to work with.
+Make sure you have gapminder loaded.
+library(gapminder)
+
+Explore the gapminder data frame:
+str(gapminder)
+## tibble [1,704 x 6] (S3: tbl_df/tbl/data.frame)
+## $ country : Factor w/ 142 levels "Afghanistan",..: 1 1 1 1 1 1 1 1 1 1 ...
+## $ continent: Factor w/ 5 levels "Africa","Americas",..: 3 3 3 3 3 3 3 3 3 3 ...
+##
+##
+##
+##
+
+$ year
+: int [1:1704] 1952 1957 1962 1967 1972 1977 1982 1987 1992 1997 ...
+$ lifeExp : num [1:1704] 28.8 30.3 32 34 36.1 ...
+$ pop
+: int [1:1704] 8425333 9240934 10267083 11537966 13079460 14880372 12881816 138679
+$ gdpPercap: num [1:1704] 779 821 853 836 740 ...
+
+In addition to being a data frame, it is also a tibble.
+
+24 / 35
+
+Tibbles
+One difference between tibbles and data frames: tibbles have better printing to the
+console
+gapminder
+## # A tibble: 1,704 x 6
+##
+country
+continent
+
+year lifeExp
+
+##
+##
+##
+##
+##
+##
+
+<int>
+1952
+1957
+1962
+1967
+1972
+
+<dbl>
+<int>
+28.8 8425333
+30.3 9240934
+32.0 10267083
+34.0 11537966
+36.1 13079460
+
+<dbl>
+779.
+821.
+853.
+836.
+740.
+
+## 6 Afghanistan Asia
+1977
+## 7 Afghanistan Asia
+1982
+## 8 Afghanistan Asia
+1987
+## 9 Afghanistan Asia
+1992
+## 10 Afghanistan Asia
+1997
+## # ... with 1,694 more rows
+
+38.4 14880372
+39.9 12881816
+40.8 13867957
+41.7 16317921
+41.8 22227415
+
+786.
+978.
+852.
+649.
+635.
+
+<fct>
+<fct>
+1 Afghanistan Asia
+2 Afghanistan Asia
+3 Afghanistan Asia
+4 Afghanistan Asia
+5 Afghanistan Asia
+
+pop gdpPercap
+
+25 / 35
+
+Tibbles
+Compare with printing a base data frame
+
+🤢
+
+as.data.frame(gapminder)
+##
+## 1
+## 2
+## 3
+## 4
+## 5
+
+country continent year lifeExp
+Afghanistan
+Asia 1952 28.80100
+Afghanistan
+Asia 1957 30.33200
+Afghanistan
+Asia 1962 31.99700
+Afghanistan
+Asia 1967 34.02000
+Afghanistan
+Asia 1972 36.08800
+
+pop
+8425333
+9240934
+10267083
+11537966
+13079460
+
+gdpPercap
+779.4453
+820.8530
+853.1007
+836.1971
+739.9811
+
+## 6
+## 7
+## 8
+## 9
+## 10
+## 11
+## 12
+## 13
+
+Afghanistan
+Afghanistan
+Afghanistan
+Afghanistan
+Afghanistan
+Afghanistan
+Afghanistan
+Albania
+
+Asia 1977 38.43800
+Asia 1982 39.85400
+Asia 1987 40.82200
+Asia 1992 41.67400
+Asia 1997 41.76300
+Asia 2002 42.12900
+Asia 2007 43.82800
+Europe 1952 55.23000
+
+14880372
+12881816
+13867957
+16317921
+22227415
+25268405
+31889923
+1282697
+
+786.1134
+978.0114
+852.3959
+649.3414
+635.3414
+726.7341
+974.5803
+1601.0561
+
+## 14
+## 15
+## 16
+
+Albania
+Albania
+Albania
+
+Europe 1957 59.28000
+Europe 1962 64.82000
+Europe 1967 66.22000
+
+1476505
+1728137
+1984060
+
+1942.2842
+2312.8890
+2760.1969
+
+26 / 35
+
+Tibbles
+More tools to explore tibbles (and data frames)
+head(gapminder)
+## # A tibble: 6 x 6
+##
+country
+continent year lifeExp
+pop gdpPercap
+##
+<fct>
+<fct>
+<int> <dbl>
+<int>
+<dbl>
+## 1 Afghanistan Asia
+1952
+28.8 8425333
+779.
+## 2 Afghanistan Asia
+1957
+30.3 9240934
+821.
+## 3 Afghanistan Asia
+1962
+32.0 10267083
+853.
+## 4 Afghanistan Asia
+1967
+34.0 11537966
+836.
+## 5 Afghanistan Asia
+1972
+36.1 13079460
+740.
+## 6 Afghanistan Asia
+1977
+38.4 14880372
+786.
+
+27 / 35
+
+Tibbles
+More tools to explore tibbles (and data frames)
+tail(gapminder)
+## # A tibble: 6 x 6
+##
+country continent year lifeExp
+pop gdpPercap
+##
+<fct>
+<fct>
+<int> <dbl>
+<int>
+<dbl>
+## 1 Zimbabwe Africa
+1982
+60.4 7636524
+789.
+## 2 Zimbabwe Africa
+1987
+62.4 9216418
+706.
+## 3 Zimbabwe Africa
+1992
+60.4 10704340
+693.
+## 4 Zimbabwe Africa
+1997
+46.8 11404948
+792.
+## 5 Zimbabwe Africa
+2002
+40.0 11926563
+672.
+## 6 Zimbabwe Africa
+2007
+43.5 12311143
+470.
+
+28 / 35
+
+Tibbles
+names(gapminder)
+## [1] "country"
+
+"continent" "year"
+
+"lifeExp"
+
+"pop"
+
+"gdpPercap"
+
+ncol(gapminder)
+## [1] 6
+length(gapminder)
+## [1] 6
+dim(gapminder)
+## [1] 1704
+
+6
+
+nrow(gapminder)
+## [1] 1704
+29 / 35
+
+Tibbles
+summary(gapminder)
+##
+##
+##
+
+country
+Afghanistan: 12
+Albania
+: 12
+
+continent
+Africa :624
+Americas:300
+
+year
+Min. :1952
+1st Qu.:1966
+
+lifeExp
+Min. :23.60
+1st Qu.:48.20
+
+##
+##
+##
+##
+##
+##
+##
+
+Algeria
+: 12
+Angola
+: 12
+Argentina : 12
+Australia : 12
+(Other)
+:1632
+pop
+Min. :6.001e+04
+
+Asia
+:396
+Europe :360
+Oceania : 24
+
+Median :1980
+Mean :1980
+3rd Qu.:1993
+Max. :2007
+
+Median :60.71
+Mean :59.47
+3rd Qu.:70.85
+Max. :82.60
+
+##
+##
+##
+##
+##
+##
+
+1st Qu.:2.794e+06
+Median :7.024e+06
+Mean :2.960e+07
+3rd Qu.:1.959e+07
+Max. :1.319e+09
+
+1st Qu.: 1202.1
+Median : 3531.8
+Mean
+: 7215.3
+3rd Qu.: 9325.5
+Max.
+:113523.1
+
+gdpPercap
+Min.
+: 241.2
+
+30 / 35
+
+Basic Plotting
+Create the following histogram of life expectancy:
+
+02:00
+31 / 35
+
+Basic Plotting
+Plot the counts for each continent. Not a
+histogram since data are not grouped
+
+barplot(table(gapminder$continent))
+
+into bins.
+table(gapminder$continent)
+##
+##
+##
+
+Africa Americas
+624
+300
+
+Asia
+396
+
+Europe
+360
+
+Oceania
+24
+
+is.factor(gapminder$continent)
+## [1] TRUE
+
+32 / 35
+
+Plotting variables against each other
+plot(lifeExp ~ year, gapminder)
+
+33 / 35
+
+Plotting variables against each other
+Plot life expectancy against GDP per capita.
+
+02:00
+34 / 35
+
+Convert data frames to tibbles
+Tibbles are nicer to work with, but are not part of "base R".
+It is easy to convert data frames to tibbles.
+as_tibble(iris)
+## # A tibble: 150 x 5
+##
+Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+##
+<dbl>
+<dbl>
+<dbl>
+<dbl> <fct>
+## 1
+5.1
+3.5
+1.4
+0.2 setosa
+## 2
+4.9
+3
+1.4
+0.2 setosa
+## 3
+4.7
+3.2
+1.3
+0.2 setosa
+## 4
+4.6
+3.1
+1.5
+0.2 setosa
+## 5
+5
+3.6
+1.4
+0.2 setosa
+## 6
+5.4
+3.9
+1.7
+0.4 setosa
+## 7
+4.6
+3.4
+1.4
+0.3 setosa
+## 8
+5
+3.4
+## 9
+4.4
+2.9
+## 10
+4.9
+3.1
+## # ... with 140 more rows
+
+1.5
+1.4
+1.5
+
+0.2 setosa
+0.2 setosa
+0.1 setosa
+35 / 35
+
+Lecture 4: Problem Solving
+Ingmar Sturm
+UCSB
+2024-06-27
+
+Special thanks to Robin Liu for select course content used with permission.
+
+Problem Solving
+Today we will tackle some possibly challenging coding problems.
+These problems can all be solved using the simple techniques we have learned so far.
+During a job interview, you will be asked to solve problems far more challenging than
+what I have here. Prepare yourself for job interviews by grinding coding problems.
+You can find more coding exercises here:
+https://www.kaggle.com/
+https://exercism.org/tracks/r/exercises
+
+2 / 14
+
+Problem Solving
+I will describe a coding problem which involves writing a function taking certain
+arguments.
+The output of your function should match some provided test cases.
+
+3 / 14
+
+Remove element
+You are given a numeric vector v and a number target . Create a function remove_elt
+that returns a vector containing elements of v but with target removed.
+remove_elt <- function(v, target) {
+# Your code here
+}
+
+remove_elt(c(2, 3, 3, 5), 3)
+## [1] 2 5
+remove_elt(c(14, 14, 7, 7, 14, 10), 14)
+## [1]
+
+7 7 10
+
+05:00
+4 / 14
+
+Print Square
+Write a function print_square(n) . n is a nonnegative integer and print_square(n)
+prints a square of * of dimension n by n .
+print_square <- function(n) {
+# Your code here
+}
+
+print_square(2)
+## [1] "*" "*"
+## [1] "*" "*"
+print_square(5)
+## [1] "*" "*" "*" "*" "*"
+## [1] "*" "*" "*" "*" "*"
+## [1] "*" "*" "*" "*" "*"
+## [1] "*" "*" "*" "*" "*"
+## [1] "*" "*" "*" "*" "*"
+
+05:00
+5 / 14
+
+Print Triangle
+Write a function print_triangle(n) that prints a triangle of side length n .
+print_triangle <- function(n) {
+# Your code here
+}
+
+print_triangle(3)
+## [1] "*"
+## [1] "*" "*"
+## [1] "*" "*" "*"
+print_triangle(5)
+## [1] "*"
+## [1] "*" "*"
+## [1] "*" "*" "*"
+## [1] "*" "*" "*" "*"
+## [1] "*" "*" "*" "*" "*"
+
+05:00
+6 / 14
+
+Max vector
+You are given two integer vectors nums1 and nums2 , and an integer n representing the
+number of elements in nums1 and nums2 , which have the same length.
+Write a function max_vec that returns a vector of the element-wise maximum of nums
+and nums2 .
+max_vec <- function(nums1, nums2, n) {
+result <- vector(length = n) # this initializes an "empty" vector with length n
+# Your code here
+return(result)
+}
+
+max_vec(1:4, c(0, 27, -5, 19), 4)
+## [1]
+
+1 27
+
+3 19
+
+08:00
+7 / 14
+
+Small Count Simple
+Write a function small_count_simple(v, target) that takes a numeric vector v , a
+number target , and returns how many elements of v are less than target
+small_count_simple <- function(v, target) {
+# Your code here
+}
+
+small_count_simple(c(10, 15, -2, 5), 11)
+## [1] 3
+small_count_simple(c(0, 0, -2, 5), 4)
+## [1] 3
+
+Hint: Use a recycling comparison and the numeric value of logicals. Review Lecture 2
+slides if necessary.
+
+03:00
+8 / 14
+
+Small Count
+Write a function small_count(v) that takes a vector v and returns, for each element
+v[i] , how many elements of v are less than v[i] .
+small_count <- function(v) {
+result <- vector(length = length(v))
+# Your code here
+return(result)
+}
+
+small_count(c(12, 100, -3))
+## [1] 1 2 0
+small_count(c(12, 100, -3, -12))
+## [1] 2 3 1 0
+
+05:00
+9 / 14
+
+Two Sum
+Write a function two_sum that takes a vector v and a number target and returns two
+indices of numbers in v that add up to target . The two indices cannot be equal.
+
+two_sum <- function(v, target) {
+i <- 0
+j <- 0
+# Your code here
+# Hint: one way is to use two for loops
+
+two_sum(c(2, 7, 11, 15), 9)
+## [1] 2 1
+two_sum(c(3, 2, 4), 6)
+
+}
+## [1] 3 2
+two_sum(c(3, 3), 6)
+## [1] 2 1
+
+08:00
+10 / 14
+
+Which
+This is an important function. which takes a logical vector and returns a vector of
+indices of TRUE entries.
+which(c(T, F, F, T, T))
+## [1] 1 4 5
+
+Write a function first_even that takes a numeric vector v and returns the first
+element of v that is an even number.
+first_even(c(1, 3, 5, 6, 7, 8))
+## [1] 6
+first_even(c(-1, -4, 0, 2))
+## [1] -4
+
+05:00
+11 / 14
+
+Last Negative
+Write a function last_negative that takes a numeric vector v and returns the last
+element that is less than zero.
+last_negative(c(1, -9, 0, 6, -7, 0))
+## [1] -7
+last_negative(c(-1, -4, 0, 2))
+## [1] -4
+
+05:00
+12 / 14
+
+any and all
+These functions are usful. They take a logical vector and return a single logical:
+any(c(F, F, T, F, F))
+## [1] TRUE
+all(c(F, F, T, F, F))
+## [1] FALSE
+all(c(T, T, T))
+## [1] TRUE
+
+Write an expression that tests if a vector contains all negative elements.
+
+01:00
+13 / 14
+
+Vectorized Two Sum
+two_sum <- function(v, target) {
+pairs <- combn(seq_along(v), 2)
+w <- v[pairs[1, ]] + v[pairs[2, ]] == target
+pairs[, which(w)]
+}
+
+14 / 14
+
+

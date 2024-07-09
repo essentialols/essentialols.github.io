@@ -2,7 +2,7 @@
 
 #### Ingmar
 
-#### 2022-06-29
+#### 2024-07-02
 
 We will need the following packages:
 
@@ -62,3 +62,9 @@ gapminder |>
   filter(gdpPercap < 300, year < 2007) |>
   select(country, year, gdpPercap)
 ```
+
+```{r}
+gapminder[gapminder$gdpPercap < 300 & gapminder$year < 2007, c("country", "year", "gdpPercap")]
+```
+
+

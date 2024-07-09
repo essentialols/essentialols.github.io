@@ -1,0 +1,126 @@
+---
+title: PSTAT 10 Worksheet 3 Solutions
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+editor_options: 
+  chunk_output_type: console
+---
+
+## Problem 1: Contains Duplicate
+
+Write the function `contains_duplicate(v)` that takes a numeric vector `v` and returns TRUE if any value appears **at least twice** in the vector and FALSE otherwise.
+
+**There are several ways to do this**. The *extremely* easy way is it use the `duplicated` function.
+
+```{r}
+contains_duplicate <- function(v) {
+  any(duplicated(v))
+}
+contains_duplicate(c(1, 2, 3, 1))
+```
+
+```         
+## [1] TRUE
+```
+
+```{r}
+contains_duplicate(c(1, 2, 3, 4))
+```
+
+```         
+## [1] FALSE
+```
+
+```{r}
+contains_duplicate(c(1, 1, 1, 3, 3, 4, 3, 2, 4, 2))
+```
+
+```         
+## [1] TRUE
+```
+
+Another way involves using a loop:
+
+```{r}
+contains_duplicate <- function(v) {
+  seen <- rep(NA, length(v)) # Initialize with NA values
+  for (i in seq_along(v)) {
+    if (v[i] %in% seen) {
+      return(TRUE)
+    }
+    seen[i] <- v[i]
+  }
+  return(FALSE)
+}
+```
+
+We haven’t talked about `NA` yet, but we need it above for a technical reason: initializing with `vector(length = length(v))` would create a vector containing zeros. This leads to wrong output if `v` contain a zero.
+
+## Problem 2: More on iris
+
+1.  Convert the `iris` data frame to a tibble and call it `iris_tbl`
+
+```{r, include=F}
+library(tidyverse)
+data("iris")
+```
+
+```{r}
+iris_tbl <- as_tibble(iris)
+```
+
+1.  Find the median `Petal.Width` and then create a tibble that only contains petal widths greater than the median.
+
+```{r}
+median(iris_tbl$Petal.Width)
+```
+
+
+```{r}
+iris_tbl |>
+  filter(Petal.Width > median(iris_tbl$Petal.Width))
+```
+
+1.  Call the area of a petal its length times its width. Create a tibble containing only the variables `Sepal.Length`, `Sepal.Width`, `Species`, and `Petal.Area` and only the rows where the petal width is greater than the median.
+
+```{r}
+iris_tbl |>
+  filter(Petal.Width > median(Petal.Width)) |>
+  mutate(Petal.Area = Petal.Width * Petal.Length) |>
+  select(-Petal.Length, -Petal.Width)
+```
+
+## Problem 3: More on heights data
+
+Load the `heights_df` data frame from worksheet 1.
+
+```{r include=FALSE}
+heights_df <- read_csv("~/Documents/GitHub/essentialols.github.io/courses/pstat10_2024/assignments/week1_files/heights.csv")
+```
+
+```{r eval=FALSE}
+library(here)
+heights_df <- read.csv(here("heights.csv"))
+```
+
+Recall the `height` variable is given in centimeters (cm). In worksheet 2, we created `cm_to_ft_inch` that converts from cm to a string representation of feet and inches.
+
+Using `dplyr` functionality, create a tibble with a variable `height_ft_in` in place of `height`.
+
+```{r include=FALSE}
+cm_to_ft_inch <- function(height){
+  total_height_inches <- height/2.54
+  height_feet <- round(total_height_inches/12)
+  height_inches <- round(total_height_inches %% 12)
+  return(paste(height_feet, height_inches))
+}
+```
+
+```{r}
+heights_df |>
+  as_tibble() |>
+  mutate(height_ft_in = cm_to_ft_inch(height)) |>
+  select(-height)
+```

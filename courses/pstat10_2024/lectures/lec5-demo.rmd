@@ -2,7 +2,7 @@
 
 #### Ingmar
 
-#### 2022-06-28
+#### 2024-07-01
 
 We need to install and then load the following packages
 
@@ -13,6 +13,15 @@ library(tidyverse)
 ```{r}
 library(gapminder)
 library(datasets)
+```
+
+```{r}
+library(gapminder)
+
+head(gapminder, 15)
+```
+```{r}
+tail(gapminder, 15)
 ```
 
 ## Basic Plotting (slide 32)

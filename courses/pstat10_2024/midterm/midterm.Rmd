@@ -1,0 +1,327 @@
+---
+title: "PSTAT 10 Midterm"
+output: 
+  pdf_document:
+    extra_dependencies: ["enumerate"]
+---
+
+There are a total of 100 points to be had for the entire exam. Please review
+the point breakdown of entire exam before proceeding.
+
+- Question 1: 4 points
+- Question 2: 4 points
+- Question 3: 4 points
+- Question 4: 44 points (4 points per blank)
+- Question 5: 4 points
+- Question 6: 4 points
+- Question 7: 10 points
+- Question 8: 10 points
+- Question 9: 12 points (4 points for each subset)
+
+
+Consider the following `Iris` dataset. I have converted it into a `tibble` here
+but I will use both the original dataframe and this tibble going forward.
+
+```{r warning=FALSE, message=FALSE}
+library(tidyverse)
+iris_tib <- as_tibble(iris)
+print(iris_tib, n=5)
+```
+
+### Question (4 points)
+
+What is one benefit of a tibble compared to a classic dataframe?
+
+\begin{enumerate}[A.]
+\item Tibbles automatically round numeric columns to two decimal places.
+\item Tibbles show the column type when printed.
+\item Tibbles always display all rows and columns by default.
+\item Tibbles convert all character columns to factors by default.
+\item Tibbles are immutable and cannot be changed once created.
+\end{enumerate}
+
+TRUE: B
+
+\newpage
+
+### Question (4 points)
+
+Which of the following is _**FALSE**_ about `iris_tib`?
+
+\begin{enumerate}[A.]
+\item Calling \texttt{class(iris\_tib)} would show that it is both a tibble and a dataframe.
+\item Its dimensions are 150 rows and 5 columns.
+\item Calling \texttt{is.matrix(iris\_tib)} would return TRUE.
+\item Each row represents an observation.
+\item It has four numeric variables.
+\end{enumerate}
+
+TRUE: C
+
+### Question (4 points)
+
+You want to understand how `Sepal.Length` is distributed. What code could you 
+use for an appropriate visualization?
+
+\begin{enumerate}[A.]
+\item \texttt{boxplot(iris\$Sepal.Length, main = "Boxplot of Sepal Length")}
+\item \texttt{barplot(iris\$Sepal.Length, main = "Barplot of Sepal Length")}
+\item \texttt{plot(iris\$Sepal.Length, main = "Plot of Sepal Length")}
+\item \texttt{histogram(iris\$Sepal.Length, main = "Histogram of Sepal Length")}
+\item A and B
+\end{enumerate}
+
+TRUE: A
+
+\newpage
+
+### Question (Total for this question: 44 points, 4 points per blank.)
+
+You suspect that `Sepal.Length` and `Petal.Length` are somehow related and 
+decide to create a scatterplot. Fill in the blanks below to produce 
+this scatterplot.
+
+```{r, echo = FALSE, out.width="70%", fig.align='center'}
+plot(iris$Sepal.Length, iris$Petal.Length, 
+     main = "Scatterplot of Sepal Length vs. Petal Length",
+     xlab = "Sepal Length (in cm)",
+     ylab = "Petal Length (in cm)")
+model <- lm(iris$Petal.Length ~ iris$Sepal.Length)
+abline(model, col = "red")
+```
+
+Note that the size of the blank does not necessarily 
+correspond to the length of the correct content.
+
+```{r, eval=FALSE}
+____1____(____2_____, _____3____, 
+     __4__ = "Scatterplot of Sepal Length vs. Petal Length",
+     __5__ = "Sepal Length (in cm)",
+     __6__ = "Petal Length (in cm)")
+model <- ___7___(____8_____ ~ _____9____)
+_____10____(model, ___11___ = "red")
+```
+
+1:
+_______________________
+
+2:
+_______________________
+
+3:
+_______________________
+
+4:
+_______________________
+
+5:
+_______________________
+
+6:
+_______________________
+
+7:
+_______________________
+
+8:
+_______________________
+
+9:
+_______________________
+
+10:
+_______________________
+
+11:
+_______________________
+
+### Question (4 points)
+
+Based on this scatterplot, how would you describe the relationship 
+between `Sepal Length` and `Petal Length`?
+
+
+\hrulefill
+
+\hrulefill
+
+\hrulefill
+
+
+### Question (4 points)
+
+Assuming a linear relationship between `Sepal Lenght` and `Petal Length`,
+what base R code could you run to measure the strength of this relationship?
+
+\begin{enumerate}[A.]
+\item \texttt{correlation(iris\$Sepal.Length, iris\$Petal.Length)}
+\item \texttt{relationship(iris\$Sepal.Length, iris\$Petal.Length)}
+\item \texttt{cor(iris\$Sepal.Length, iris\$Petal.Length)}
+\item \texttt{linear\_model(iris\$Sepal.Length $\sim$ iris\$Petal.Length) \%>\% summary()}
+\item \texttt{relation(iris\$Sepal.Length, iris\$Petal.Length)}
+\end{enumerate}
+
+TRUE: C
+
+### Question (10 points)
+
+You decide to measure the total combined area of the Sepal and the Petal for
+each flower.
+
+First, write a function called `total_area` that takes 4 arguments: 
+`Sepal.Length`, `Sepal.Width`, `Petal.Length`, and `Petal.Width`. 
+It should compute the
+area of the Sepal and the area of the Petal and return the sum of the two.
+Assume that the Sepal and Petal are rectangular.
+
+```{r echo=FALSE}
+total_area <- function(Sepal.Length, Sepal.Width, Petal.Length, Petal.Width){
+  Sepal.Area <- Sepal.Length * Sepal.Width
+  Petal.Area <- Petal.Length*Petal.Width
+  total_area <- Sepal.Area + Petal.Area
+  return(total_area)
+  }
+```
+
+
+````{verbatim}
+```{r}
+# write your code below
+
+
+
+
+
+
+# end
+```
+````
+
+A simple test for this function is
+
+```
+total_area(1, 2, 2, 2)
+
+[1] 6
+```
+
+### Question (10 points)
+
+Now you want to create a new column in your tibble which contains the total area
+using the function you wrote above. Use tidyverse functions and the pipe to
+create this new column.
+
+```{r echo=FALSE}
+iris <- iris %>% 
+  mutate(total_area = total_area(Sepal.Length, 
+    Sepal.Width, 
+    Petal.Length, 
+    Petal.Width))
+```
+
+````{verbatim}
+```{r echo=FALSE}
+# write your code below
+
+
+
+
+
+
+
+
+# end
+```
+````
+
+### Question (12 points, 4 for each subset)
+
+You suspect that the relationship between `Sepal.Length` and
+`Sepal.Width` is different for each Iris species. Write code below to create three
+subsets, one for each value of the `Species` column, which are `setosa`, 
+`versicolor`, `virginica`. Save these subset dataframes each to their 
+own object. Use base R (not the tidyverse) to subset.
+
+```{r eval=FALSE}
+setosa_df <-
+versicolor <- 
+virginica <-
+```
+
+### Question (4 points)
+
+You could have done the same operation using `tidyverse` functions.
+What `dplyr` function is suitable
+to subset a data frame, retaining all rows that satisfy your conditions?
+
+\begin{enumerate}[A.]
+\item filter
+\item select
+\item mutate
+\item summary
+\item summarize
+\end{enumerate}
+
+\newpage
+
+## Part 2
+
+### Question (10 points)
+
+#### Estimating the Probability of Successfully Picking a Lock
+
+**Background**: In the tabletop role-playing game Dungeons & Dragons (D&D), players often find themselves in situations where they need to perform tasks that require a bit of luck and skill. One common task is picking a lock. To determine whether a character successfully picks a lock, players roll dice and add bonuses based on their character’s abilities.
+
+**Objective**: Imagine you are a character trying to pick a lock. You have a high level of skill in this task, represented by a +5 bonus, and you also have some magical assistance in the form of a Guidance spell, which gives you an extra boost.
+
+**Task**: _**Use simulations to estimate the probability of successfully picking a lock that requires a total score of 15 or higher.**_ This involves rolling a 20-sided die (also known as "d20"), adding a +5 skill bonus, and then rolling an additional 6-sided die (d6) for the magical Guidance spell.
+
+#### Steps to Simulate:
+
+- Roll a 20-sided die (d20) to represent your initial attempt.
+- Add a bonus of 5 to the result of the d20 roll to account for your skill.
+- Roll an additional 6-sided die (d6) to represent the extra boost from the Guidance spell and add this to your total score.
+- Repeat the above steps 10,000 times.
+- Calculate the proportion of times the total score is 15 or higher (successfully picking the lock).
+
+
+````{verbatim}
+```{r echo=FALSE}
+# write your code below
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# end
+```
+````
+
+\newpage
+
+### Question (4 points)
+
+What would happen if you increased the numer of replications from 10,000 to
+1,000,000?
+
+\begin{enumerate}[A.]
+\item The estimated probability would become exactly 1.
+\item The estimated probability would become exactly 0.
+\item The estimated probability would become more accurate.
+\item The estimated probability would remain the same, but the computation would be faster.
+\item The estimated probability would vary more significantly with each run.
+\end{enumerate}
+
+TRUE: C
+
+

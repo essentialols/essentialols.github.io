@@ -348,8 +348,11 @@ Interestingly `|&gt;` is a base R pipe.
 
 `tidyverse` has its own pipe which looks like `%&gt;%`; you might see this
 in the wild. It became so popular that `|&gt;` was recently added to base R.
-It is now recommended to use `|&gt;` over `%&gt;%` in most cases.
-[discussion](https://twitter.com/dr_keithmcnulty/status/1536065748006748165)
+
+Which one should you use? It's a matter of preference but, in short, use `%&gt;%` if you 
+want greater flexibility. If you want your code to work without the `tidyverse` or greater speed,
+use `|&gt;`.
+[comparison](https://stackoverflow.com/questions/67633022/what-are-the-differences-between-rs-native-pipe-and-the-magrittr-pipe)
 
 
 ```r
@@ -633,7 +636,7 @@ $$
 ```
 ---
 # More on dplyr
-`dplyr` contains many more functions for *data munging*.
+`dplyr` contains many more functions for *data wrangling* (aka *data munging*).
 
 See the [dplyr cheatsheet](https://www.rstudio.com/resources/cheatsheets/)
 
@@ -655,6 +658,16 @@ gapminder |&gt;
 ## 4 Europe            71.9        14469.
 ## 5 Oceania           74.3        18622.
 ```
+
+---
+# Check-in
+
+How can we improve? Let us know in this brief check-in poll.
+
+.center[![:scale 50%](Lec6_files/check-in-qr.png)]
+
+https://forms.gle/NcLBptVGiHtgMhqk8
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

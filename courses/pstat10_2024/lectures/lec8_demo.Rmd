@@ -1,0 +1,129 @@
+---
+title: "Lecture 8 demo code"
+date: 2024-07-08
+output: html_document
+---
+
+## Setting a seed
+
+The following ensures you will get the same results as me.
+
+```{r}
+set.seed(10)
+```
+
+
+## Minimum of Scores Greater than 2 (slide 13)
+
+```{r}
+min_greater_2 <- function() {
+  s <- sample(1:6, 3, replace = T)
+  return(min(s) > 2)
+}
+
+r <- replicate(10000, min_greater_2())
+mean(r)
+```
+
+
+The following is a little obnoxious, but we can combine it all into a single line.
+
+```{r}
+replicate(10000, min(sample(1:6, 3, replace = T)) > 2) |>
+  mean()
+```
+
+## More dice rolling (slide 14)
+
+```{r}
+second_greater <- function() {
+  s <- sample(1:6, 2, replace = T)
+  s[2] > s[1]
+}
+mean(replicate(10000, second_greater()))
+```
+
+The `diff` function gives the lagged difference; the difference between successive elements. Below, the difference between 4 and 0 is 4 and the distance between 10 and 4 is 6.
+
+```{r}
+diff(c(0, 4, 10))
+```
+
+We can use this to construct a one-liner:
+
+```{r}
+replicate(10000, diff(sample(1:6, 2, replace = T)) > 0) |> 
+  mean()
+```
+
+I don’t expect you to remember the diff function; just know that many basic operations are already available for you in base R.
+
+## Derangement
+
+Below is a solution using loops.
+
+```{r}
+x <- 1:100
+is_deranged_loop <- function(){
+  counta <- 0
+  x1 <- sample(x)
+  for(i in seq_along(x)){
+    if(x1[i] == i){
+      counta = counta + 1
+    }
+  }
+  return(counta <= 0)
+}
+mean(replicate(10000, is_deranged_loop()))
+```
+
+And here is a vectorized solution.
+
+```{r}
+is_deranged <- function() {
+ !any(sample(1:100) == 1:100) # Think about what this does!
+}
+result <- replicate(10000, is_deranged())
+mean(result)
+```
+
+## Plotting the approximation
+
+The function `running_mean(k)` gives the average of the first k elements of result, i.e. the estimate from the first k replications.
+
+```{r}
+running_mean <- function(k) {
+  mean(result[seq_len(k)])
+}
+
+running_means <- sapply(1:10000, running_mean)
+
+head(running_means)
+```
+
+Actually, there is a much smarter way to do the above using the cumsum function. This uses a vectorized division.
+
+```{r}
+running_means <- cumsum(result) / 1:10000
+```
+
+Plot these estimates against the replication number.
+
+```{r}
+plot(1:10000, running_means, type = 'l', main = "Probability of a derangement",
+     xlab = "no. reps", ylab = "p")
+abline(h = 1/exp(1), col = "red")
+```
+
+## Expectation (slide 20)
+
+```{r}
+set.seed(100)
+before_six <- function() {
+  s <- sample(1:6, 100, replace= T)
+  which(s == 6)[1] - 1 # Minus 1 since we do not count the roll which scored 6.
+}
+replicate(10000, before_six()) |> mean()
+```
+
+It can be shown the theoretical value is 5.
