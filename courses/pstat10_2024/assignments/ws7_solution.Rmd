@@ -1,0 +1,145 @@
+---
+title: "PSTAT 10 Worksheet 7 solutions"
+output:
+  html_document:
+    df_print: paged
+---
+
+For this worksheet, we need the following packages along with a connection to the Chinook database.
+
+```{r message=FALSE}
+library(RSQLite)
+library(sqldf)
+library(DBI)
+chinook_db <- dbConnect(SQLite(), "../Chinook_Sqlite.sqlite")
+dbExecute(chinook_db, "pragma foreign_keys = on") # Required for foreign-key support
+```
+
+## Problem 1: Terminology
+
+For the problems below, it is okay to use Google to find explanations that make sense to you.
+
+1.  Briefly explain the purpose of primary keys and foreign keys in a relational database.
+
+**Primary keys uniquely identify records in a table and foreign keys represent relationships between two tables. The keys come with constraints that maintain the integrity of the data.**
+
+2.  Briefly explain how relational databases model real world data.
+
+**A real world object is stored in its own table. Relationships between real world objects are modeled via primary/foreign key relationships.**
+
+Briefly explain the difference between SQL, SQLite, and `RSQLite`.
+
+**SQL is the language for retrieving data from a relational DB. SQLite is a particular, lightweight implementation of SQL, also called an RDBMS. RSQLite is the R package that implements SQLite.**
+
+## Problem 2: Foreign keys
+
+**List all of the foreign key relationships in the database.**
+
+![](chinook.png)
+
+Pay particular attention to number 2 below. This says the Employee table has a foreign key to itself. Think about what real world relationship this models in the context of the Chinook digital media store.
+
+1.  Customer.SupportRepId -\> Employee.EmployeeId
+2.  Employee.ReportsTo -\> Employee.EmployeeId
+3.  Invoice.CustomerId -\> Customer.CustomerId
+4.  InvoiceLine.TrackId -\> Track.TrackId
+5.  InvoiceLine.InvoiceId -\> Invoice.InvoiceId
+6.  Track.MediaTypeId -\> MediaType.MediaTypeId
+7.  Track.GenreId -\> Genre.GenreId
+8.  Track.AlbumId -\> Album.AlbumId
+9.  PlaylistTrack.TrackId -\> Track.TrackId
+10. PlaylistTrack.PlaylistId -\> Playlist.PlaylistId
+11. Album.ArtistId -\> Artist.ArtistId
+
+Here is the foreign key metadata using pragma (which, as you recall, is a SQLite-specific statement).
+
+```{r}
+rbind(
+  dbGetQuery(chinook_db, "pragma foreign_key_list(customer)"),
+  dbGetQuery(chinook_db, "pragma foreign_key_list(employee)"),
+  dbGetQuery(chinook_db, "pragma foreign_key_list(invoice)"),
+  dbGetQuery(chinook_db, "pragma foreign_key_list(invoiceline)"),
+  dbGetQuery(chinook_db, "pragma foreign_key_list(track)"),
+  dbGetQuery(chinook_db, "pragma foreign_key_list(playlisttrack)"),
+  dbGetQuery(chinook_db, "pragma foreign_key_list(album)"),
+  dbGetQuery(chinook_db, "pragma foreign_key_list(artist)")
+)
+```
+
+```         
+##    id seq     table         from          to on_update on_delete match
+## 1   0   0  Employee SupportRepId  EmployeeId NO ACTION NO ACTION  NONE
+## 2   0   0  Employee    ReportsTo  EmployeeId NO ACTION NO ACTION  NONE
+## 3   0   0  Customer   CustomerId  CustomerId NO ACTION NO ACTION  NONE
+## 4   0   0     Track      TrackId     TrackId NO ACTION NO ACTION  NONE
+## 5   1   0   Invoice    InvoiceId   InvoiceId NO ACTION NO ACTION  NONE
+## 6   0   0 MediaType  MediaTypeId MediaTypeId NO ACTION NO ACTION  NONE
+## 7   1   0     Genre      GenreId     GenreId NO ACTION NO ACTION  NONE
+## 8   2   0     Album      AlbumId     AlbumId NO ACTION NO ACTION  NONE
+## 9   0   0     Track      TrackId     TrackId NO ACTION NO ACTION  NONE
+## 10  1   0  Playlist   PlaylistId  PlaylistId NO ACTION NO ACTION  NONE
+## 11  0   0    Artist     ArtistId    ArtistId NO ACTION NO ACTION  NONE
+```
+
+The following three tables have no foreign keys.
+
+```{r}
+rbind(
+  dbGetQuery(chinook_db, "pragma foreign_key_list(playlist)"),
+  dbGetQuery(chinook_db, "pragma foreign_key_list(genre)"),
+  dbGetQuery(chinook_db, "pragma foreign_key_list(mediatype)")
+)
+```
+
+```         
+## [1] id        seq       table     from      to        on_update on_delete
+## [8] match    
+## <0 rows> (or 0-length row.names)
+```
+
+## Problem 3: Customer
+
+1.  Select the CustomerId, FirstName, LastName, State, Country of all customers living in California. The result is provided.
+
+```{r, error = TRUE}
+dbGetQuery(chinook_db, "select CustomerId, FirstName, LastName, State, Country from customer
+                          where State = 'CA' and Country = 'USA'")
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# Load the knitr library
+library(knitr)
+
+# Create the data frame
+data <- data.frame(
+  Row = c("##    1", "##    2", "##    3"),
+  CustomerId = c(16, 19, 20),
+  FirstName = c("Frank", "Tim", "Dan"),
+  LastName = c("Harris", "Goyer", "Miller"),
+  State = c("CA", "CA", "CA"),
+  Country = c("USA", "USA", "USA")
+)
+
+# Generate the table
+kable(data, col.names = c("##", "CustomerId", "FirstName", "LastName", "State", "Country"), align = 'c')
+```
+
+2.  How many customers are from Brazil? Your query should return the following result.
+
+```{r, error = TRUE}
+dbGetQuery(chinook_db, "select count(*) from customer where Country = 'Brazil'")
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# Load the knitr library
+library(knitr)
+
+# Create the data frame
+data <- data.frame(
+  Row = c("##   1"),
+  Count = c("5")
+)
+
+# Generate the table
+kable(data, col.names = c("##", "count(*)"), align = 'c', escape = FALSE)
+```

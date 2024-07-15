@@ -1,0 +1,31 @@
+---
+title: "Lecture 10 demo code"
+date: 2024-07-10
+output: html_document
+---
+
+## Setting a seed
+
+The following ensures you will get the same results as me.
+
+```{r}
+set.seed(10)
+```
+
+## Uniform distribution (slide 15)
+
+```{r}
+punif(4.3, min = 0, max = 10) - punif(2.5, 0, 10) + punif(8, 0, 10, lower.tail = F)
+```
+
+## Normal distribution (slide 27)
+
+```{r}
+1 - pnorm(2, mean = 1, sd = 1.5)
+```
+
+Equivalently with `lower.tail=F`.
+
+```{r}
+pnorm(2, mean = 1, sd = 1.5, lower.tail = F)
+```

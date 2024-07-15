@@ -1,0 +1,51 @@
+---
+title: "Lecture 9 demo code"
+output: html_document
+date: 2024-07-09
+---
+
+## Setting a seed
+
+The following ensures you will get the same results as me.
+
+```{r}
+set.seed(10)
+```
+
+## Binomial distribution (slide 14)
+
+Exactly equal to 4.
+```{r}
+dbinom(4, size = 10, prob = 0.18)
+```
+
+```{r}
+sum(dbinom(0:4, size = 10, prob = 0.18))
+```
+
+Less than or equal to 4.
+
+```{r}
+pbinom(4, size = 10, prob = 0.18)
+```
+
+
+## Binomial distribution (slide 16)
+
+Strictly less than 4.
+
+```{r}
+pbinom(3, size = 10, prob = 0.18)
+```
+
+Greater than or equal to 4.
+
+```{r}
+1 - pbinom(3, size = 10, prob = 0.18)
+```
+
+Equivalent with `lower.tail=F`
+
+```{r}
+pbinom(3, size = 10, prob = 0.18, lower.tail = F)
+```

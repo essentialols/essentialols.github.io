@@ -25,7 +25,7 @@ class: center, middle, inverse, title-slide
 ### UCSB
 ]
 .date[
-### 2024-07-10
+### 2024-07-11
 ]
 .footnote[
 Special thanks to Robin Liu for select course content used with permission.
@@ -42,6 +42,7 @@ class: inverse, middle, center
 .center[![:scale 60%](Lec11_files/montecarlo.png)]
 
 Simulation is a very powerful tool
+
 *Monte Carlo* methods are a class of techniques that introduce randomness
 to solve non-random problems.
 
@@ -164,21 +165,44 @@ abline(h = 2/pi, col = "red")
 
 ---
 # Monte Carlo Integration
-Use simulation to compute the following:
+## Integration as Expectation
 
+### Problem
+Compute the integral:
 `$$\int_0^{10} x^2\, \mathrm{d}x$$`
 
---
+### Approach
+Express the integral as the *expectation* of a random variable.
 
-**Idea:** Express the integral as the *expectation* of a certain random variable.
+---
 
-Let `\(X\sim \operatorname{Unif}(0, 10)\)` with pdf `\(f_X(x) = \frac{1}{10}\)` for `\(0&lt; x &lt; 10\)`.
+# Monte Carlo Integration
+## Understanding Expectation
 
-`\begin{align*}
-\int_0^{10} x^2\, \mathrm{d}x
-&amp;= \int_0^{10} 10x^2 \frac{1}{10}\mathrm{d}x \\
-&amp;= \int_0^{10} 10x^2 f_X(x)\mathrm{d}x = \mathbb{E}(10X^2).
-\end{align*}`
+Let `\(X\)` be a random variable uniformly distributed from 0 to 10 (`\(X\sim \operatorname{Unif}(0, 10)\)`), with a probability density function (pdf) of:
+`$$f_X(x) = \frac{1}{10}, \text{ for } 0 \leq x \leq 10$$`
+
+The integral can be rewritten using the expectation:
+`$$\int_0^{10} x^2\, \mathrm{d}x = \mathbb{E}[10X^2]$$`
+
+This is because:
+`$$\mathbb{E}[g(X)] = \int g(x) f_X(x) \, dx$$`
+and setting `\( g(x) = 10x^2 \)` integrates to the expectation over the interval [0, 10].
+
+---
+
+# Monte Carlo Integration
+## Monte Carlo Method
+
+### Steps:
+1. **Generate Random Points**: Generate \(N\) points \(x_i\) where each \(x_i\) is uniformly distributed between 0 and 10.
+2. **Function Evaluation**: Evaluate \(x_i^2\) at each point.
+3. **Average the Results**: Compute the average of these values:
+   `$$\overline{f} = \frac{1}{N} \sum_{i=1}^N x_i^2$$`
+4. **Scale by Interval**: Multiply the average by the interval length (10 in this case) to estimate the integral:
+   `$$\text{Estimate} = 10 \times \overline{f}$$`
+
+This approach estimates the expected value `\(\mathbb{E}[10X^2]\)`, which equals the integral.
 
 ---
 # Monte Carlo Integration

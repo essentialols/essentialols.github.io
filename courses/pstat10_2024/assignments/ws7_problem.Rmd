@@ -1,0 +1,88 @@
+---
+title: "PSTAT 10 Worksheet 7"
+subtitle: Due 7/19/22
+output:
+  pdf_document:
+    latex_engine: xelatex
+---
+
+For this worksheet, we need the following packages along with a
+connection to the Chinook database.
+
+```{r message=FALSE}
+library(RSQLite)
+library(sqldf)
+library(DBI)
+chinook_db <- dbConnect(SQLite(), "Chinook_Sqlite.sqlite")
+dbExecute(chinook_db, "pragma foreign_keys = on") # Required for foreign-key support
+```
+
+## Problem 1: Terminology
+
+For the problems below, it is okay to use Google to find explanations
+that make sense to you.
+
+1.  Briefly explain the purpose of primary keys and foreign keys in a
+    relational database.
+2.  Briefly explain how relational databases model real world data.
+3.  Briefly explain the difference between SQL, SQLite, and RSQLite.
+
+## Problem 2: Foreign keys
+
+Refer to the diagram of tables and fields in the Chinook database.
+
+**List all of the foreign key relationships in the database.**
+
+Write out these relationships in the following format:
+
+TableName.ForeignKey -\> TargetTableName.PrimaryKey.
+
+For example, the following indicates that SupportRepId in the Customer
+table is a foreign key to the primary key of the Employee table, which
+is EmployeeId.
+
+1.  Customer.SupportRepId -\> Employee.EmployeeId
+
+*Hint:* There are 11 total relationships to list. Do not simply “guess”
+by looking at the diagram. Access the Chinook database schema
+information using the SQLite pragma command.
+
+![](chinook.png)
+
+## Problem 3: Customer
+
+1.  Select the CustomerId, FirstName, LastName, State, Country of all customers living in California. The result is provided.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# Load the knitr library
+library(knitr)
+
+# Create the data frame
+data <- data.frame(
+  Row = c("##    1", "##    2", "##    3"),
+  CustomerId = c(16, 19, 20),
+  FirstName = c("Frank", "Tim", "Dan"),
+  LastName = c("Harris", "Goyer", "Miller"),
+  State = c("CA", "CA", "CA"),
+  Country = c("USA", "USA", "USA")
+)
+
+# Generate the table
+kable(data, col.names = c("##", "CustomerId", "FirstName", "LastName", "State", "Country"), align = 'c')
+```
+
+2. How many customers are from Brazil? Your query should return the following result.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# Load the knitr library
+library(knitr)
+
+# Create the data frame
+data <- data.frame(
+  Row = c("##   1"),
+  Count = c("5")
+)
+
+# Generate the table
+kable(data, col.names = c("##", "count(*)"), align = 'c', escape = FALSE)
+```

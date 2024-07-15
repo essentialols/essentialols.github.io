@@ -1,0 +1,56 @@
+---
+title: "PSTAT 10 Worksheet 6"
+subtitle: Due 7/10/24 at 11:59 pm
+output:
+  pdf_document:
+    latex_engine: xelatex
+---
+
+## Problem 1: Estimating a binomial expectation
+
+Let $X$ be the r.v. that indicates the number heads after flipping a *biased* coin $n = 10$ times, where the probability of heads is $p = 0.3$.
+
+1. In mathematical notation, write down the distribution of $X$. It should include the $\sim$ symbol.
+
+2. Estimate the expectation of $X$ through simulating 10,000 replications
+
+## Problem 2: Plotting the binomial pmf
+
+Recall the pmf of a discrete r.v. $X$ is given by
+
+$$f(k) = \mathbb{P}(X = k)$$. 
+
+Just to reiterate the notation, $f$ is a function of k, the outcome of a random experiment of which $X$ is a
+numerical value (e.g. number of heads); f is the pmf of $X$.
+
+The plot of a pmf gives a good idea of the “shape” of a distribution; it is often informative to look at the plot.
+Recreate the following plot of the pdf of $X ∼ Binom(10, 0.18)$.
+
+*Hint:* dbinom is vectorized. I used the parameters type = "h" and lwd = 5 in my plot.
+
+```{r}
+plot(0:10, dbinom(0:10, size = 10, prob = 0.18),
+     main = "PMF of Binom(10, 0.18)",
+     ylab = "p", xlab = "k", type = "h", lwd = 5)
+axis(side = 1, at = 0:10)
+```
+
+## Problem 3: Rolls until 15
+
+Roll a fair six-sided die 15 times. How many rolls did it take until the cumulative sum of scores equals or
+exceeds 15?
+
+For example: I rolled
+
+```r
+## [1] 2 6 3 1 2 6 4 6 6 4 6 2 3 2 5
+```
+
+After 5 rolls, my cumulative score is $2+6+3+1+2 = 14$. But after 6 rolls, my cumulative score is $14+6 = 20$.
+It took me 6 rolls for a score that equals or exceeds 15.
+
+What is the expected number of rolls it takes for the score to equal or exceed 15? Estimate using 10,000
+replications.
+
+*Hint:* My solution uses the `cumsum` function along with `which.`
+

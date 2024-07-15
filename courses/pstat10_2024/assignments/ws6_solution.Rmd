@@ -1,0 +1,62 @@
+---
+title: "PSTAT 10 Worksheet 6 Solutions"
+output: pdf_document
+---
+
+## Problem 1: Estimating a binomial expectation
+
+Let $X$  be the r.v. that indicates the number heads after flipping a **biased** $n=10$ times, where the probability of heads is $p=0.3$.
+
+ 1. In mathematical notation, write down the distribution of $X$ . It should include the $\sim$ symbol.
+
+$$X \sim Binom(10,0.3)$$
+
+2. Estimate the expectation of $X$ through simulating 10,000 replications
+
+```{r}
+mean(rbinom(10000, 10, 0.3))
+```
+
+## Problem 2: Plotting the binomial pmf
+Recall the pmf of a discrete r.v. $X$ is given by $$f(k)= \mathbb{P}(X=k)$$. 
+
+Just to reiterate the notation, $f$ is a function of $k$, the outcome of a random experiment of which $X$ is a numerical value (e.g. number of heads); f
+ is the pmf of $X$.
+
+The plot of a pmf gives a good idea of the “shape” of a distribution; it is often informative to look at the plot.
+
+Recreate the following plot of the pdf of $X \sim Binom(10,0.18)$.
+
+```{r out.width="95%"}
+plot(0:10, dbinom(0:10, size = 10, prob = 0.18),
+     main = "PMF of Binom(10, 0.18)",
+     ylab = "p", xlab = "k", type = "h", lwd = 5)
+axis(side = 1, at = 0:10)
+```
+
+## Problem 3: Rolls until 15
+
+Roll a fair six-sided die 15 times. What is the expected number of rolls it takes for the score to equal or exceed 15? Estimate using 10,000
+replications.
+
+```{r}
+set.seed(100)
+r <- replicate(10000, which(cumsum(sample(1:6, size = 15, replace = T)) >= 15)[1])
+mean(r)
+```
+
+If you found the above expression difficult to parse, here is it as a separate function.
+
+```{r}
+until_15 <- function() {
+  rolls <- sample(1:6, size = 15, replace = T) # Outcome of rolling 15 dice
+  c_rolls <- cumsum(rolls) # cumulative sum of rolls
+  c_15 <- c_rolls >= 15 # logical vector indicates exceeding 15
+  which_c_15 <- which(c_15) # Indices of cumulative scores exceeding 15
+  return(which_c_15[1]) # The first such index.
+}
+
+set.seed(100)
+r <- replicate(10000, until_15())
+mean(r)
+```

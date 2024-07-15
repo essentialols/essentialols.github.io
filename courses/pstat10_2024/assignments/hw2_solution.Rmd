@@ -8,7 +8,7 @@ output:
 
 # Problem 1: Convergence to e
 
-The number **e ≈ 2.718** can be expressed in many different ways. One way is as a limit and another is as an infinite series:
+The number $e \approx 2.718$ can be expressed in many different ways. One way is as a limit and another is as an infinite series:
 
 $$
 e = \lim_{n \to \infty} \left( 1 + \frac{1}{n} \right)^n \quad \text{limit representation}
@@ -18,24 +18,22 @@ $$
 e = \sum_{k=0}^{\infty} \frac{1}{k!} \quad \text{series representation}
 $$
 
-``` r
-  # First initialize the vector of values
-
+```{r}
+# First initialize the vector of values
 x <- 1:100
 
+# limit
 e_limit <- vector(length = length(x))
-
 e_limit[1] <- 1
 
+# series
 e_series <- vector(length = length(x))
-
 e_series[1] <- 1
 
 # Next, use a loop to fill in the values.
 
 for(i in seq(2, length(x))) {
   e_limit[i] <- (1 + 1/i)^i
-
   e_series[i] <- e_series[i-1] + 1/factorial(i-1)
 }
 ```
@@ -44,50 +42,29 @@ The above loop can be written in several ways. I started the loop index at 2 ins
 
 ## Vectorized Approach
 
-A simpler, faster, and more elegant way is to use vectorization. Think about how this works. install.packages('tinytex') tinytex::install_tinytex() \# to uninstall TinyTeX, run tinytex::uninstall_tinytex()
+A simpler, faster, and more elegant way is to use vectorization. Think about how this works. 
 
-``` r
+```{r}
 x <- 0:100
-e_limit <- (1 + 1/x)^x>
+e_limit <- (1 + 1/x)^x
 e_series <- cumsum(1/factorial(x))
 ```
 
 Regardless of the approach, here is the code to generate the plot.
 
-``` r
+```{r}
 plot(x, e_limit, type="n", main="Convergence to e", ylab="y")
-
 points(x, e_limit, type="l", col = "blue")
-
 points(x, e_series, type="l", col = "red")
-
 legend("bottomright", legend=c("Limit", "Series"), col=c("blue", "red"), lty=1)
-```
-
-```{r echo=FALSE}
-
-x <- 1:100
-
-
-limit <- (1 + 1/x)^x
-series <- sapply(x, function(n) sum(1/factorial(0:n)))
-
-
-plot(x, limit, type = "l", col = "blue", xlab = "x", ylab = "y", main = "Convergence to e")
-lines(x, series, col = "red")
-
-
-legend("bottomright", legend = c("Limit", "Series"), col = c("blue", "red"), lty = 1)
-
 ```
 
 # Problem 2: nycflights13
 
 For this problem, we will work with the `flights` data set in the nycflights13 package. Install and load the `nycflights13` package. Also make sure you load `tidyverse` in case you need it.
 
-``` r
+```{r}
 library(nycflights13)
-
 library(tidyverse)
 ```
 
@@ -95,83 +72,39 @@ library(tidyverse)
 
 2.  Extract a tibble containing American Airlines (AA) flights to LAX that departed before 1030. Return only the columns `month`, `day`, `dep_time`, `dest`, and `carrier`. How many flights fit these criteria?
 
-``` r
+```{r}
 flights |>
-
     filter(dest == "LAX", carrier == "AA", dep_time < 1030) |>
-
     select(month, day, dep_time, dest, carrier)
 ```
-
-| \## |     | A tibble: 977 x 5        |     |          |      |         |
-|-----|-----|--------------------------|-----|----------|------|---------|
-| \## |     | month                    | day | dep_time | dest | carrier |
-| \## |     | \<int\>                  | int | int      | chr  | chr     |
-| \## | 1   | 1                        | 1   | 743      | LAX  | AA      |
-| \## | 2   | 1                        | 1   | 856      | LAX  | AA      |
-| \## | 3   | 1                        | 1   | 1026     | LAX  | AA      |
-| \## | 4   | 1                        | 2   | 732      | LAX  | AA      |
-| \## | 5   | 1                        | 2   | 855      | LAX  | AA      |
-| \## | 6   | 1                        | 3   | 730      | LAX  | AA      |
-| \## | 7   | 1                        | 3   | 855      | LAX  | AA      |
-| \## | 8   | 1                        | 3   | 1024     | LAX  | AA      |
-| \## | 9   | 1                        | 4   | 728      | LAX  | AA      |
-| \## | 10  | 1                        | 4   | 858      | LAX  | AA      |
-| \## | \#  | . . . with 967 more rows |     |          |      |         |
 
 **We see 977 rows. Hence 977 flights fit these criteria**
 
 3.  Extract a tibble containing all flights on Christmas day; 12/25/2013. What is the **total number of miles** traveled across all flights on this day?
 
-``` r
+```{r}
 flights_christmas <- flights |>
   filter(month == 12, day == 25)
 sum(flights_christmas$distance)
 ```
 
-```         
-## [1] 803747
-```
-
 **We created a new tibble `flights_christmas` and then computed the sum of the distances directly. Alternatively, you could use the `summarize` function:**
 
-``` r
+```{r}
 flights |>
   filter(month == 12, day == 25) |>
   summarize(sum(distance))
 ```
 
-```         
-## # A tibble: 1 x 1
-##   `sum(distance)`
-##             <dbl>
-## 1          803747
-```
 
 4.  The `air_time` variable gives the duration of the flight in minutes. Create a tibble containing flights on Christmas day and only the variables `month`, `day`, `origin`, `dest`, and `air_time_hour` where the last variable gives the duration of the flight in *hours*.
 
-``` r
+```{r}
 flights |>
   filter(month == 12, day == 25) |>
   mutate(air_time_hour = air_time / 60) |>
   select(month, day, origin, dest, air_time_hour)
 ```
-
-| \## |     | A tibble: 719 x 5        |       |        |       |               |
-|-----|-----|--------------------------|-------|--------|-------|---------------|
-| \## |     | month                    | day   | origin | dest  | air_time_hour |
-| \## |     | <int>                    | <int> | <chr>  | <chr> | <dbl>         |
-| \## | 1   | 12                       | 25    | EWR    | CLT   | 1.63          |
-| \## | 2   | 12                       | 25    | EWR    | IAH   | 3.38          |
-| \## | 3   | 12                       | 25    | JFK    | MIA   | 2.43          |
-| \## | 4   | 12                       | 25    | JFK    | BQN   | 3.18          |
-| \## | 5   | 12                       | 25    | LGA    | ORD   | 2.05          |
-| \## | 6   | 12                       | 25    | LGA    | DTW   | 1.47          |
-| \## | 7   | 12                       | 25    | LGA    | ATL   | 1.97          |
-| \## | 8   | 12                       | 25    | LGA    | FLL   | 2.45          |
-| \## | 9   | 12                       | 25    | EWR    | FLL   | 2.48          |
-| \## | 10  | 12                       | 25    | JFK    | MCO   | 2.28          |
-| \## | \#  | . . . with 709 more rows |       |        |       |               |
 
 **The order here is important; we must create the variable with mutate before selecting it.**
 
@@ -179,15 +112,19 @@ flights |>
 
 For this problem we will work with the `mtcars` data set in the `datasets` library.
 
-``` r
+```{r}
 library(datasets)
 ```
 
-1.  Provide a brief description of this data set and some of the variables. Is it a tibble? **Not a tibble, as can be seen by running `mtcars` in the console or using `is_tibble`.**
+1.  Provide a brief description of this data set and some of the variables. Is it a tibble?
 
-2.  Create the following histogram of displacement along with vertical lines indicating the mean and median displacement. *Hint:* I set the breaks to go from 0 to 500 in increments of 25.
+**Not a tibble, as can be seen by running `mtcars` in the console or using `is_tibble`.**
 
-``` r
+2.  Create the following histogram of displacement along with vertical lines indicating the mean and median displacement. 
+
+*Hint:* I set the breaks to go from 0 to 500 in increments of 25.
+
+```{r}
 hist(mtcars$disp, breaks=seq(0, 500, 25),
      main= "Hist of Displacement",
      xlab = "Displacement (cu.in.)")
@@ -197,70 +134,16 @@ legend("topright", legend = c("mean disp", "median disp"),
        lty=c(2,3), lwd=2, col="red")
 ```
 
-```{r echo=FALSE}
-# Sample data
-displacement <- c(110, 120, 130, 140, 150, 160, 170, 200, 210, 220, 230, 240, 250, 300, 310, 320, 330, 340, 350, 400, 410, 420, 430, 500)
-
-# Mean and median of the data
-mean_disp <- mean(displacement)
-median_disp <- median(displacement)
-
-# Histogram with mean and median lines
-hist(displacement, 
-     main = "Hist of Displacement", 
-     xlab = "Displacement (cu.in.)", 
-     col = "gray", 
-     border = "white")
-
-# Add mean line
-abline(v = mean_disp, 
-       col = "red", 
-       lwd = 2, 
-       lty = 2)
-
-# Add median line
-abline(v = median_disp, 
-       col = "red", 
-       lwd = 2, 
-       lty = 3)
-
-# Add legend
-legend("topright", 
-       legend = c("mean disp", "median disp"), 
-       col = c("red", "red"), 
-       lty = c(2, 3), 
-       lwd = 2, 
-       box.lty = 0)
-```
-
 3.  Create the following boxplot of the 1/4 mile time against the number of cylinders. There is one outlier. Which car is the outlier? To answer this, note that the names of the cars are row names in the data set.
 
-``` r
+```{r}
 boxplot(mtcars$qsec ~ mtcars$cyl,
         xlab = "Number of Cylinders", ylab="1/4 mile time (sec)")
 ```
 
-```{r echo=FALSE}
-# Sample data
-cyl <- c(4, 4, 4, 4, 4, 6, 6, 6, 6, 6, 6, 8, 8, 8, 8, 8, 8, 8, 8)
-quarter_mile_time <- c(18.5, 19.0, 18.7, 17.5, 22.1, 17.8, 19.2, 18.6, 20.1, 16.9, 19.4, 15.2, 14.5, 16.2, 17.1, 16.7, 15.5, 17.0, 14.9)
-
-# Sample data similar to the 'mtcars' dataset
-data <- mtcars
-
-# Create a boxplot for 1/4 mile time (qsec) by number of cylinders (cyl)
-boxplot(qsec ~ cyl, 
-        data = data,
-        xlab = "Number of Cylinders", 
-        ylab = "1/4 mile time (sec)",
-        main = "",
-        col = "gray")
-
-```
-
 The outlier is the car with the largest value of `qsec`. You can find this using `which` or `which.max`:
 
-``` r
+```{r}
 # Find the largest qsec
 max_qsec <- max(mtcars$qsec)
 # Find the index of the largest
@@ -269,45 +152,25 @@ max_qsec_idx <- which(mtcars$qsec == max_qsec)
 mtcars[max_qsec_idx, ]
 ```
 
-```         
-##           mpg cyl  disp hp drat   wt qsec vs am gear carb
-## Merc 230 22.8   4 140.8 95 3.92 3.15 22.9  1  0    4    2
-```
-
 The outlier is the Merc 230. The code below uses `which.max`:
 
-```         
+```{r}
 mtcars[which.max(mtcars$qsec),]
 ```
 
-```         
-##           mpg cyl  disp hp drat   wt qsec vs am gear carb
-## Merc 230 22.8   4 140.8 95 3.92 3.15 22.9  1  0    4    2
-```
+4. Create the following barplot of counts of cars with different numbers of cylinders.
 
-R: tinytex::install_tinytex() 4. Create the following barplot of counts of cars with different numbers of cylinders.
-
-``` r
+```{r}
 barplot(table(mtcars$cyl), ylab="Count", xlab="Number of cylinders")
-```
-
-```{r echo=FALSE}
-# Sample data
-cylinders <- c(4, 6, 8)
-counts <- c(11, 7, 14)
-
-# Create the bar plot
-barplot(counts, names.arg = cylinders, xlab = "Number of cylinders", ylab = "Count", col = "grey")
-
 ```
 
 # Problem 4: Search insert position
 
-Write a `function search_insert_position(v, target)` which takes a sorted numerical vector `v`, a numerical target `target`. If target is present in `v`, return the index of `target`. Otherwise, return the index in `v` of target where it would be if it were inserted in order.
+Write a function `search_insert_position(v, target)` which takes a sorted numerical vector `v`, a numerical target `target`. If target is present in `v`, return the index of `target`. Otherwise, return the index in `v` of target where it would be if it were inserted in order.
 
 The input `v` is guaranteed to be sorted and to contain unique values (i.e. no duplicates).
 
-``` r
+```{r}
 search_insert_position <- function(v, target) {
 # target is present in v; return index of target
   if (target %in% v) {
@@ -324,22 +187,10 @@ x <- c(1, 3, 5, 6)
 search_insert_position(x, 5)
 ```
 
-```         
-## [1] 3
-```
-
-``` r
+```{r}
 search_insert_position(x, 2)
 ```
 
-```         
-## [1] 2
-```
-
-``` r
+``` {r}
 search_insert_position(x, 7)
-```
-
-```         
-## [1] 5
 ```

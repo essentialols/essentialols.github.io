@@ -1,0 +1,194 @@
+---
+title: "PSTAT 10 Homework 3 Solutions"
+output: html_document
+---
+## Setting a seed so my results can replicate
+
+```{r}
+set.seed(100)
+```
+## Problem 1: Rolling dice
+
+A group of 30 dice is thrown. What is the probability that at least 3 of each of the values 1, 2, 3, 4, 5, 6 appear? Approximate the probability by simulating $10^4$ replications.
+
+The method below counts each value directly
+
+```{r}
+five_each_1 <- function() {
+  s <- sample(1:6, 30, replace = T)
+  for (i in 1:6) {
+    if (sum(s == i) < 3) {
+      return(F)
+    }
+  }
+  return(T)
+}
+mean(replicate(10000, five_each_1()))
+```
+
+
+```{r}
+## [1] 0.4702
+```
+
+Actually there is an extremely easy way using tabulate, which gives us the counts directly.
+
+```{r}
+s <- sample(1:6, 30, replace = T)
+tabulate(s)
+## [1] 5 4 3 5 9 4
+five_each_2 <- function() {
+  all(tabulate(sample(1:6, 30, replace = T)) >= 3)
+}
+
+mean(replicate(10000, five_each_2()))
+```
+
+```{r}
+## [1] 0.4717
+```
+
+## Problem 2: Binomial distribution
+
+Determine the following probabilities using base R function (i.e. not through approximation).
+
+1. About 71% of the Earth is covered with water. I toss a globe into the air 12 times, each time catching it with one hand and noting if the tip of my index finger is over water. What is the probability my finger landed on water 8 times?
+
+```{r}
+dbinom(8, size = 12, prob = 0.71)
+```
+
+```{r}
+## [1] 0.226081
+```
+
+2. About 8% of men are color blind. A researcher needs three colorblind men for an experiment and begins checking potential subjects. What is the probability that she finds three or more colorblind men in the first nine she examines?
+
+```{r}
+1 - pbinom(2, size = 9, prob = 0.08)
+```
+
+```{r}
+## [1] 0.02979319
+```
+
+## Problem 3: Normal Distribution
+
+In a certain population, women’s heights are normally distributed with a mean of 63.6 inches and standard deviation of 2.5 inches.
+
+Let $X∼N(63.6,2.5)$.
+
+1. Compute $\mathbb{P}(X<60ORX>65)$
+.
+```{r}
+## [1] 0.02979319
+```
+
+```{r}
+## [1] 0.2877397
+```
+What percentage of women in this population must duck when walking through a door that is 72 inches high?
+
+```{r}
+1 - pnorm(72, mean = 63.6, sd = 2.5)
+```
+
+```{r}
+## [1] 0.0003897124
+```
+
+3. Generate a sample of $500$ observations of $X$. Here, we know that the sample is normally distributed. Nevertheless, provide a visual check to see if the sample is normally distributed.
+
+```{r}
+s <- rnorm(500, mean = 63.6, sd = 2.5)
+qqnorm(s)
+qqline(s)
+```
+
+
+## Problem 4: Geometric distribution
+
+Suppose we have a biased coin with probability $p$ of landing heads. Perform the following experiment:
+
+1. Flip the coin.
+2. If it lands tails, go back to step 1 (flip the coin again).
+3. If it lands heads, stop the experiment.
+
+Let $X$ be the number of tails observed after stopping the experiment. In other words $X$ is the number of failures before the first success.
+
+This distribution is called the geometric distribution and we write $X∼Geom(p)$
+.
+
+`dgeom`, `pgeom`, and `rgeom` are the base $R$ functions corresponding to this distribution.
+
+Suppose $X∼Geom(1/8)$
+, so that $p=1/8$
+.
+
+1. What is the support of $X$ ? Is $X$ a discrete or continuous r.v.? **Discrete** with support ${0,1,2,…}$
+
+2. Using the base R functions, determine $\mathbb{P}(X=4)$.
+
+```{r}
+dgeom(4, prob = 1/8)
+```
+
+```{r}
+## [1] 0.07327271
+```
+
+3. Determine $\mathbb{P}(1<X≤4)$.
+
+```{r}
+pgeom(4, prob = 1/8) - pgeom(1, prob = 1/8)
+```
+
+```{r}
+## [1] 0.2527161
+```
+It can be shown that $\mathbb{E}X=(1−p)/p$.  Set a seed of 123 and then generate 1000 observations of $X$ and estimate $\mathbb{E}X$ . In terms of absolute distance, how close was the approximation to the theoretical value?
+
+```{r}
+set.seed(123)
+p <- 1/8
+(approx <- mean(rgeom(1000, prob = p)))
+```
+
+```{r}
+## [1] 7.202
+```
+
+```{r}
+abs(approx - (1-p)/p)
+```
+
+```{r}
+## [1] 0.202
+```
+
+
+Our approximation was 0.202 off from the theoretical value.
+
+1. Problem 5: Lining up
+
+Ten people, labeled “A” through “J”, are lined up randomly so that each possible arrangement is equally likely. What is the probability that “A” and “B” are next to each other in line? Estimate using $1,000$ replications.
+
+2. It can be shown that the theoretical probability is $1/5=0.20$. Create the following plot of your approximation as the number of replications increases.
+
+```{r}
+set.seed(100)
+sim_line <- function() {
+  line <- sample(LETTERS[1:10])
+  pos_a <- which(line == "A")
+  pos_b <- which(line == "B")
+  abs(pos_a - pos_b) == 1
+}
+
+r <- replicate(10^3, sim_line())
+running <- cumsum(r) / seq_along(r)
+
+plot(seq_along(r), running, type = "l", main = "Simulating Lining Up",
+     xlab = "Replication", ylab = "Probability")
+p <- 1/5
+abline(p, 0, col="red")
+```

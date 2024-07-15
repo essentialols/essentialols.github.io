@@ -1,0 +1,97 @@
+---
+title: "Lecture 11 demo code"
+date: "2024-07-11"
+output: html_document
+---
+
+### Approximating $\pi$ (slide 6)
+
+```{r}
+set.seed(100)
+nrep <- 10000
+x <- runif(nrep, min = -1, max = 1)
+y <- runif(nrep, min = -1, max = 1)
+mean(x^2 + y^2 < 1) * 4
+```
+
+```{r}
+plot(1:nrep, 4 * cumsum(x^2 + y^2 < 1) / 1:nrep, type = "l")
+abline(h = pi, col = "red")
+```
+
+
+
+### Bootstrap Confidence Interval (slide 30)
+
+```{r, message=FALSE}
+library(tidyverse)
+library(nycflights13)
+
+set.seed(100)
+
+# Sample of size 50
+flights_smpl <- flights |>
+  select(dep_time, arr_time, air_time, distance) |>
+  slice_sample(n = 50)
+xbar <- mean(flights_smpl$air_time, na.rm = T)
+true_mean <- mean(flights$air_time, na.rm = T)
+
+n <- length(flights_smpl$air_time)
+n_boot <- 1000
+boot_smpl <- matrix(nrow = n_boot, ncol = n)
+boot_mean <- vector(length = n_boot)
+
+# Fill in 1000 bootstrap samples
+for (i in seq_len(n_boot)) {
+  boot_smpl[i, ] <- sample(flights_smpl$air_time, n, replace = T)
+  boot_mean[i] <- mean(boot_smpl[i, ], na.rm = T)
+}
+
+# Create the histogram
+hist(boot_mean, main = "Histogram of Bootstrap Sample Means",
+     xlab = "Means")
+abline(v = xbar, col = "blue", lty = 1, lwd = 2)
+se <- sd(boot_mean, na.rm = T) # Estimate standard error of bootstrap means
+abline(v = xbar + c(- 2 * se, 2 * se), col = "blue", lwd = 1, lty = 2)
+abline(v = true_mean, col = "red", lwd = 2)
+legend("topright", legend = c("True mean", "xbar", "bounds"),
+       lty = c(1, 1, 2), col = c("red", "blue", "blue"),
+       lwd = c(2, 2, 1))
+```
+
+
+
+### Bootstrap Regression (slide 33)
+
+```{r}
+hibbs <- as_tibble(read.csv("Lec11_files/hibbs.dat", sep = ""))
+
+par(mar=c(3,3,2,.1), mgp=c(1.7,.5,0), tck=-.01)
+plot(c(-.7, 4.5), c(43,63), type="n",
+     xlab="Avg recent growth in personal income",
+     ylab="Incumbent party's vote share",
+     xaxt="n", yaxt="n", mgp=c(2,.5,0),
+     main="Forecasting the election from the economy      ", bty="l")
+axis(1, 0:4, paste(0:4,"%",sep=""), mgp=c(2,.5,0))
+axis(2, seq(45,60,5), paste(seq(45,60,5),"%",sep=""), mgp=c(2,.5,0))
+with(hibbs, text(growth, vote, year, cex=.8))
+abline(50, 0, lwd=.5, col="gray")
+
+lm_hibbs <- lm(vote ~ growth, data = hibbs)
+
+set.seed(100)
+
+# Draw trendline for each bootstrap sample.
+for (i in seq_len(10)) {
+  resample <- slice_sample(hibbs, n = nrow(hibbs), replace = T)
+  abline(lm(vote ~ growth, data = resample), col = "azure3")
+}
+abline(lm_hibbs, col = "red")
+
+legend("topleft",
+       legend = c("orig. sample", "boot sample"),
+       col = c("red", "azure3"),
+       lty = 1, bty = "n")
+```
+
+

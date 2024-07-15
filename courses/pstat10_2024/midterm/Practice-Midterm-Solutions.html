@@ -10,9 +10,8 @@
 
 
 
-<meta name="date" content="2024-07-09" />
 
-<title>Lecture 9 demo code</title>
+<title>PSTAT 10 Practice Midterm</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -349,39 +348,112 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Lecture 9 demo code</h1>
-<h4 class="date">2024-07-09</h4>
+<h1 class="title toc-ignore">PSTAT 10 Practice Midterm</h1>
+<h3 class="subtitle">2024-07-12</h3>
 
 </div>
 
 
-<div id="setting-a-seed" class="section level2">
-<h2>Setting a seed</h2>
-<p>The following ensures you will get the same results as me.</p>
-<pre class="r"><code>set.seed(10)</code></pre>
+<p>Note: This practice midterm is supposed to be exemplary only. It
+shows examples of the type of questions you can expect on the midterm
+exam. The midterm exam will be longer: There will be enough questions
+for the duration of the exam. The questions on the midterm exam may
+include any of the content that has been covered in the course so far.
+The questions on the midterm exam may also differ from the practice exam
+in type, length, and difficulty.</p>
+<div id="mc-questions" class="section level3">
+<h3>MC Questions</h3>
+<p><strong>Question:</strong></p>
+<p>Why should you use vectorized functions in R?</p>
+<p>A. To handle large data sets efficiently<br />
+B. To improve computation speed<br />
+C. To simplify code readability<br />
+D. To avoid explicit loops<br />
+E. Both B and D</p>
+<p><strong>Correct Answer:</strong></p>
+<p>E. Both B and D</p>
+<p><strong>Question:</strong></p>
+<p>Take a look at the R code below:</p>
+<pre class="r"><code>numbers &lt;- c(1, 3, 5, 7, 9)
+results &lt;- sum(numbers * (numbers &gt; 4))
+print(results)</code></pre>
+<p>What is the output of this code?</p>
+<p>A. 21<br />
+B. 3<br />
+C. 15<br />
+D. 11<br />
+E. An error message</p>
+<p><strong>Correct Answer:</strong></p>
+<p>A. 21</p>
 </div>
-<div id="binomial-distribution-slide-14" class="section level2">
-<h2>Binomial distribution (slide 14)</h2>
-<p>Exactly equal to 4.</p>
-<pre class="r"><code>dbinom(4, size = 10, prob = 0.18)</code></pre>
-<pre><code>## [1] 0.06701815</code></pre>
-<pre class="r"><code>sum(dbinom(0:4, size = 10, prob = 0.18))</code></pre>
-<pre><code>## [1] 0.9786771</code></pre>
-<p>Less than or equal to 4.</p>
-<pre class="r"><code>pbinom(4, size = 10, prob = 0.18)</code></pre>
-<pre><code>## [1] 0.9786771</code></pre>
+<div id="fill-in-the-blank-question" class="section level3">
+<h3>Fill-in-the-Blank Question</h3>
+<p>You are given the standard R dataset <code>mtcars</code>, which
+contains data on various car models, including their miles per gallon
+(mpg), number of cylinders (cyl), horsepower (hp), and other
+characteristics. Using the <code>dplyr</code> package from the
+<code>tidyverse</code>, write a pipeline to accomplish the following
+tasks:</p>
+<ol style="list-style-type: decimal">
+<li>Include only cars with more than 6 cylinders.</li>
+<li>Retain only the columns <code>mpg</code>, <code>cyl</code>,
+<code>hp</code>, and <code>wt</code>.</li>
+<li>Create a new column <code>power_to_weight</code> that is the ratio
+of horsepower to weight (hp/wt).</li>
+</ol>
+<p>Complete the following code using the <code>dplyr</code> functions
+and the pipe (<code>%&gt;%</code>).</p>
+<pre class="r"><code>library(tidyverse)
+
+mtcars %&gt;%
+  ____1______(cyl &gt; 6) %&gt;%
+  ____2______(mpg, cyl, hp, wt) %&gt;%
+  ____3______(power_to_weight = hp/wt)</code></pre>
+<p><strong>Fill in the blanks:</strong></p>
+<ol style="list-style-type: decimal">
+<li><hr /></li>
+<li><hr /></li>
+<li><hr /></li>
+</ol>
+<p><strong>Correct Answer:</strong></p>
+<ol style="list-style-type: decimal">
+<li>filter<br />
+</li>
+<li>select<br />
+</li>
+<li>mutate</li>
+</ol>
 </div>
-<div id="binomial-distribution-slide-16" class="section level2">
-<h2>Binomial distribution (slide 16)</h2>
-<p>Strictly less than 4.</p>
-<pre class="r"><code>pbinom(3, size = 10, prob = 0.18)</code></pre>
-<pre><code>## [1] 0.9116589</code></pre>
-<p>Greater than or equal to 4.</p>
-<pre class="r"><code>1 - pbinom(3, size = 10, prob = 0.18)</code></pre>
-<pre><code>## [1] 0.0883411</code></pre>
-<p>Equivalent with <code>lower.tail=F</code></p>
-<pre class="r"><code>pbinom(3, size = 10, prob = 0.18, lower.tail = F)</code></pre>
-<pre><code>## [1] 0.0883411</code></pre>
+<div id="code-writing-prompt" class="section level3">
+<h3>Code Writing Prompt</h3>
+<p>Using the <code>mtcars</code> dataset in R, which includes metrics
+such as horsepower (hp) and weight (wt), write a script to calculate the
+horsepower to weight ratio for each car.</p>
+<ol style="list-style-type: decimal">
+<li><strong>Compute Efficiency Ratio:</strong> Write a function named
+<code>efficiency_ratio</code> that takes horsepower and weight as
+parameters and returns their ratio.</li>
+<li><strong>Apply the Function:</strong> Use this function to compute
+the ratio for each car in the <code>mtcars</code> dataset and add these
+values as a new column <code>hp_to_wt_ratio</code>.</li>
+<li><strong>Output Results:</strong> Display the <code>mtcars</code>
+dataset with the newly computed <code>hp_to_wt_ratio</code> column.</li>
+</ol>
+<p>Comments are optional.</p>
+<pre class="r"><code>efficiency_ratio &lt;- function(hp, wt) {
+  ratio &lt;- hp / wt
+  return(ratio)
+}
+
+hp_to_wt_ratios &lt;- numeric(nrow(mtcars))
+
+for (i in 1:nrow(mtcars)) {
+  hp_to_wt_ratios[i] &lt;- efficiency_ratio(mtcars$hp[i], mtcars$wt[i])
+}
+
+mtcars$hp_to_wt_ratio &lt;- hp_to_wt_ratios
+
+print(mtcars)</code></pre>
 </div>
 
 
