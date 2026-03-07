@@ -1,0 +1,16 @@
+_site/
+
+.Rproj.user
+
+# macOS
+.DS_Store
+
+# R
+.Rhistory
+.RData
+
+# Course materials (not for public site)
+courses/
+
+# CV source files
+cv-source/
