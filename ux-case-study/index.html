@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reducing Pricing Decision Variance</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;margin:0;padding:20px;background:#fff;color:#1a1a1a}
+.cs{max-width:780px;margin:0 auto;line-height:1.7}
+h1{color:#1a3a5c}
+h2{margin-top:2.5em;color:#1a3a5c;border-bottom:2px solid #e8e8e8;padding-bottom:.3em}
+.meta{color:#666;font-size:.95em;margin-bottom:2em}
+.hbox{background:#f7fafc;border-left:4px solid #2c5282;padding:1em 1.2em;margin:1.5em 0;border-radius:0 4px 4px 0}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2em;margin:1.5em 0}
+.card{background:#f7fafc;border-radius:6px;padding:1.2em;border:1px solid #e2e8f0}
+.card .lb{font-size:.8em;text-transform:uppercase;letter-spacing:.5px;color:#718096;margin-bottom:.3em}
+.card .val{font-size:1.4em;font-weight:600;color:#1a3a5c}
+.card .det{font-size:.85em;color:#4a5568;margin-top:.3em}
+table{width:100%;border-collapse:collapse;margin:1.5em 0}
+th{background:#f7fafc;padding:.7em 1em;text-align:left;border-bottom:2px solid #e2e8f0;font-size:.85em;text-transform:uppercase;letter-spacing:.5px;color:#718096}
+td{padding:.7em 1em;border-bottom:1px solid #e2e8f0}
+.win{background:#f0fff4;font-weight:600}
+.lose{color:#e53e3e}
+.tabs{margin:1.5em 0}
+.tab-btns{display:flex;gap:0;border-bottom:2px solid #e2e8f0}
+.tab-btn{padding:.6em 1.2em;border:none;background:none;cursor:pointer;font-size:.95em;color:#718096;border-bottom:2px solid transparent;margin-bottom:-2px}
+.tab-btn:hover{color:#2c5282}
+.tab-btn.on{color:#2c5282;border-bottom-color:#2c5282;font-weight:600}
+.tab-pane{padding-top:1em}
+.ss{width:100%;border-radius:8px;border:1px solid #e2e8f0;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.icards{display:grid;grid-template-columns:repeat(3,1fr);gap:1em;margin:1.5em 0}
+.ic{background:#fff;border-radius:6px;padding:1.2em;border:1px solid #e2e8f0}
+.ic .n{font-size:1.5em;font-weight:700;color:#2c5282}
+.ic h4{margin:.3em 0;font-size:.95em}
+.ic p{font-size:.85em;color:#4a5568;margin:0}
+@media(max-width:700px){.grid3,.icards{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="cs">
+<h1>Reducing Pricing Decision Variance</h1>
+<p style="color:#666;font-size:1.1em;margin-top:-.5em">How survey design data replaced gut-feel duration estimates</p>
+<div class="meta">Company: Survey technology company (300K+ member panel)<br>Role: Senior Data Scientist &middot; Timeline: February&ndash;April 2026 &middot; Team: Solo (with cross-functional collaborators)</div>
+<h2>The Problem</h2>
+<p>Sales teams at a survey panel company priced client contracts using a duration estimate: how long will this survey take respondents to complete? The estimate determined per-respondent cost, project timeline, and respondent compensation.</p>
+<p>There was no systematic approach. Each salesperson estimated by intuition, and estimates varied wildly for the same survey. Nobody had quantified the error or built infrastructure to fix it.</p>
+<ul>
+<li><strong>Overestimation</strong> meant overpriced contracts, potentially losing competitive bids</li>
+<li><strong>Underestimation</strong> meant margin erosion, respondent burden, and drop-off risk</li>
+</ul>
+<div class="hbox"><strong>Research question:</strong> How do pricing teams estimate survey duration today? Where does judgment systematically fail? And what evidence would they trust enough to change their process?</div>
+<h2>Discovery</h2>
+<p>I started by analyzing 347 historical survey records, comparing the durations that were written into contracts against actual respondent completion times.</p>
+<ul>
+<li><strong>Short surveys were consistently overestimated</strong> (by up to 145% in extreme cases). Salespeople defaulted to conservative round numbers.</li>
+<li><strong>Long, complex surveys were underestimated</strong> (by up to 48%). Branching logic and conditional questions made intuitive estimation nearly impossible.</li>
+<li><strong>Estimation variance</strong> was as much of a problem as bias. Two salespeople could quote very different durations for the same survey, creating inconsistent client experiences.</li>
+</ul>
+<p>A colleague on the operations team had independently been researching response time patterns, looking at differences between mobile and desktop respondents. After he presented his findings, I proposed combining his question-level timing data with a predictive modeling approach. He began adding timer questions to live surveys, generating calibration data.</p>
+<p>Meanwhile, the Client Research team lead enabled my access to the survey design system's API, opening up the ability to extract structural features from every survey we had ever fielded.</p>
+<h2>Research Approach</h2>
+<p>I extracted 40 design features from each of the 347 surveys, capturing everything a respondent would encounter:</p>
+<p><strong>Survey structure:</strong> Total questions, expected questions (accounting for branching), pages, branch complexity, randomization</p>
+<p><strong>Question characteristics:</strong> Multiple choice by option count, matrix grids by scale length, open text fields, sliders, ranking questions</p>
+<p><strong>Reading load:</strong> Word count, instruction text, embedded images, answer option length</p>
+<p><strong>Text complexity:</strong> Flesch readability score, long-word percentage, numeric density</p>
+<p><strong>Path uncertainty:</strong> The variance in question count across possible paths through the survey, maximum completer path length</p>
+<p>The most technically novel piece was &ldquo;flow-aware&rdquo; survey parsing: walking the survey&rsquo;s branching logic to estimate how many questions a typical completer would actually see, rather than counting every question in the file. This turned out to be the single most important predictor (the top 3 features by importance were all path-related).</p>
+<p>I compared 8 model variants (linear regression, regularized regression, Random Forest, gradient boosting). Random Forest on the full feature set outperformed all alternatives in cross-validation.</p>
+<p>The model went through <strong>8 versions over 4 months</strong>, and I preserved the approaches that didn&rsquo;t work:</p>
+<ul>
+<li><strong>LLM-based cognitive difficulty scoring</strong> (tested two models to rate question complexity): no improvement. Survey-level aggregation washed out per-question variation.</li>
+<li><strong>Condition-based branch probability estimation</strong> (parsing survey logic to estimate the probability each branch is taken): actively hurt accuracy. Flat heuristics worked better because the model learned corrections from other features.</li>
+<li><strong>The critical data fix</strong>: I discovered that the model was training on median completion times that included screened-out respondents, not just completers. Building a definition-based completer filter via the survey flow tree jumped accuracy from R&sup2; 0.61 to 0.81.</li>
+</ul>
+<h2>Key Findings</h2>
+<div class="grid3">
+<div class="card"><div class="lb">Accuracy</div><div class="val">30%</div><div class="det">reduction in estimation error vs. human contracted estimates</div></div>
+<div class="card"><div class="lb">Head-to-head</div><div class="val">18 of 31</div><div class="det">benchmark surveys where the model produced a closer estimate</div></div>
+<div class="card"><div class="lb">Model fit</div><div class="val">R&sup2; = 0.81</div><div class="det">out-of-bag, on 347 training surveys with 40 features</div></div>
+</div>
+<p>Three cases illustrate the decision impact:</p>
+<table>
+<thead><tr><th>Survey</th><th>Actual Duration</th><th>Human Estimate</th><th>Model Estimate</th></tr></thead>
+<tbody>
+<tr><td><strong>Case A</strong> (short survey)</td><td>9.3 min</td><td class="lose">20.0 min (+114%)</td><td class="win">10.4 min (+11%)</td></tr>
+<tr><td><strong>Case B</strong> (long survey)</td><td>28.6 min</td><td class="lose">15.0 min (&minus;48%)</td><td class="win">21.1 min (&minus;26%)</td></tr>
+<tr><td><strong>Case C</strong> (branching survey)</td><td>6.1 min</td><td class="lose">15.0 min (+145%)</td><td class="win">7.4 min (+20%)</td></tr>
+</tbody>
+</table>
+<p>In Case A, a 20-minute estimate for a 9-minute survey meant unnecessary cost baked into the contract. In Case B, a 15-minute estimate for a nearly 30-minute survey meant respondent burden and margin exposure. The model caught both directions because it could parse the survey&rsquo;s branching logic, something human estimators couldn&rsquo;t do consistently.</p>
+<h2>The Product</h2>
+<p>I shipped a self-serve web application where non-technical users upload a survey design file and receive a duration prediction in seconds.</p>
+<div class="tabs">
+<div class="tab-btns">
+<button class="tab-btn on" onclick="showTab('pred',this)">Prediction</button>
+<button class="tab-btn" onclick="showTab('sum',this)">Survey Summary</button>
+<button class="tab-btn" onclick="showTab('nerd',this)">Stats for Nerds</button>
+</div>
+<div class="tab-pane" id="t-pred"><img src="/images/ux-case-study/prediction-tab.png" class="ss" alt="Prediction tab"></div>
+<div class="tab-pane" id="t-sum" style="display:none"><img src="/images/ux-case-study/survey-summary-tab.png" class="ss" alt="Survey Summary tab"></div>
+<div class="tab-pane" id="t-nerd" style="display:none"><img src="/images/ux-case-study/stats-tab.png" class="ss" alt="Stats for Nerds tab"></div>
+</div>
+<script>
+function showTab(id,btn){
+  document.querySelectorAll('.tab-pane').forEach(function(e){e.style.display='none'});
+  document.querySelectorAll('.tab-btn').forEach(function(e){e.classList.remove('on')});
+  document.getElementById('t-'+id).style.display='block';
+  btn.classList.add('on');
+}
+</script>
+<ul>
+<li><strong>Prediction</strong>: The duration estimate with a 90% confidence interval, plus a compact metadata summary</li>
+<li><strong>Survey Summary</strong>: A structured breakdown of question types, reading load, text complexity, and survey logic</li>
+<li><strong>Technical Details</strong>: All 40 features with their values and importance scores</li>
+</ul>
+<p>The interface supports drag-and-drop file upload, shows real-time feedback, and was designed for salespeople and project managers who would never open a statistical model directly.</p>
+<h2>Adoption &amp; Impact</h2>
+<p>The Client Research team adopted the tool for routine use. In their words: <em>&ldquo;We have been using it whenever we can.&rdquo;</em> Within two weeks of deployment, they reported a bug with a specific survey type, attaching the file and a screenshot. I fixed it the same week. They also requested that matrix question counts be displayed in the Survey Summary view, which I shipped the same day.</p>
+<p>The tool logged 45 sessions across 30 active days in its first two months, with consistent weekly usage.</p>
+<p>An operations colleague independently contributed calibration data by adding timer questions to live surveys, creating a feedback loop between the model&rsquo;s predictions and real-world measurement.</p>
+<p><strong>What I can claim with confidence:</strong></p>
+<ul>
+<li>The model is more accurate than human estimates on held-out data</li>
+<li>The tool was adopted by the team responsible for survey design review</li>
+<li>User feedback directly shaped iteration (matrix display, bug fixes)</li>
+</ul>
+<p><strong>What remains projected:</strong></p>
+<ul>
+<li>Revenue impact from better pricing accuracy (estimated but not directly measured)</li>
+<li>Broader adoption beyond the Client Research team</li>
+</ul>
+<h2>What I Learned</h2>
+<div class="icards">
+<div class="ic"><div class="n">01</div><h4>Research artifacts don&rsquo;t drive adoption on their own</h4><p>The model was accurate, but embedding predictions directly into the pricing workflow (CRM, proposal templates) would have driven deeper adoption than a standalone tool.</p></div>
+<div class="ic"><div class="n">02</div><h4>Variance matters as much as bias</h4><p>The bigger problem wasn&rsquo;t that estimates were systematically too high or too low. It was that two people would give very different estimates for the same survey. Consistency enables trust.</p></div>
+<div class="ic"><div class="n">03</div><h4>Trust is harder than accuracy</h4><p>Making predictions trustworthy for non-technical users required confidence intervals, readable survey summaries, and transparent feature importance, not just a number.</p></div>
+</div>
+<p>In a future iteration, I would add usability testing before launch, instrument adoption tracking with user authentication, and build a stakeholder feedback loop to capture how predictions influence actual pricing decisions.</p>
+<hr>
+<p style="text-align:center;color:#999;font-size:.85em;margin-top:3em">Ingmar Sturm | <a href="https://ingmarsturm.com">ingmarsturm.com</a> | <a href="https://www.linkedin.com/in/ingmar-sturm">LinkedIn</a></p>
+</div>
+</body>
+</html>
