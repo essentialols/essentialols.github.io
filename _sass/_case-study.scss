@@ -3,21 +3,21 @@
    ========================================================================== */
 
 .case-study {
-  max-width: 780px;
-  margin: 0 auto;
+  max-width: 44rem;
+  margin: 0;
   line-height: 1.7;
 }
 
 .case-study h2 {
   margin-top: 2.5em;
   padding-bottom: 0.3em;
-  color: #1a3a5c;
+  color: $darker-gray;
   border-bottom: 2px solid $border-color;
 }
 
 .case-study h3 {
   margin-top: 1.8em;
-  color: #2c5282;
+  color: $darker-gray;
 }
 
 .case-meta {
@@ -34,7 +34,7 @@
   margin: 1.5em 0;
   padding: 1em 1.2em;
   background: #f7fafc;
-  border-left: 4px solid #2c5282;
+  border-left: 4px solid $darker-gray;
 }
 
 .case-grid,
@@ -61,7 +61,7 @@
 }
 
 .case-card .value {
-  color: #1a3a5c;
+  color: $darker-gray;
   font-size: 1.4em;
   font-weight: 600;
 }
@@ -133,16 +133,16 @@
 .app-tab-btn:hover,
 .app-tab-btn:focus-visible,
 .app-tab-btn.active {
-  color: #2c5282;
+  color: $darker-gray;
 }
 
 .app-tab-btn:focus-visible {
-  outline: 2px solid #2c5282;
+  outline: 2px solid $darker-gray;
   outline-offset: 2px;
 }
 
 .app-tab-btn.active {
-  border-bottom-color: #2c5282;
+  border-bottom-color: $darker-gray;
   font-weight: 600;
 }
 
@@ -155,7 +155,7 @@
 }
 
 .insight-card .num {
-  color: #2c5282;
+  color: $darker-gray;
   font-size: 1.5em;
   font-weight: 700;
 }
