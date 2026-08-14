@@ -6,6 +6,6 @@ author_profile: false
 sitemap: false
 ---
 
-Thanks—your message is on its way. I'll reply by email.
+Thanks. Your message is on its way. I'll reply by email.
 
 [Return to the homepage](/)
