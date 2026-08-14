@@ -7,7 +7,6 @@
   padding: 0.5rem 0 1.5rem;
 }
 
-.home-kicker,
 .home-section__label {
   margin: 0 0 0.65rem;
   color: $gray;
@@ -18,32 +17,17 @@
 }
 
 .home-lede {
-  max-width: 54rem;
-  margin: 0 0 1rem;
-  color: $darker-gray;
-  font-size: 1.65em;
-  line-height: 1.35;
-}
-
-.home-intro > p:not(.home-kicker):not(.home-lede):not(.home-actions) {
   max-width: 46rem;
-}
-
-.home-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.65rem;
-  margin: 1.5rem 0 0;
-}
-
-.home-actions .btn {
   margin: 0;
+  color: $darker-gray;
+  font-size: 1.3em;
+  line-height: 1.45;
 }
 
 .home-proof {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin: 1.25rem 0 4rem;
+  margin: 1.75rem 0 4rem;
   border-top: 1px solid $border-color;
   border-bottom: 1px solid $border-color;
 }
@@ -153,7 +137,7 @@
 
 @media (max-width: 760px) {
   .home-lede {
-    font-size: 1.35em;
+    font-size: 1.15em;
   }
 
   .home-proof {
