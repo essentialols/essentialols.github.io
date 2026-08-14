@@ -42,7 +42,7 @@ The patterns were striking:
 
 A colleague on the operations team had independently been researching response time patterns, looking at differences between mobile and desktop respondents. After he presented his findings, I proposed combining his question-level timing data with a predictive modeling approach. He began adding timer questions to live surveys, generating calibration data.
 
-Meanwhile, the Client Research team lead enabled my access to the survey design system's API, opening up the ability to extract structural features from every survey we had ever fielded.
+Meanwhile, the Client Research team lead enabled my access to the survey design system's application programming interface (API), opening up the ability to extract structural features from every survey we had ever fielded.
 
 ## Research Approach
 
@@ -64,7 +64,7 @@ I compared 8 model variants (linear regression, regularized regression, Random F
 
 The model went through **8 versions during development**, and I preserved the approaches that didn't work:
 
-- **LLM-based cognitive difficulty scoring** (tested two models to rate question complexity): no improvement. Survey-level aggregation washed out per-question variation.
+- **Large-language-model-based cognitive difficulty scoring** (tested two models to rate question complexity): no improvement. Survey-level aggregation washed out per-question variation.
 - **Condition-based branch probability estimation** (parsing survey logic to estimate the probability each branch is taken): actively hurt accuracy. Flat heuristics worked better because the model learned corrections from other features.
 - **The critical data fix**: I discovered that the model was training on median completion times that included screened-out respondents, not just completers. Building a definition-based completer filter via the survey flow tree jumped accuracy from R-squared 0.61 to 0.81.
 
@@ -187,7 +187,7 @@ An operations colleague independently contributed calibration data by adding tim
 <div class="insight-card">
 <div class="num">01</div>
 <h4>Research artifacts don't drive adoption on their own</h4>
-<p>The model was accurate, but embedding predictions directly into the pricing workflow (CRM, proposal templates) would have driven deeper adoption than a standalone tool.</p>
+<p>The model was accurate, but embedding predictions directly into the pricing workflow (customer relationship management software and proposal templates) would have driven deeper adoption than a standalone tool.</p>
 </div>
 <div class="insight-card">
 <div class="num">02</div>
