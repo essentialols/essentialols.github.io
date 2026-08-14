@@ -56,7 +56,7 @@ author_profile: true
     <input type="hidden" name="_next" value="https://ingmarsturm.com/contact-sent/">
     <input type="hidden" name="_template" value="table">
     <input type="hidden" name="_captcha" value="false">
-    <input class="services-form__honeypot" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none !important">
 
     <div class="services-form__row">
       <label for="contact-name">Name
