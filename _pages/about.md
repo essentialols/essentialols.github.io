@@ -22,7 +22,7 @@ redirect_from:
   <div class="home-proof__item"><strong>45,000+</strong><span>research participants</span></div>
   <div class="home-proof__item"><strong>30+</strong><span>countries</span></div>
   <div class="home-proof__item"><strong>Millions</strong><span>of responses supported</span></div>
-  <div class="home-proof__item"><strong>PNAS</strong><span>and <em>International Affairs</em></span></div>
+  <div class="home-proof__item"><strong>Published</strong><span>in <em>Proceedings of the National Academy of Sciences</em> and <em>International Affairs</em></span></div>
 </div>
 
 <section class="home-section" aria-labelledby="selected-work">
