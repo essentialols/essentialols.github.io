@@ -57,7 +57,7 @@ author_profile: false
 <section class="services-contact" aria-labelledby="contact-heading">
   <h2 id="contact-heading">Tell me what you're working on</h2>
 
-  <form class="services-form" action="https://formsubmit.co/me@ingmarsturm.com" method="POST">
+  <form id="consulting-contact-form" class="services-form" action="https://formsubmit.co/me@ingmarsturm.com" method="POST">
     <input type="hidden" name="_subject" value="New consulting inquiry from ingmarsturm.com">
     <input type="hidden" name="_next" value="https://ingmarsturm.com/contact-sent/">
     <input type="hidden" name="_template" value="table">
@@ -79,6 +79,64 @@ author_profile: false
     </label>
 
     <button type="submit" class="btn">Send message</button>
-    <p class="services-form__note">A short description is enough. Please don't include confidential data.</p>
+    <p class="services-form__note" role="status" aria-live="polite">A short description is enough. Please don't include confidential data.</p>
   </form>
 </section>
+
+<script>
+(function () {
+  var form = document.getElementById('consulting-contact-form');
+  if (!form || !window.fetch) return;
+
+  var button = form.querySelector('button[type="submit"]');
+  var status = form.querySelector('.services-form__note');
+  var defaultStatus = status.textContent;
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    if (!form.reportValidity()) return;
+
+    button.disabled = true;
+    button.textContent = 'Sending…';
+    status.textContent = '';
+
+    var payload = {};
+    new FormData(form).forEach(function (value, key) {
+      payload[key] = value;
+    });
+
+    fetch('https://formsubmit.co/ajax/me@ingmarsturm.com', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+      .then(function (response) {
+        return response.json().then(function (data) {
+          if (!response.ok || data.success === false || data.success === 'false') {
+            throw new Error('Submission failed');
+          }
+          return data;
+        });
+      })
+      .then(function () {
+        form.reset();
+        button.textContent = 'Sent';
+        status.textContent = "Thanks — message sent. I'll get back to you by email.";
+        window.setTimeout(function () {
+          button.textContent = 'Send message';
+          status.textContent = defaultStatus;
+        }, 8000);
+      })
+      .catch(function () {
+        button.textContent = 'Send message';
+        status.textContent = 'Something went wrong. Please try again, or use the email link in the sidebar.';
+      })
+      .then(function () {
+        button.disabled = false;
+      });
+  });
+})();
+</script>
