@@ -177,14 +177,14 @@ whitelist:
 
 # Archives
 #  Type
-#  ========================================================================== */
-#  jekyll-archives plugin archive pages.
-#  liquid (default): use Liquid templates.
-#  jekyll-archives: use the plugin.
-#  Path examples:
-#  /tags/my-awesome-tag/index.html -> /tags/
-#  /categories/my-awesome-category/index.html -> /categories/
-#  /my-awesome-category/index.html -> /
+#  - GitHub Pages compatible archive pages built with Liquid ~> type: liquid (default)
+#  - Jekyll Archives plugin archive pages ~> type: jekyll-archives
+#  Path (examples)
+#  - Archive page should exist at path when using Liquid method or you can
+#    expect broken links (especially with breadcrumbs enabled)
+#  - <base_path>/tags/my-awesome-tag/index.html ~> path: /tags/
+#  - <base_path/categories/my-awesome-category/index.html ~> path: /categories/
+#  - <base_path/my-awesome-category/index.html ~> path: /
 category_archive:
   type: liquid
   path: /categories/
