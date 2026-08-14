@@ -2,11 +2,11 @@
 permalink: /ux-case-study/
 title: "Predicting Survey Duration More Reliably"
 excerpt: "How survey-design data replaced inconsistent pricing estimates."
-author_profile: false
+author_profile: true
 ---
 
 
-<div class="case-study">
+<div class="case-study" markdown="1">
 
 <div class="case-meta">
 <span>Company: Survey technology company</span><br>
