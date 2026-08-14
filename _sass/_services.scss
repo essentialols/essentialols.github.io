@@ -69,6 +69,33 @@
   line-height: 1.65;
 }
 
+.services-example {
+  max-width: 44rem;
+  margin: 2.5rem 0 0;
+  padding: 1.5rem 0;
+  border-top: 2px solid $darker-gray;
+  border-bottom: 1px solid $border-color;
+}
+
+.services-example__label {
+  margin: 0 0 0.45rem;
+  color: $gray;
+  font-family: $monospace;
+  font-size: $type-size-6;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.services-example h2 {
+  margin: 0 0 0.6rem;
+  border-bottom: 0;
+  font-size: $type-size-3;
+}
+
+.services-example p:last-child {
+  margin-bottom: 0;
+}
+
 .services-contact {
   max-width: 44rem;
   margin-top: 2.5rem;
