@@ -39,7 +39,7 @@ author_profile: false
     <span class="service__index" aria-hidden="true">04</span>
     <div class="service__body">
       <h2>Research systems</h2>
-      <p>Build reproducible pipelines, quality checks, reporting, and carefully verified artificial-intelligence-assisted workflows.</p>
+      <p>Build reproducible pipelines, quality checks, reporting, and workflows that use artificial intelligence with verification built in.</p>
     </div>
   </section>
 </div>
