@@ -124,7 +124,7 @@ author_profile: false
       .then(function () {
         form.reset();
         button.textContent = 'Sent';
-        status.textContent = "Thanks — message sent. I'll get back to you by email.";
+        status.textContent = "Thanks. Message sent. I'll get back to you by email.";
         window.setTimeout(function () {
           button.textContent = 'Send message';
           status.textContent = defaultStatus;
