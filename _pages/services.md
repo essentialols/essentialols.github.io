@@ -7,7 +7,7 @@ author_profile: true
 
 <div class="services-intro">
   <p>I help research and insights teams design stronger studies, diagnose data-quality problems, and build research workflows that produce defensible results.</p>
-  <p>My work combines survey methodology, quantitative analysis, and hands-on data science. I am most useful when the stakes are real, the problem is ambiguous, or a team needs experienced capacity without adding a full-time role.</p>
+  <p>My work combines survey methodology, quantitative analysis, and hands-on data science. I tend to be most useful when a problem is ambiguous, the cost of getting it wrong is high, or a team needs experienced capacity without adding a full-time role.</p>
 </div>
 
 <div class="service-list">
@@ -42,7 +42,7 @@ author_profile: true
     <span class="service__index" aria-hidden="true">04</span>
     <div class="service__body">
       <h2>Research systems and automation</h2>
-      <p>Replace fragile handoffs and repetitive manual work with readable, testable systems. Projects can include survey-data pipelines, quality checks, reporting, internal decision tools, and artificial-intelligence-assisted workflows with explicit verification rather than blind automation.</p>
+      <p>Replace fragile handoffs and repetitive manual work with readable, testable systems. Projects can include survey-data pipelines, quality checks, reporting, internal decision tools, and workflows that use artificial intelligence with explicit verification rather than blind automation.</p>
       <p class="service__scope"><strong>Typical work:</strong> workflow audits, prototypes and internal tools, pipeline rebuilds, and verification systems.</p>
     </div>
   </section>
@@ -50,7 +50,7 @@ author_profile: true
 
 ## Ways to work together
 
-I can provide a focused independent review, take ownership of a defined workstream, or join temporarily as senior quantitative capacity. I work directly with in-house teams and as a white-label partner to research agencies.
+I can provide a focused independent review, take ownership of a defined workstream, or join temporarily as experienced quantitative support. I work directly with in-house teams and as a white-label partner to research agencies.
 
 - **Focused review:** A narrow assessment with prioritized findings and concrete next steps.
 - **Defined project:** Ownership of a workstream from scoping through delivery.
@@ -58,7 +58,7 @@ I can provide a focused independent review, take ownership of a defined workstre
 
 ## Relevant experience
 
-I have spent 15 years in survey research and eight years running studies end to end. My work has included studies with more than 45,000 respondents across 30-plus countries, production data systems supporting a survey panel with more than 230,000 members, and peer-reviewed research in *PNAS* and *International Affairs*. I have worked across commercial research, academia, and mission-driven organizations.
+I have spent 15 years in survey research and eight years running studies end to end. My work has included studies with more than 45,000 respondents across more than 30 countries, production data systems supporting a survey panel with more than 230,000 members, and peer-reviewed research in *Proceedings of the National Academy of Sciences* and *International Affairs*. I have worked across commercial research, academia, and nonprofit organizations.
 
 <div class="services-contact">
   <h2>Start with the problem</h2>
