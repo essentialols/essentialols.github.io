@@ -9,13 +9,7 @@ redirect_from:
 ---
 
 <div class="home-intro">
-  <p class="home-kicker">Ingmar Sturm · San Francisco</p>
-  <p class="home-lede">I work on problems where data quality, measurement, and modeling determine whether a decision can be trusted.</p>
-  <p>I am a quantitative researcher and data scientist. I design studies, diagnose weak data, build models, and turn the results into tools people can use.</p>
-  <p class="home-actions">
-    <a href="/ux-case-study/" class="btn btn--primary">View selected work</a>
-    <a href="/services/" class="btn">Consulting</a>
-  </p>
+  <p class="home-lede">I design studies, diagnose weak data, build models, and turn the results into tools people can use.</p>
 </div>
 
 <div class="home-proof" aria-label="Selected experience">
