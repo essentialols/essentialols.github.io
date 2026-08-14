@@ -10,7 +10,7 @@ locale                   : "en-US"
 title                    : "Ingmar Sturm"
 title_separator          : "-"
 name                     : &name "Ingmar Sturm"
-description              : &description "Senior Data Scientist & PhD Candidate"
+description              : &description "Research & Measurement | Data Science & AI"
 url                      : https://ingmarsturm.com
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "essentialols/essentialols.github.io"
@@ -56,9 +56,9 @@ analytics:
 author:
   name             : "Ingmar Sturm"
   avatar           : "profile.png"
-  bio              : "Data Scientist at Verasight. PhD Candidate at UC Santa Barbara."
+  bio              : "Research & Measurement · Data Science & AI"
   location         : "San Francisco, CA"
-  employer         : {url: "https://www.verasight.io", name: "Verasight"}
+  email            : "me@ingmarsturm.com"
   github           : "essentialols"
   linkedin         : "ingmar-sturm"
   googlescholar    : "https://scholar.google.com/citations?user=0KvXticAAAAJ&hl=en"
