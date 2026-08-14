@@ -46,7 +46,7 @@ author_profile: false
 
 <p class="services-engagement">Available for focused reviews, defined projects, and short-term embedded work. I can also work behind the scenes for research agencies.</p>
 
-<p class="services-proof"><strong>15 years</strong> in survey research <span aria-hidden="true">·</span> <strong>45,000+</strong> participants across 30+ countries <span aria-hidden="true">·</span> production systems handling millions of responses <span aria-hidden="true">·</span> research published in <em>PNAS</em> and <em>International Affairs</em></p>
+<p class="services-proof"><strong>15 years</strong> in survey research <span aria-hidden="true">·</span> <strong>45,000+</strong> participants across 30+ countries <span aria-hidden="true">·</span> production systems handling millions of responses <span aria-hidden="true">·</span> research published in <em>Proceedings of the National Academy of Sciences</em> and <em>International Affairs</em></p>
 
 <section class="services-example" aria-labelledby="example-heading">
   <p class="services-example__label">Example</p>
