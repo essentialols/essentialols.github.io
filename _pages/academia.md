@@ -1,5 +1,5 @@
 ---
-layout: archive
+layout: single
 title: "Academia"
 permalink: /academia/
 author_profile: true

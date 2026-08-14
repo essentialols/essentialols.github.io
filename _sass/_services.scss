@@ -1,160 +1,38 @@
-/* ========================================================================== 
-   Consulting page
+/* ==========================================================================
+   Consulting contact form
    ========================================================================== */
 
-.services-intro {
-  max-width: 44rem;
-  margin-bottom: 2rem;
-}
-
-.services-intro p:first-child {
-  margin-bottom: 0.75rem;
-  color: $darker-gray;
-  font-size: 1.3em;
-  line-height: 1.5;
-}
-
-.services-intro p:last-child {
-  margin-bottom: 0;
-}
-
-.service-list {
-  margin: 1.75rem 0 2rem;
-  border-top: 1px solid $border-color;
-}
-
-.service {
-  display: flex;
-  gap: 1.25rem;
-  padding: 1.25rem 0 1.35rem;
-  border-bottom: 1px solid $border-color;
-}
-
-.service__index {
-  flex: 0 0 2.5rem;
-  padding-top: 0.3rem;
-  color: $gray;
-  font-family: $monospace;
-  font-size: $type-size-6;
-  letter-spacing: 0.08em;
-}
-
-.service__body {
-  min-width: 0;
-}
-
-.service__body h2 {
-  margin: 0 0 0.4rem;
-  border-bottom: 0;
-  font-size: $type-size-4;
-}
-
-.service__body p {
-  margin: 0;
-}
-
-.services-engagement {
-  max-width: 44rem;
-  margin-bottom: 1.35rem;
-}
-
-.services-proof {
-  max-width: 46rem;
-  margin: 0;
-  padding: 1rem 0;
-  color: $gray;
-  border-top: 1px solid $border-color;
-  border-bottom: 1px solid $border-color;
-  font-size: 0.9em;
-  line-height: 1.65;
-}
-
-.services-example {
-  max-width: 44rem;
-  margin: 2.5rem 0 0;
-  padding: 1.5rem 0;
-  border-top: 2px solid $darker-gray;
-  border-bottom: 1px solid $border-color;
-}
-
-.services-example__label {
-  margin: 0 0 0.45rem;
-  color: $gray;
-  font-family: $monospace;
-  font-size: $type-size-6;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.services-example h2 {
-  margin: 0 0 0.6rem;
-  border-bottom: 0;
-  font-size: $type-size-3;
-}
-
-.services-example p:last-child {
-  margin-bottom: 0;
-}
-
-.services-contact {
-  max-width: 44rem;
-  margin-top: 2.5rem;
-  padding-top: 0.25rem;
-}
-
-.services-contact h2 {
-  margin-bottom: 1.25rem;
-  border-bottom: 0;
-}
-
 .services-form {
-  margin: 0;
-}
-
-.services-form__row {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
+  max-width: 40rem;
+  margin: 1.5rem 0 0;
 }
 
 .services-form label {
-  margin-bottom: 0.85rem;
-  font-size: 0.9em;
+  margin-bottom: 1rem;
   font-weight: 600;
 }
 
 .services-form input,
 .services-form textarea {
   margin-top: 0.35rem;
-  margin-bottom: 0;
-  padding: 0.7rem 0.75rem;
-  border-color: $border-color;
-  border-radius: 2px;
-  box-shadow: none;
-  font-size: 1rem;
 }
 
 .services-form textarea {
   min-height: 10rem;
 }
 
-.services-form input:focus,
-.services-form textarea:focus {
-  border-color: $darker-gray;
-  outline: 2px solid rgba(0, 0, 0, 0.08);
-  outline-offset: 1px;
-}
-
 .services-form .btn {
+  display: block;
   margin-top: 0.25rem;
 }
 
 .services-form__note {
-  display: inline-block;
-  margin: 0 0 0 0.75rem;
+  display: block;
+  max-width: 34rem;
+  margin: 0.65rem 0 0;
   color: $gray;
   font-size: $type-size-6;
-  vertical-align: middle;
+  line-height: 1.5;
 }
 
 .services-form__honeypot {
@@ -163,24 +41,4 @@
   width: 1px !important;
   height: 1px !important;
   overflow: hidden !important;
-}
-
-@media (max-width: 600px) {
-  .service {
-    gap: 0.75rem;
-  }
-
-  .service__index {
-    flex-basis: 1.75rem;
-  }
-
-  .services-form__row {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-
-  .services-form__note {
-    display: block;
-    margin: 0.5rem 0 0;
-  }
 }
