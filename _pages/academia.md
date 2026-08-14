@@ -70,7 +70,7 @@ How does partisan alignment between local and national governments affect the al
 
 * Political Science Block Grant Fellowship, UCSB ($189,000)
 * Meta Research Ad Credits Grant ($75,000)
-* Russel Sage Foundation Grant for Summer Institute on Migration Research Methods
+* Russell Sage Foundation Grant for Summer Institute on Migration Research Methods
 * Louis Lancaster Graduate Fellowship/Scholarship, UCSB (multiple years)
 * UCSB Political Science Department Research Grants (multiple years)
 * Adams-Lee Distinguished Teaching Award
