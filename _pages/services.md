@@ -2,7 +2,7 @@
 permalink: /services/
 title: "Consulting"
 excerpt: "Survey design, respondent quality, quantitative analysis, and research systems."
-author_profile: false
+author_profile: true
 ---
 
 <div class="services-intro">
@@ -64,15 +64,9 @@ author_profile: false
     <input type="hidden" name="_captcha" value="false">
     <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none !important">
 
-    <div class="services-form__row">
-      <label for="contact-name">Name
-        <input id="contact-name" type="text" name="name" autocomplete="name" required>
-      </label>
-
-      <label for="contact-email">Email
-        <input id="contact-email" type="email" name="email" autocomplete="email" required>
-      </label>
-    </div>
+    <label for="contact-email">Email
+      <input id="contact-email" type="email" name="email" autocomplete="email" required>
+    </label>
 
     <label for="contact-message">What are you working on?
       <textarea id="contact-message" name="message" rows="7" required></textarea>
