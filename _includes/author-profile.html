@@ -15,10 +15,7 @@
     {% endif %}
   </div>
 
-  <div class="author__content">
-    <div class="author__name" itemprop="name">{{ author.name }}</div>
-    {% if author.bio %}<p class="author__bio" itemprop="description">{{ author.bio }}</p>{% endif %}
-  </div>
+  <meta itemprop="name" content="{{ author.name }}">
 
   <div class="author__urls-wrapper">
     <button type="button" class="btn btn--inverse">Contact &amp; profiles</button>
