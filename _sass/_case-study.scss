@@ -1,0 +1,190 @@
+/* ==========================================================================
+   Case study
+   ========================================================================== */
+
+.case-study {
+  max-width: 780px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.case-study h2 {
+  margin-top: 2.5em;
+  padding-bottom: 0.3em;
+  color: #1a3a5c;
+  border-bottom: 2px solid $border-color;
+}
+
+.case-study h3 {
+  margin-top: 1.8em;
+  color: #2c5282;
+}
+
+.case-meta {
+  margin-bottom: 2em;
+  color: $gray;
+  font-size: 0.95em;
+}
+
+.case-meta span {
+  margin-right: 1.5em;
+}
+
+.highlight-box {
+  margin: 1.5em 0;
+  padding: 1em 1.2em;
+  background: #f7fafc;
+  border-left: 4px solid #2c5282;
+}
+
+.case-grid,
+.insight-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2em;
+  margin: 1.5em 0;
+}
+
+.case-card,
+.insight-card {
+  padding: 1.2em;
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.case-card .label {
+  margin-bottom: 0.3em;
+  color: #718096;
+  font-size: 0.8em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.case-card .value {
+  color: #1a3a5c;
+  font-size: 1.4em;
+  font-weight: 600;
+}
+
+.case-card .detail {
+  margin-top: 0.3em;
+  color: #4a5568;
+  font-size: 0.85em;
+}
+
+.comparison-table {
+  width: 100%;
+  margin: 1.5em 0;
+  border-collapse: collapse;
+}
+
+.comparison-table th {
+  padding: 0.7em 1em;
+  color: #718096;
+  background: #f7fafc;
+  border-bottom: 2px solid #e2e8f0;
+  font-size: 0.85em;
+  letter-spacing: 0.04em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.comparison-table td {
+  padding: 0.7em 1em;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.comparison-table .winner {
+  background: #f0fff4;
+  font-weight: 600;
+}
+
+.comparison-table .loser {
+  color: #b83232;
+}
+
+.app-screenshot {
+  width: 100%;
+  margin: 1em 0;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.app-tabs {
+  margin: 1.5em 0;
+}
+
+.app-tab-buttons {
+  display: flex;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.app-tab-btn {
+  margin-bottom: -2px;
+  padding: 0.6em 1.2em;
+  color: #718096;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-size: 0.95em;
+}
+
+.app-tab-btn:hover,
+.app-tab-btn:focus-visible,
+.app-tab-btn.active {
+  color: #2c5282;
+}
+
+.app-tab-btn:focus-visible {
+  outline: 2px solid #2c5282;
+  outline-offset: 2px;
+}
+
+.app-tab-btn.active {
+  border-bottom-color: #2c5282;
+  font-weight: 600;
+}
+
+.app-tab-content {
+  padding-top: 1em;
+}
+
+.insight-card {
+  background: #fff;
+}
+
+.insight-card .num {
+  color: #2c5282;
+  font-size: 1.5em;
+  font-weight: 700;
+}
+
+.insight-card h4 {
+  margin: 0.3em 0;
+  font-size: 0.95em;
+}
+
+.insight-card p {
+  margin: 0;
+  color: #4a5568;
+  font-size: 0.85em;
+}
+
+@media (max-width: 700px) {
+  .case-grid,
+  .insight-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .comparison-table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .app-tab-btn {
+    flex: 1;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+  }
+}
