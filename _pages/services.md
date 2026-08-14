@@ -6,8 +6,8 @@ author_profile: true
 ---
 
 <div class="services-intro">
-  <p>I help research and insights teams design stronger studies, diagnose data-quality problems, and build research workflows that produce defensible results.</p>
-  <p>My work combines survey methodology, quantitative analysis, and hands-on data science. I tend to be most useful when a problem is ambiguous, the cost of getting it wrong is high, or a team needs experienced capacity without adding a full-time role.</p>
+  <p>I help research and insights teams make difficult studies, datasets, and workflows more reliable.</p>
+  <p>My work combines survey methodology, quantitative analysis, and hands-on data science.</p>
 </div>
 
 <div class="service-list">
@@ -15,8 +15,7 @@ author_profile: true
     <span class="service__index" aria-hidden="true">01</span>
     <div class="service__body">
       <h2>Survey design and preflight</h2>
-      <p>Independent review before fieldwork begins: research questions, questionnaire wording and logic, experiments and randomization, validation, sampling, weighting, and the analysis plan. The aim is to catch consequential mistakes while they are still inexpensive to fix.</p>
-      <p class="service__scope"><strong>Typical work:</strong> pre-launch audits, experimental-design review, questionnaire review, and analysis-plan review.</p>
+      <p>Review questionnaires, experiments, sampling, validation, weighting, and analysis plans before fieldwork—while mistakes are still inexpensive to fix.</p>
     </div>
   </section>
 
@@ -24,8 +23,7 @@ author_profile: true
     <span class="service__index" aria-hidden="true">02</span>
     <div class="service__body">
       <h2>Data quality and respondent integrity</h2>
-      <p>Investigate suspicious response patterns using survey answers, behavior, metadata, and open-ended text. I help teams distinguish low-quality or fraudulent activity from genuine variation, evaluate screening rules, and quantify how quality decisions change substantive results.</p>
-      <p class="service__scope"><strong>Typical work:</strong> post-fieldwork audits, fraud-rule evaluation, quality-control redesign, and monitoring systems.</p>
+      <p>Diagnose low-quality or fraudulent responses, test screening rules, and determine whether quality decisions change the substantive conclusions.</p>
     </div>
   </section>
 
@@ -33,8 +31,7 @@ author_profile: true
     <span class="service__index" aria-hidden="true">03</span>
     <div class="service__body">
       <h2>Quantitative analysis and measurement</h2>
-      <p>Take a project from messy data to clear, appropriately qualified conclusions. This can include cleaning, weighting, experimental and quasi-experimental analysis, predictive modeling, uncertainty, and communication for technical or nontechnical audiences.</p>
-      <p class="service__scope"><strong>Typical work:</strong> overflow analysis, independent methods review, measurement strategy, and reproducible reporting.</p>
+      <p>Clean and weight data, analyze experiments and observational studies, build models, and translate uncertainty into clear decisions.</p>
     </div>
   </section>
 
@@ -42,26 +39,40 @@ author_profile: true
     <span class="service__index" aria-hidden="true">04</span>
     <div class="service__body">
       <h2>Research systems and automation</h2>
-      <p>Replace fragile handoffs and repetitive manual work with readable, testable systems. Projects can include survey-data pipelines, quality checks, reporting, internal decision tools, and workflows that use artificial intelligence with explicit verification rather than blind automation.</p>
-      <p class="service__scope"><strong>Typical work:</strong> workflow audits, prototypes and internal tools, pipeline rebuilds, and verification systems.</p>
+      <p>Build auditable pipelines, quality checks, reporting, and artificial-intelligence-assisted workflows that reduce manual work without removing verification.</p>
     </div>
   </section>
 </div>
 
-## Ways to work together
+<p class="services-engagement">Available for focused reviews, defined projects, and short-term embedded support—including white-label work for research agencies.</p>
 
-I can provide a focused independent review, take ownership of a defined workstream, or join temporarily as experienced quantitative support. I work directly with in-house teams and as a white-label partner to research agencies.
+<p class="services-proof"><strong>15 years</strong> in survey research <span aria-hidden="true">·</span> <strong>45,000+</strong> respondents across 30+ countries <span aria-hidden="true">·</span> systems supporting a <strong>230,000-member</strong> panel <span aria-hidden="true">·</span> research published in <em>PNAS</em> and <em>International Affairs</em></p>
 
-- **Focused review:** A narrow assessment with prioritized findings and concrete next steps.
-- **Defined project:** Ownership of a workstream from scoping through delivery.
-- **Embedded support:** Short-term or fractional help inside an existing team, client-facing or behind the scenes.
+<section class="services-contact" aria-labelledby="contact-heading">
+  <h2 id="contact-heading">Tell me what you're working on</h2>
 
-## Relevant experience
+  <form class="services-form" action="https://formsubmit.co/me@ingmarsturm.com" method="POST">
+    <input type="hidden" name="_subject" value="New consulting inquiry from ingmarsturm.com">
+    <input type="hidden" name="_next" value="https://ingmarsturm.com/contact-sent/">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_captcha" value="false">
+    <input class="services-form__honeypot" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-I have spent 15 years in survey research and eight years running studies end to end. My work has included studies with more than 45,000 respondents across more than 30 countries, production data systems supporting a survey panel with more than 230,000 members, and peer-reviewed research in *Proceedings of the National Academy of Sciences* and *International Affairs*. I have worked across commercial research, academia, and nonprofit organizations.
+    <div class="services-form__row">
+      <label for="contact-name">Name
+        <input id="contact-name" type="text" name="name" autocomplete="name" required>
+      </label>
 
-<div class="services-contact">
-  <h2>Start with the problem</h2>
-  <p>If you have a study, dataset, or workflow that feels fragile, expensive, or unusually hard to get right, send me a short note. Include what you are trying to decide, what is already in place, and where you are least confident. I will tell you directly whether I am a fit and what a sensible first step would be.</p>
-  <p><a href="mailto:me@ingmarsturm.com" class="btn">Email me</a> <a href="https://www.linkedin.com/in/ingmar-sturm/" class="services-secondary-link">LinkedIn</a></p>
-</div>
+      <label for="contact-email">Email
+        <input id="contact-email" type="email" name="email" autocomplete="email" required>
+      </label>
+    </div>
+
+    <label for="contact-message">What are you working on?
+      <textarea id="contact-message" name="message" rows="7" required></textarea>
+    </label>
+
+    <button type="submit" class="btn">Send message</button>
+    <p class="services-form__note">A short description is enough. Please don't include confidential data.</p>
+  </form>
+</section>
