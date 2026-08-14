@@ -1,46 +1,15 @@
 ---
 permalink: /ux-case-study/
-title: "Reducing Pricing Decision Variance"
-excerpt: "How survey design data replaced gut-feel duration estimates"
+title: "Predicting Survey Duration More Reliably"
+excerpt: "How survey-design data replaced inconsistent pricing estimates."
 author_profile: false
 ---
 
-<style>
-.case-study { max-width: 780px; margin: 0 auto; line-height: 1.7; }
-.case-study h2 { margin-top: 2.5em; color: #1a3a5c; border-bottom: 2px solid #e8e8e8; padding-bottom: 0.3em; }
-.case-study h3 { color: #2c5282; margin-top: 1.8em; }
-.case-meta { color: #666; font-size: 0.95em; margin-bottom: 2em; }
-.case-meta span { margin-right: 1.5em; }
-.highlight-box { background: #f7fafc; border-left: 4px solid #2c5282; padding: 1em 1.2em; margin: 1.5em 0; border-radius: 0 4px 4px 0; }
-.case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2em; margin: 1.5em 0; }
-.case-card { background: #f7fafc; border-radius: 6px; padding: 1.2em; border: 1px solid #e2e8f0; }
-.case-card .label { font-size: 0.8em; text-transform: uppercase; letter-spacing: 0.5px; color: #718096; margin-bottom: 0.3em; }
-.case-card .value { font-size: 1.4em; font-weight: 600; color: #1a3a5c; }
-.case-card .detail { font-size: 0.85em; color: #4a5568; margin-top: 0.3em; }
-.comparison-table { width: 100%; border-collapse: collapse; margin: 1.5em 0; }
-.comparison-table th { background: #f7fafc; padding: 0.7em 1em; text-align: left; border-bottom: 2px solid #e2e8f0; font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.5px; color: #718096; }
-.comparison-table td { padding: 0.7em 1em; border-bottom: 1px solid #e2e8f0; }
-.comparison-table .winner { background: #f0fff4; font-weight: 600; }
-.comparison-table .loser { color: #e53e3e; }
-.app-screenshot { width: 100%; border-radius: 8px; border: 1px solid #e2e8f0; margin: 1em 0; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-.insight-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1em; margin: 1.5em 0; }
-.insight-card { background: #fff; border-radius: 6px; padding: 1.2em; border: 1px solid #e2e8f0; }
-.insight-card .num { font-size: 1.5em; font-weight: 700; color: #2c5282; }
-.insight-card h4 { margin: 0.3em 0; font-size: 0.95em; }
-.insight-card p { font-size: 0.85em; color: #4a5568; margin: 0; }
-.app-tabs { margin: 1.5em 0; }
-.app-tab-buttons { display: flex; gap: 0; border-bottom: 2px solid #e2e8f0; }
-.app-tab-btn { padding: 0.6em 1.2em; border: none; background: none; cursor: pointer; font-size: 0.95em; color: #718096; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; }
-.app-tab-btn:hover { color: #2c5282; }
-.app-tab-btn.active { color: #2c5282; border-bottom-color: #2c5282; font-weight: 600; }
-.app-tab-content { padding-top: 1em; }
-@media (max-width: 700px) { .case-grid, .insight-cards { grid-template-columns: 1fr; } }
-</style>
 
 <div class="case-study">
 
 <div class="case-meta">
-<span>Company: Survey technology company (300K+ member panel)</span><br>
+<span>Company: Survey technology company</span><br>
 <span>Role: Senior Data Scientist</span>
 <span>Timeline: February - April 2026</span>
 <span>Team: Solo (with cross-functional collaborators)</span>
@@ -93,7 +62,7 @@ The most technically novel piece was "flow-aware" survey parsing: walking the su
 
 I compared 8 model variants (linear regression, regularized regression, Random Forest, gradient boosting). Random Forest on the full feature set outperformed all alternatives in cross-validation.
 
-The model went through **8 versions over 4 months**, and I preserved the approaches that didn't work:
+The model went through **8 versions during development**, and I preserved the approaches that didn't work:
 
 - **LLM-based cognitive difficulty scoring** (tested two models to rate question complexity): no improvement. Survey-level aggregation washed out per-question variation.
 - **Condition-based branch probability estimation** (parsing survey logic to estimate the probability each branch is taken): actively hurt accuracy. Flat heuristics worked better because the model learned corrections from other features.
@@ -154,10 +123,10 @@ In Case A, a 20-minute estimate for a 9-minute survey meant unnecessary cost bak
 I shipped a self-serve web application where non-technical users upload a survey design file and receive a duration prediction in seconds.
 
 <div class="app-tabs">
-<div class="app-tab-buttons">
-<button class="app-tab-btn active" onclick="showTab('pred')">Prediction</button>
-<button class="app-tab-btn" onclick="showTab('summary')">Survey Summary</button>
-<button class="app-tab-btn" onclick="showTab('nerds')">Stats for Nerds</button>
+<div class="app-tab-buttons" role="tablist" aria-label="Product screenshots">
+<button type="button" class="app-tab-btn active" onclick="showTab('pred', this)" role="tab" aria-selected="true">Prediction</button>
+<button type="button" class="app-tab-btn" onclick="showTab('summary', this)" role="tab" aria-selected="false">Survey summary</button>
+<button type="button" class="app-tab-btn" onclick="showTab('nerds', this)" role="tab" aria-selected="false">Model details</button>
 </div>
 <div class="app-tab-content" id="tab-pred">
 <img src="/images/ux-case-study/prediction-tab.png" alt="Prediction tab showing 2.1 minute estimate with 90% prediction interval" class="app-screenshot">
@@ -166,16 +135,22 @@ I shipped a self-serve web application where non-technical users upload a survey
 <img src="/images/ux-case-study/survey-summary-tab.png" alt="Survey Summary tab showing question types, reading load, and text complexity" class="app-screenshot">
 </div>
 <div class="app-tab-content" id="tab-nerds" style="display:none">
-<img src="/images/ux-case-study/stats-tab.png" alt="Stats for Nerds tab showing model info and feature importance" class="app-screenshot">
+<img src="/images/ux-case-study/stats-tab.png" alt="Model details tab showing model info and feature importance" class="app-screenshot">
 </div>
 </div>
 
 <script>
-function showTab(id) {
-  document.querySelectorAll('.app-tab-content').forEach(el => el.style.display = 'none');
-  document.querySelectorAll('.app-tab-btn').forEach(el => el.classList.remove('active'));
+function showTab(id, button) {
+  document.querySelectorAll('.app-tab-content').forEach(function (panel) {
+    panel.style.display = 'none';
+  });
+  document.querySelectorAll('.app-tab-btn').forEach(function (tab) {
+    tab.classList.remove('active');
+    tab.setAttribute('aria-selected', 'false');
+  });
   document.getElementById('tab-' + id).style.display = 'block';
-  event.target.classList.add('active');
+  button.classList.add('active');
+  button.setAttribute('aria-selected', 'true');
 }
 </script>
 
@@ -228,10 +203,5 @@ An operations colleague independently contributed calibration data by adding tim
 
 In a future iteration, I would add usability testing before launch, instrument adoption tracking with user authentication, and build a stakeholder feedback loop to capture how predictions influence actual pricing decisions.
 
----
-
-<p style="text-align: center; color: #999; font-size: 0.85em; margin-top: 3em;">
-Ingmar Sturm | <a href="https://ingmarsturm.com">ingmarsturm.com</a> | <a href="https://www.linkedin.com/in/ingmar-sturm">LinkedIn</a>
-</p>
 
 </div>
