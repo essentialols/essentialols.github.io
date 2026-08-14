@@ -10,7 +10,7 @@ locale                   : "en-US"
 title                    : "Ingmar Sturm"
 title_separator          : "-"
 name                     : &name "Ingmar Sturm"
-description              : &description "Research & Measurement | Data Science & AI"
+description              : &description "Quantitative research, survey measurement, and applied data science."
 url                      : https://ingmarsturm.com
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "essentialols/essentialols.github.io"
@@ -40,9 +40,13 @@ og_image                 :  # Open Graph/Twitter default site image
 # For specifying social profiles
 # - https://developers.google.com/structured-data/customize/social-profiles
 social:
-  type                   : # Person or Organization (defaults to Person)
-  name                   : # If the user or organization name differs from the site's name
-  links: # An array of links to social media profiles
+  type                   : Person
+  name                   : "Ingmar Sturm"
+  links:
+    - "https://www.linkedin.com/in/ingmar-sturm"
+    - "https://github.com/essentialols"
+    - "https://scholar.google.com/citations?user=0KvXticAAAAJ&hl=en"
+    - "https://orcid.org/0000-0002-1717-298X"
 
 
 # Analytics
@@ -56,7 +60,7 @@ analytics:
 author:
   name             : "Ingmar Sturm"
   avatar           : "profile.png"
-  bio              : "Research & Measurement · Data Science & AI"
+  bio              : "Quantitative research · Survey measurement · Data science"
   location         : "San Francisco, CA"
   email            : "me@ingmarsturm.com"
   github           : "essentialols"
