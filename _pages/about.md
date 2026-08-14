@@ -2,7 +2,7 @@
 permalink: /
 title: "Research, measurement, and data science"
 excerpt: "Quantitative research, survey measurement, and applied data science by Ingmar Sturm."
-author_profile: false
+author_profile: true
 redirect_from:
   - /about/
   - /about.html
