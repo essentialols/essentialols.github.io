@@ -63,5 +63,5 @@ I have spent 15 years in survey research and eight years running studies end to 
 <div class="services-contact">
   <h2>Start with the problem</h2>
   <p>If you have a study, dataset, or workflow that feels fragile, expensive, or unusually hard to get right, send me a short note. Include what you are trying to decide, what is already in place, and where you are least confident. I will tell you directly whether I am a fit and what a sensible first step would be.</p>
-  <p><a href="mailto:me@ingmarsturm.com" class="btn btn--primary">Email me</a> <a href="https://www.linkedin.com/in/ingmar-sturm/" class="services-secondary-link">LinkedIn</a></p>
+  <p><a href="mailto:me@ingmarsturm.com" class="btn">Email me</a> <a href="https://www.linkedin.com/in/ingmar-sturm/" class="services-secondary-link">LinkedIn</a></p>
 </div>
