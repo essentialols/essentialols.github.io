@@ -1,5 +1,7 @@
 # main links
 main:
+  - title: "Work"
+    url: /ux-case-study/
   - title: "Consulting"
     url: /services/
   - title: "Academia"
