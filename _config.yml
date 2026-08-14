@@ -10,7 +10,7 @@ locale                   : "en-US"
 title                    : "Ingmar Sturm"
 title_separator          : "-"
 name                     : &name "Ingmar Sturm"
-description              : &description "Senior Data Scientist & PhD Candidate"
+description              : &description "Research & Measurement | Data Science & AI"
 url                      : https://ingmarsturm.com
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "essentialols/essentialols.github.io"
@@ -56,9 +56,9 @@ analytics:
 author:
   name             : "Ingmar Sturm"
   avatar           : "profile.png"
-  bio              : "Data Scientist at Verasight. PhD Candidate at UC Santa Barbara."
+  bio              : "Research & Measurement · Data Science & AI"
   location         : "San Francisco, CA"
-  employer         : {url: "https://www.verasight.io", name: "Verasight"}
+  email            : "me@ingmarsturm.com"
   github           : "essentialols"
   linkedin         : "ingmar-sturm"
   googlescholar    : "https://scholar.google.com/citations?user=0KvXticAAAAJ&hl=en"
@@ -177,14 +177,14 @@ whitelist:
 
 # Archives
 #  Type
-#  - GitHub Pages compatible archive pages built with Liquid ~> type: liquid (default)
-#  - Jekyll Archives plugin archive pages ~> type: jekyll-archives
-#  Path (examples)
-#  - Archive page should exist at path when using Liquid method or you can
-#    expect broken links (especially with breadcrumbs enabled)
-#  - <base_path>/tags/my-awesome-tag/index.html ~> path: /tags/
-#  - <base_path/categories/my-awesome-category/index.html ~> path: /categories/
-#  - <base_path/my-awesome-category/index.html ~> path: /
+#  ========================================================================== */
+#  jekyll-archives plugin archive pages.
+#  liquid (default): use Liquid templates.
+#  jekyll-archives: use the plugin.
+#  Path examples:
+#  /tags/my-awesome-tag/index.html -> /tags/
+#  /categories/my-awesome-category/index.html -> /categories/
+#  /my-awesome-category/index.html -> /
 category_archive:
   type: liquid
   path: /categories/
