@@ -2,42 +2,42 @@
 permalink: /services/
 title: "Consulting"
 browser_title: "Consulting | Ingmar Sturm"
-excerpt: "Survey design, data quality, quantitative analysis, and research systems."
+excerpt: "Survey quality, quantitative research, and research automation."
 author_profile: true
 ---
 
 <div class="services-intro">
-  <p>I work with research and insights teams when a study is about to launch, the data does not look trustworthy, an analysis has real consequences, or a research process has become too manual.</p>
-  <p>My background combines survey research, measurement, statistics, and applied data science. I can review a narrow problem independently, own a defined workstream, or join an existing team for a period of time.</p>
+  <p>I help research and insights teams prevent bad data, expensive fieldwork mistakes, and unreliable analysis.</p>
+  <p>Most projects start with a survey that needs a careful review, data nobody fully trusts, a team that needs senior quantitative capacity, or a research process that has become too manual.</p>
 </div>
 
 <div class="service-grid">
   <section class="service-card">
     <p class="service-card__eyebrow">Before fieldwork</p>
-    <h2>Survey design and preflight</h2>
-    <p>I review questionnaires, experiments, sampling, validation, weighting, and analysis plans before launch. The goal is simple: catch consequential problems while they are still cheap to fix.</p>
-    <p class="service-card__examples"><strong>Useful for:</strong> pre-launch reviews, complex experiments, questionnaire logic, weighting plans, and independent methodological checks.</p>
+    <h2>Survey preflight</h2>
+    <p>I review questionnaire wording, logic, validation, randomization, sampling, mobile behavior, data structure, and analysis readiness. The goal is to catch consequential problems while they are still cheap to fix.</p>
+    <p class="service-card__examples"><strong>Typical output:</strong> a prioritized list of launch blockers, risks, and recommended fixes.</p>
   </section>
 
   <section class="service-card">
     <p class="service-card__eyebrow">When the data looks wrong</p>
-    <h2>Data quality and respondent integrity</h2>
-    <p>I investigate suspicious response patterns using answers, behavior, metadata, and open-ended text. I can evaluate existing screening rules and test whether quality decisions materially change the substantive findings.</p>
-    <p class="service-card__examples"><strong>Useful for:</strong> post-fieldwork audits, fraud investigations, quality-control redesign, and ongoing monitoring.</p>
+    <h2>Survey data integrity audit</h2>
+    <p>I examine response patterns and metadata for suspicious respondents, low-quality data, implementation failures, and other threats to validity. I also test whether quality decisions materially change the substantive findings.</p>
+    <p class="service-card__examples"><strong>Typical output:</strong> a documented quality assessment, sensitivity analysis, and recommended controls.</p>
   </section>
 
   <section class="service-card">
-    <p class="service-card__eyebrow">When the analysis matters</p>
-    <h2>Quantitative analysis and measurement</h2>
-    <p>I take projects from messy data to defensible conclusions. This can include cleaning, weighting, experimental and quasi-experimental analysis, predictive modeling, uncertainty, and communication for technical or nontechnical audiences.</p>
-    <p class="service-card__examples"><strong>Useful for:</strong> overflow analysis, independent methods review, measurement strategy, and reproducible reporting.</p>
+    <p class="service-card__eyebrow">When the team needs capacity</p>
+    <h2>Fractional quantitative research lead</h2>
+    <p>I step into study design, weighting, statistical analysis, experimentation, measurement, technical review, and client-facing interpretation. I can work directly with clients or behind the scenes for research agencies.</p>
+    <p class="service-card__examples"><strong>Useful for:</strong> overflow work, unusually difficult studies, or projects that need an independent senior quantitative reviewer.</p>
   </section>
 
   <section class="service-card">
     <p class="service-card__eyebrow">When the process is the problem</p>
-    <h2>Research systems and automation</h2>
-    <p>I build readable, testable systems for work that has become fragile or repetitive. Projects can include survey-data pipelines, quality checks, reporting, internal decision tools, and artificial-intelligence workflows with explicit verification.</p>
-    <p class="service-card__examples"><strong>Useful for:</strong> workflow audits, internal tools, pipeline rebuilds, and research quality-control systems.</p>
+    <h2>Research automation sprint</h2>
+    <p>I automate repetitive research work without automating away verification. Projects can include questionnaire checks, data cleaning, quality control, analysis verification, reporting pipelines, internal tools, and research-system integrations.</p>
+    <p class="service-card__examples"><strong>Typical output:</strong> a working, documented workflow that reduces manual steps and makes important checks reproducible.</p>
   </section>
 </div>
 
@@ -50,13 +50,12 @@ Most projects do not need to begin with a large engagement.
 - **Embedded support.** Short-term or fractional quantitative help inside an existing team.
 - **Agency support.** White-label work behind the scenes or directly with your client.
 
-If the problem is adjacent to these areas but not an exact match, that is fine. Send me the problem rather than trying to fit it into a service category.
+If the problem is adjacent to these areas but not an exact match, send me the problem rather than trying to fit it into a service category.
 
 ## Selected work
 
-I built a model and self-serve tool that reduced survey-duration estimation error by 30 percent compared with existing pricing estimates. [Read the case study](/ux-case-study/).
-
-My broader work has included large international survey studies, experiments and causal analysis, respondent-quality systems, predictive models, and production research infrastructure.
+- [Building respondent-quality controls for an online research panel](/survey-quality-case-study/)
+- [Predicting survey duration more reliably](/ux-case-study/)
 
 ## Get in touch
 
