@@ -8,7 +8,7 @@
 # Site Settings
 locale                   : "en-US"
 title                    : "Ingmar Sturm"
-title_separator          : "-"
+title_separator          : "|"
 name                     : &name "Ingmar Sturm"
 description              : &description "Quantitative research, survey measurement, and applied data science."
 url                      : https://ingmarsturm.com
@@ -182,7 +182,7 @@ whitelist:
 # Archives
 #  Type
 #  - GitHub Pages compatible archive pages built with Liquid ~> type: liquid (default)
-#  - Jekyll Archives plugin archive pages ~> type: jekyll-archives
+#  - Jekyll Archives plugin archive pages built with Liquid ~> type: liquid (default)
 #  Path (examples)
 #  - Archive page should exist at path when using Liquid method or you can
 #    expect broken links (especially with breadcrumbs enabled)
