@@ -1,6 +1,55 @@
 /* ==========================================================================
-   Consulting contact form
+   Consulting page
    ========================================================================== */
+
+.services-intro {
+  max-width: 44rem;
+  margin-bottom: 2rem;
+}
+
+.services-intro p:first-child {
+  margin-top: 0;
+  font-size: $type-size-4;
+  line-height: 1.55;
+  color: $darker-gray;
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin: 1.75rem 0 2.5rem;
+  border-top: 1px solid $border-color;
+}
+
+.service-card {
+  padding: 1.4rem 0 1.5rem;
+  border-bottom: 1px solid $border-color;
+}
+
+.service-card h2 {
+  margin: 0.15rem 0 0.55rem;
+  font-size: $type-size-4;
+}
+
+.service-card p {
+  max-width: 44rem;
+}
+
+.service-card__eyebrow {
+  margin: 0;
+  color: $gray;
+  font-size: $type-size-6;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.service-card__examples {
+  margin-bottom: 0;
+  color: $gray;
+  font-size: 0.9em;
+}
 
 .services-form {
   max-width: 40rem;
@@ -41,4 +90,19 @@
   width: 1px !important;
   height: 1px !important;
   overflow: hidden !important;
+}
+
+@include breakpoint($medium) {
+  .service-grid {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 2.25rem;
+  }
+
+  .service-card:nth-child(odd) {
+    padding-right: 0.5rem;
+  }
+
+  .service-card:nth-child(even) {
+    padding-left: 0.5rem;
+  }
 }
