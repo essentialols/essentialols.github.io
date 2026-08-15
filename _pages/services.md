@@ -1,7 +1,6 @@
 ---
 permalink: /services/
 title: "Consulting"
-browser_title: "Consulting | Ingmar Sturm"
 excerpt: "Survey quality, quantitative research, and research automation."
 author_profile: true
 ---
