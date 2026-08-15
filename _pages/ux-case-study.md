@@ -1,6 +1,7 @@
 ---
 permalink: /ux-case-study/
 title: "Predicting survey duration more reliably"
+browser_title: "Survey Duration | Ingmar Sturm"
 excerpt: "How survey structure improved pricing estimates."
 author_profile: true
 ---
