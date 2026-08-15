@@ -1,6 +1,8 @@
 ---
 permalink: /survey-quality-case-study/
 title: "Building respondent-quality controls for an online research panel"
+browser_title: "Respondent Quality Controls Case Study | Ingmar Sturm"
+description: "How I turned ad-hoc respondent-quality review into a repeatable production process for an online research panel, balancing false positives against bad data."
 excerpt: "Turning respondent-quality review into a repeatable production process."
 author_profile: true
 ---

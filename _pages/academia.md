@@ -1,6 +1,8 @@
 ---
 layout: single
 title: "Academia"
+browser_title: "Research & Publications | Ingmar Sturm"
+description: "Peer-reviewed research on climate adaptation and political behavior, published in PNAS and International Affairs. Publications, dissertation, software, teaching."
 permalink: /academia/
 author_profile: true
 ---

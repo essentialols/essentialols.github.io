@@ -1,7 +1,8 @@
 ---
 permalink: /
 title: "Research, measurement, and data science"
-browser_title: "Ingmar Sturm"
+browser_title: "Survey Methodologist & Data Scientist | Ingmar Sturm"
+description: "I help research and insights teams prevent bad data, expensive fieldwork mistakes, and unreliable analysis. Survey quality, measurement, and research systems."
 excerpt: "Quantitative research, survey measurement, and applied data science by Ingmar Sturm."
 author_profile: true
 redirect_from:
