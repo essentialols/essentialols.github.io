@@ -9,9 +9,7 @@
 {% if page.browser_title %}
   {% assign seo_title = page.browser_title %}
 {% elsif page.title %}
-  {% assign short_title_words = page.title | split: " " | slice: 0, 3 %}
-  {% assign short_title = short_title_words | join: " " %}
-  {% assign seo_title = short_title | append: " " | append: site.title_separator | append: " " | append: site.title %}
+  {% assign seo_title = page.title | append: " " | append: site.title_separator | append: " " | append: site.title %}
 {% endif %}
 
 {% if seo_title %}
