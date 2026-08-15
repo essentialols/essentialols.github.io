@@ -10,9 +10,9 @@ redirect_from:
   - /about.html
 ---
 
-<p class="home-lede">I am a quantitative researcher and data scientist working on problems where measurement determines whether a decision can be trusted.</p>
+<p class="home-lede">I am a survey methodologist and data scientist. I help research and insights teams catch data problems before they reach a decision.</p>
 
-My work spans survey design, respondent quality, experiments, predictive modeling, weighting, and research systems. I design studies, diagnose weak data, build models, and turn the results into tools people can use.
+Most of my work involves surveys and other problems where measurement determines whether a result can be trusted. I design studies, diagnose weak data, build models, and turn the results into tools and research systems people can use.
 
 <div class="home-proof" aria-label="Selected experience">
   <div class="home-proof__item"><strong>45,000+</strong><span>research participants</span></div>
@@ -23,4 +23,4 @@ My work spans survey design, respondent quality, experiments, predictive modelin
 
 My academic research examines climate adaptation and political behavior using large-scale surveys and experimental and quasi-experimental methods.
 
-See my [selected work](/work/) or learn about my [consulting work](/services/).
+See [how I work with clients](/services/) or read my [selected work](/work/).

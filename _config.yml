@@ -30,13 +30,7 @@ alexa_site_verification  :
 yandex_site_verification :
 
 # Social Sharing
-twitter:
-  username               : &twitter
-facebook:
-  username               :
-  app_id                 :
-  publisher              :
-og_image                 : "profile.png" # Open Graph/Twitter default site image
+og_image                 : "profile.png" # Open Graph default share image
 # For specifying social profiles
 # - https://developers.google.com/structured-data/customize/social-profiles
 social:
@@ -87,6 +81,10 @@ include:
   - _pages
   - files
 exclude:
+  # Not published: local teaching material and CV working files. Jekyll reads
+  # the working directory, so .gitignore alone does not keep these out of a build.
+  - courses
+  - cv-source
   - "*.sublime-project"
   - "*.sublime-workspace"
   - .asset-cache
