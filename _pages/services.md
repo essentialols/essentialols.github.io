@@ -1,35 +1,66 @@
 ---
 permalink: /services/
 title: "Consulting"
-excerpt: "Survey design, respondent quality, quantitative analysis, and research systems."
+browser_title: "Consulting | Ingmar Sturm"
+excerpt: "Survey design, data quality, quantitative analysis, and research systems."
 author_profile: true
 ---
 
-I help research and insights teams solve problems with survey design, respondent quality, quantitative analysis, and research systems. Projects usually start with a study that needs review, data nobody trusts, or a process taking too much manual work.
+<div class="services-intro">
+  <p>I work with research and insights teams when a study is about to launch, the data does not look trustworthy, an analysis has real consequences, or a research process has become too manual.</p>
+  <p>My background combines survey research, measurement, statistics, and applied data science. I can review a narrow problem independently, own a defined workstream, or join an existing team for a period of time.</p>
+</div>
 
-## Survey design and preflight
+<div class="service-grid">
+  <section class="service-card">
+    <p class="service-card__eyebrow">Before fieldwork</p>
+    <h2>Survey design and preflight</h2>
+    <p>I review questionnaires, experiments, sampling, validation, weighting, and analysis plans before launch. The goal is simple: catch consequential problems while they are still cheap to fix.</p>
+    <p class="service-card__examples"><strong>Useful for:</strong> pre-launch reviews, complex experiments, questionnaire logic, weighting plans, and independent methodological checks.</p>
+  </section>
 
-I review questionnaires, experiments, sampling, validation, weighting, and analysis plans before fieldwork.
+  <section class="service-card">
+    <p class="service-card__eyebrow">When the data looks wrong</p>
+    <h2>Data quality and respondent integrity</h2>
+    <p>I investigate suspicious response patterns using answers, behavior, metadata, and open-ended text. I can evaluate existing screening rules and test whether quality decisions materially change the substantive findings.</p>
+    <p class="service-card__examples"><strong>Useful for:</strong> post-fieldwork audits, fraud investigations, quality-control redesign, and ongoing monitoring.</p>
+  </section>
 
-## Respondent quality
+  <section class="service-card">
+    <p class="service-card__eyebrow">When the analysis matters</p>
+    <h2>Quantitative analysis and measurement</h2>
+    <p>I take projects from messy data to defensible conclusions. This can include cleaning, weighting, experimental and quasi-experimental analysis, predictive modeling, uncertainty, and communication for technical or nontechnical audiences.</p>
+    <p class="service-card__examples"><strong>Useful for:</strong> overflow analysis, independent methods review, measurement strategy, and reproducible reporting.</p>
+  </section>
 
-I diagnose low-quality or fraudulent responses, evaluate screening rules, and test whether quality decisions change the conclusions.
+  <section class="service-card">
+    <p class="service-card__eyebrow">When the process is the problem</p>
+    <h2>Research systems and automation</h2>
+    <p>I build readable, testable systems for work that has become fragile or repetitive. Projects can include survey-data pipelines, quality checks, reporting, internal decision tools, and artificial-intelligence workflows with explicit verification.</p>
+    <p class="service-card__examples"><strong>Useful for:</strong> workflow audits, internal tools, pipeline rebuilds, and research quality-control systems.</p>
+  </section>
+</div>
 
-## Analysis and measurement
+## Ways to work together
 
-I clean and weight data, analyze experiments and observational studies, build models, and explain the uncertainty.
+Most projects do not need to begin with a large engagement.
 
-## Research systems
+- **Focused review.** A tightly scoped audit with prioritized findings and concrete next steps.
+- **Defined project.** Ownership of a specific workstream from scoping through delivery.
+- **Embedded support.** Short-term or fractional quantitative help inside an existing team.
+- **Agency support.** White-label work behind the scenes or directly with your client.
 
-I build reproducible pipelines, quality checks, reporting, and internal tools that reduce manual work.
-
-I am available for focused reviews, defined projects, and short-term embedded work. I can also work behind the scenes for research agencies.
+If the problem is adjacent to these areas but not an exact match, that is fine. Send me the problem rather than trying to fit it into a service category.
 
 ## Selected work
 
 I built a model and self-serve tool that reduced survey-duration estimation error by 30 percent compared with existing pricing estimates. [Read the case study](/ux-case-study/).
 
-## Contact
+My broader work has included large international survey studies, experiments and causal analysis, respondent-quality systems, predictive models, and production research infrastructure.
+
+## Get in touch
+
+Tell me what you are trying to do, what is already in place, and where you are least confident. A short description is enough. I will tell you whether I think I can help and what a sensible first step would be.
 
 <form id="consulting-contact-form" class="services-form" action="https://formsubmit.co/me@ingmarsturm.com" method="POST">
   <input type="hidden" name="_subject" value="New consulting inquiry from ingmarsturm.com">
@@ -47,7 +78,7 @@ I built a model and self-serve tool that reduced survey-duration estimation erro
   </label>
 
   <button type="submit" class="btn">Send message</button>
-  <p class="services-form__note" role="status" aria-live="polite">A short description is enough. Please do not include confidential data.</p>
+  <p class="services-form__note" role="status" aria-live="polite">Please do not include confidential or sensitive data.</p>
 </form>
 
 <script>
@@ -99,7 +130,7 @@ I built a model and self-serve tool that reduced survey-duration estimation erro
       })
       .catch(function () {
         button.textContent = 'Send message';
-        status.textContent = 'Something went wrong. Please try again, or use the email link in the sidebar.';
+        status.textContent = 'Something went wrong. Please try again in a moment.';
       })
       .then(function () {
         button.disabled = false;
