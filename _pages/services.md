@@ -2,7 +2,7 @@
 permalink: /services/
 title: "Consulting"
 browser_title: "Survey Quality & Research Consulting | Ingmar Sturm"
-description: "Consulting in survey preflight review, data integrity audits, fractional quantitative research leadership, and research automation. Independent, senior support."
+description: "Consulting in survey preflight review, data integrity audits, fractional quantitative research leadership, and research automation."
 excerpt: "Survey quality, quantitative research, and research automation."
 author_profile: true
 service_offerings:

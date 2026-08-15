@@ -2,7 +2,7 @@
 permalink: /work/
 title: "Work"
 browser_title: "Survey Quality Case Studies | Ingmar Sturm"
-description: "Case studies in survey data quality and research automation: respondent-quality controls for an online panel, and more reliable survey duration prediction."
+description: "Case studies in survey data quality and research automation: respondent-quality controls for an online panel, and survey duration prediction."
 excerpt: "Selected work in survey quality, measurement, and research systems."
 author_profile: true
 ---
