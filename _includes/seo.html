@@ -89,6 +89,10 @@
   <meta property="og:image" content="{% if page.header.image contains "://" %}{{ page.header.image }}{% else %}{{ page.header.image | prepend: "/images/" | prepend: base_path }}{% endif %}">
 {% elsif page.header.overlay_image %}
   <meta property="og:image" content="{% if page.header.overlay_image contains "://" %}{{ page.header.overlay_image }}{% else %}{{ page.header.overlay_image | prepend: "/images/" | prepend: base_path }}{% endif %}">
+{% elsif site.og_image %}
+  <meta property="og:image" content="{{ site.og_image | prepend: "/images/" | prepend: seo_url }}">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="{{ site.og_image | prepend: "/images/" | prepend: seo_url }}">
 {% endif %}
 
 {% if page.date %}
@@ -103,25 +107,48 @@
   <link rel="next" href="{{ paginator.next_page_path | prepend: seo_url }}">
 {% endif %}
 
-{% if site.og_image %}
+{% if site.social %}
   <script type="application/ld+json">
     {
-      "@context": "http://schema.org",
-      "@type": "Organization",
-      "url": {{ seo_url | jsonify }},
-      "logo": {{ site.og_image | prepend: "/images/" | prepend: base_path | jsonify }}
+      "@context" : "https://schema.org",
+      "@type" : "{% if site.social.type %}{{ site.social.type }}{% else %}Person{% endif %}",
+      "name" : {{ site.social.name | default: site.name | jsonify }},
+      "url" : {{ seo_url | jsonify }},
+      {% if site.social.job_title %}"jobTitle" : {{ site.social.job_title | jsonify }},{% endif %}
+      {% if site.description %}"description" : {{ site.description | jsonify }},{% endif %}
+      {% if site.author.avatar %}"image" : {{ site.author.avatar | prepend: "/images/" | prepend: seo_url | jsonify }},{% endif %}
+      {% if site.social.knows_about %}"knowsAbout" : {{ site.social.knows_about | jsonify }},{% endif %}
+      "sameAs" : {{ site.social.links | jsonify }}
     }
   </script>
 {% endif %}
 
-{% if site.social %}
+{% if page.service_offerings %}
   <script type="application/ld+json">
     {
-      "@context" : "http://schema.org",
-      "@type" : "{% if site.social.type %}{{ site.social.type }}{% else %}Person{% endif %}",
-      "name" : "{{ site.social.name | default: site.name }}",
-      "url" : {{ seo_url | jsonify }},
-      "sameAs" : {{ site.social.links | jsonify }}
+      "@context" : "https://schema.org",
+      "@type" : "ProfessionalService",
+      "name" : {{ site.social.name | default: site.name | jsonify }},
+      "url" : {{ page.url | prepend: seo_url | jsonify }},
+      {% if site.description %}"description" : {{ site.description | jsonify }},{% endif %}
+      "provider" : { "@type" : "Person", "name" : {{ site.social.name | default: site.name | jsonify }}, "url" : {{ seo_url | jsonify }} },
+      "areaServed" : "Worldwide",
+      "hasOfferCatalog" : {
+        "@type" : "OfferCatalog",
+        "name" : {{ page.title | jsonify }},
+        "itemListElement" : [
+          {% for offering in page.service_offerings %}
+          {
+            "@type" : "Offer",
+            "itemOffered" : {
+              "@type" : "Service",
+              "name" : {{ offering.name | jsonify }},
+              "description" : {{ offering.description | jsonify }}
+            }
+          }{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        ]
+      }
     }
   </script>
 {% endif %}

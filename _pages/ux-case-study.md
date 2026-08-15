@@ -1,6 +1,8 @@
 ---
 permalink: /ux-case-study/
 title: "Predicting survey duration more reliably"
+browser_title: "Predicting Survey Duration Case Study | Ingmar Sturm"
+description: "How modeling survey structure replaced sales-team guesswork in estimating survey duration, improving pricing accuracy and margin predictability."
 excerpt: "How survey structure improved pricing estimates."
 author_profile: true
 ---

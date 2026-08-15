@@ -1,8 +1,19 @@
 ---
 permalink: /services/
 title: "Consulting"
+browser_title: "Survey Quality & Research Consulting | Ingmar Sturm"
+description: "Consulting in survey preflight review, data integrity audits, fractional quantitative research leadership, and research automation. Independent, senior support."
 excerpt: "Survey quality, quantitative research, and research automation."
 author_profile: true
+service_offerings:
+  - name: "Survey preflight"
+    description: "A focused review before fieldwork starts, covering questionnaire wording, logic, validation, randomization, sampling, mobile behavior, data structure, and analysis readiness."
+  - name: "Survey data integrity audit"
+    description: "A diagnostic for completed or in-field survey data, examining response patterns and metadata for suspicious respondents, low-quality data, and threats to validity."
+  - name: "Fractional quantitative research lead"
+    description: "Senior quantitative support without making a full-time hire, covering study design, weighting, statistical analysis, experimentation, measurement, and technical review."
+  - name: "Research automation sprint"
+    description: "A defined project to remove repetitive work from a research workflow without removing verification, producing a documented and reproducible pipeline."
 ---
 
 <div class="services-intro">
