@@ -1,7 +1,6 @@
 ---
 permalink: /survey-quality-case-study/
 title: "Building respondent-quality controls for an online research panel"
-browser_title: "Survey Quality | Ingmar Sturm"
 excerpt: "Turning respondent-quality review into a repeatable production process."
 author_profile: true
 ---
