@@ -1,8 +1,8 @@
 ---
 permalink: /
-title: "Research, measurement, and data science"
+title: "Survey methodologist and data scientist"
 browser_title: "Survey Methodologist & Data Scientist | Ingmar Sturm"
-description: "I help research and insights teams prevent bad data, expensive fieldwork mistakes, and unreliable analysis. Survey quality, measurement, and research systems."
+description: "I help research and insights teams catch data problems before they reach a decision. Survey methodology, data quality, and research systems."
 excerpt: "Quantitative research, survey measurement, and applied data science by Ingmar Sturm."
 author_profile: true
 redirect_from:
@@ -10,7 +10,7 @@ redirect_from:
   - /about.html
 ---
 
-<p class="home-lede">I am a survey methodologist and data scientist. I help research and insights teams catch data problems before they reach a decision.</p>
+<p class="home-lede">I help research and insights teams catch data problems before they reach a decision.</p>
 
 Most of my work involves surveys and other problems where measurement determines whether a result can be trusted. I design studies, diagnose weak data, build models, and turn the results into tools and research systems people can use.
 
