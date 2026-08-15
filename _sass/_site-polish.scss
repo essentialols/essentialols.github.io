@@ -1,0 +1,78 @@
+/* ==========================================================================
+   Site-wide refinements
+   ========================================================================== */
+
+/* Keep inline links visible against body text without making them decorative. */
+.page__content a:not(.btn) {
+  color: #2f6f89;
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.12em;
+}
+
+.page__content a:not(.btn):visited {
+  color: #2f6f89;
+}
+
+.page__content a:not(.btn):hover,
+.page__content a:not(.btn):active {
+  color: #204d60;
+}
+
+/* Give page titles enough hierarchy and breathing room for long case-study names. */
+.page__title {
+  max-width: 24ch;
+  font-size: 2.15em;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+.page__content > h2 {
+  font-size: 1.4em;
+  line-height: 1.25;
+}
+
+/* Compact homepage proof, using the same restrained visual language as Services. */
+.home-lede {
+  max-width: 44rem;
+  color: $darker-gray;
+  font-size: $type-size-4;
+  line-height: 1.55;
+}
+
+.home-proof {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  margin: 1.75rem 0 2rem;
+  border-top: 1px solid $border-color;
+  border-bottom: 1px solid $border-color;
+}
+
+.home-proof__item {
+  padding: 1rem 1rem 1rem 0;
+}
+
+.home-proof__item strong,
+.home-proof__item span {
+  display: block;
+}
+
+.home-proof__item strong {
+  margin-bottom: 0.15rem;
+  color: $darker-gray;
+  font-size: $type-size-4;
+  line-height: 1.2;
+}
+
+.home-proof__item span {
+  color: $gray;
+  font-size: 0.85em;
+  line-height: 1.4;
+}
+
+@include breakpoint($medium) {
+  .home-proof {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

@@ -13,28 +13,32 @@ author_profile: true
 <div class="service-grid">
   <section class="service-card">
     <p class="service-card__eyebrow">Before fieldwork</p>
-    <h2>Survey preflight</h2>
-    <p>I review questionnaire wording, logic, validation, randomization, sampling, mobile behavior, data structure, and analysis readiness. The goal is to catch consequential problems while they are still cheap to fix.</p>
+    <h2 id="survey-preflight">Survey preflight</h2>
+    <p class="service-card__definition">A focused review before fieldwork starts.</p>
+    <p>I review questionnaire wording, logic, validation, randomization, sampling, mobile behavior, data structure, and analysis readiness. The goal is simple: catch consequential problems while they are still cheap to fix.</p>
     <p class="service-card__examples"><strong>Typical output:</strong> a prioritized list of launch blockers, risks, and recommended fixes.</p>
   </section>
 
   <section class="service-card">
     <p class="service-card__eyebrow">When the data looks wrong</p>
-    <h2>Survey data integrity audit</h2>
+    <h2 id="survey-data-integrity-audit">Survey data integrity audit</h2>
+    <p class="service-card__definition">A diagnostic for completed or in-field survey data.</p>
     <p>I examine response patterns and metadata for suspicious respondents, low-quality data, implementation failures, and other threats to validity. I also test whether quality decisions materially change the substantive findings.</p>
     <p class="service-card__examples"><strong>Typical output:</strong> a documented quality assessment, sensitivity analysis, and recommended controls.</p>
   </section>
 
   <section class="service-card">
     <p class="service-card__eyebrow">When the team needs capacity</p>
-    <h2>Fractional quantitative research lead</h2>
+    <h2 id="fractional-quantitative-research-lead">Fractional quantitative research lead</h2>
+    <p class="service-card__definition">Senior quantitative support without making a full-time hire.</p>
     <p>I step into study design, weighting, statistical analysis, experimentation, measurement, technical review, and client-facing interpretation. I can work directly with clients or behind the scenes for research agencies.</p>
     <p class="service-card__examples"><strong>Useful for:</strong> overflow work, unusually difficult studies, or projects that need an independent senior quantitative reviewer.</p>
   </section>
 
   <section class="service-card">
     <p class="service-card__eyebrow">When the process is the problem</p>
-    <h2>Research automation sprint</h2>
+    <h2 id="research-automation-sprint">Research automation sprint</h2>
+    <p class="service-card__definition">A defined project to remove repetitive work without removing verification.</p>
     <p>I automate repetitive research work without automating away verification. Projects can include questionnaire checks, data cleaning, quality control, analysis verification, reporting pipelines, internal tools, and research-system integrations.</p>
     <p class="service-card__examples"><strong>Typical output:</strong> a working, documented workflow that reduces manual steps and makes important checks reproducible.</p>
   </section>

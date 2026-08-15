@@ -9,10 +9,17 @@ redirect_from:
   - /about.html
 ---
 
-I am a quantitative researcher and data scientist. I help research and insights teams prevent bad data, expensive fieldwork mistakes, and unreliable analysis.
+<p class="home-lede">I am a quantitative researcher and data scientist working on problems where measurement determines whether a decision can be trusted.</p>
 
-Most of my work involves surveys and other problems where measurement determines whether a decision can be trusted. I design studies, diagnose weak data, build models, and turn the results into tools and research systems people can use.
+My work spans survey design, respondent quality, experiments, predictive modeling, weighting, and research systems. I design studies, diagnose weak data, build models, and turn the results into tools people can use.
 
-My work has involved more than 45,000 research participants across 30 countries and production systems supporting millions of responses. My academic research on climate adaptation and political behavior has been published in *Proceedings of the National Academy of Sciences* and *International Affairs*.
+<div class="home-proof" aria-label="Selected experience">
+  <div class="home-proof__item"><strong>45,000+</strong><span>research participants</span></div>
+  <div class="home-proof__item"><strong>30 countries</strong><span>international research</span></div>
+  <div class="home-proof__item"><strong>Millions</strong><span>of responses supported</span></div>
+  <div class="home-proof__item"><strong>Peer-reviewed</strong><span><em>Proceedings of the National Academy of Sciences</em> and <em>International Affairs</em></span></div>
+</div>
+
+My academic research examines climate adaptation and political behavior using large-scale surveys and experimental and quasi-experimental methods.
 
 See my [selected work](/work/) or learn about my [consulting work](/services/).
