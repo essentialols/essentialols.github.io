@@ -1,6 +1,7 @@
 ---
 permalink: /services/
 title: "Consulting"
+browser_title: "Consulting | Ingmar Sturm"
 excerpt: "Survey design, data quality, quantitative analysis, and research systems."
 author_profile: true
 ---
