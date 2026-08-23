@@ -2,6 +2,12 @@ name: Deploy email tracker
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'email-tracking-worker/**'
+      - '.github/workflows/deploy-email-tracker.yml'
 
 permissions:
   contents: read
