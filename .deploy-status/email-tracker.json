@@ -1,0 +1,14 @@
+{
+  "service": "email-tracker",
+  "smoke_test": "success",
+  "source_sha": "2a56a17380de78bbff153f0aba1143d55ee44711",
+  "run_id": "32660907119",
+  "checked_at": "2026-08-23T19:20:34.218Z",
+  "checks": [
+    "health",
+    "open",
+    "site_click",
+    "linkedin_click",
+    "kv_persistence"
+  ]
+}
