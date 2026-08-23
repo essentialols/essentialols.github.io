@@ -10,7 +10,7 @@ on:
       - '.github/workflows/deploy-email-tracker.yml'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   deploy:
@@ -60,6 +60,8 @@ jobs:
           echo "Tracker custom domain did not become healthy within 90 seconds." >&2
           exit 1
       - name: Smoke test open and click tracking
+        id: smoke
+        continue-on-error: true
         run: |
           set -euo pipefail
           BASE="https://t.ingmarsturm.com"
@@ -89,3 +91,33 @@ jobs:
           echo "Tracking events did not all persist in time." >&2
           curl --silent --show-error --fail "${BASE}/s/${TOKEN}" || true
           exit 1
+      - name: Record smoke-test result
+        if: always()
+        env:
+          SMOKE_OUTCOME: ${{ steps.smoke.outcome }}
+          SOURCE_SHA: ${{ github.sha }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          cd ..
+          mkdir -p .deploy-status
+          node - <<'NODE'
+          const fs = require('fs');
+          const data = {
+            service: 'email-tracker',
+            smoke_test: process.env.SMOKE_OUTCOME,
+            source_sha: process.env.SOURCE_SHA,
+            run_id: process.env.RUN_ID,
+            checked_at: new Date().toISOString(),
+            checks: ['health', 'open', 'site_click', 'linkedin_click', 'kv_persistence']
+          };
+          fs.writeFileSync('.deploy-status/email-tracker.json', JSON.stringify(data, null, 2) + '\n');
+          NODE
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .deploy-status/email-tracker.json
+          git commit -m "chore: record email tracker smoke test [skip ci]" || exit 0
+          git push
+      - name: Fail if smoke test failed
+        if: steps.smoke.outcome != 'success'
+        run: exit 1
