@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ingmar-email-tracker",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-23",
+  "workers_dev": false,
+  "routes": [
+    {
+      "pattern": "t.ingmarsturm.com",
+      "custom_domain": true
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "EVENTS"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}
