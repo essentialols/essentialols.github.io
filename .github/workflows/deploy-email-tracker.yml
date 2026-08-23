@@ -24,8 +24,8 @@ jobs:
         with:
           node-version: '22'
           cache: npm
-          cache-dependency-path: email-tracking-worker/package.json
-      - run: npm install
+          cache-dependency-path: email-tracking-worker/package-lock.json
+      - run: npm ci
       - name: Validate Worker
         run: npm run check
         env:

@@ -36,11 +36,31 @@ function validToken(token) {
   return TOKEN_RE.test(token || "");
 }
 
+function logError(message, error, details = {}) {
+  console.error(
+    JSON.stringify({
+      message,
+      ...details,
+      error: error instanceof Error ? error.message : String(error),
+    }),
+  );
+}
+
 async function recordEvent(env, token, eventType) {
   const ts = Date.now();
   const uuid = crypto.randomUUID();
   const key = `event:${token}:${eventType}:${ts}:${uuid}`;
   await env.EVENTS.put(key, "1", { expirationTtl: EVENT_TTL_SECONDS });
+}
+
+async function recordEventSafely(env, token, eventType) {
+  try {
+    await recordEvent(env, token, eventType);
+  } catch (error) {
+    // Deliberately omit the token: error telemetry must not become a second
+    // tracking-event store.
+    logError("event_write_failed", error, { event_type: eventType });
+  }
 }
 
 async function statusForToken(env, token) {
@@ -91,14 +111,22 @@ export default {
     const path = url.pathname;
 
     if (path === "/health") {
-      return json({ ok: true, service: "ingmar-email-tracker", storage: "kv" });
+      try {
+        // A read-only sentinel lookup verifies that the KV binding is usable,
+        // not merely present in the deployed script configuration.
+        await env.EVENTS.get("__health__");
+        return json({ ok: true, service: "ingmar-email-tracker", storage: "kv" });
+      } catch (error) {
+        logError("health_check_failed", error);
+        return json({ ok: false, error: "storage_unavailable" }, 503);
+      }
     }
 
     const openMatch = path.match(/^\/o\/([A-Za-z0-9_-]+)\.gif$/);
     if (openMatch) {
       const token = openMatch[1];
       if (!validToken(token)) return json({ error: "invalid_token" }, 400);
-      ctx.waitUntil(recordEvent(env, token, "open"));
+      ctx.waitUntil(recordEventSafely(env, token, "open"));
       return new Response(decodeGif(), {
         status: 200,
         headers: commonHeaders("image/gif"),
@@ -110,7 +138,7 @@ export default {
       const [, targetName, token] = clickMatch;
       if (!validToken(token)) return json({ error: "invalid_token" }, 400);
       const eventType = targetName === "site" ? "site_click" : "linkedin_click";
-      ctx.waitUntil(recordEvent(env, token, eventType));
+      ctx.waitUntil(recordEventSafely(env, token, eventType));
       return new Response(null, {
         status: 302,
         headers: {
@@ -124,7 +152,12 @@ export default {
     if (statusMatch) {
       const token = statusMatch[1];
       if (!validToken(token)) return json({ error: "invalid_token" }, 400);
-      return json(await statusForToken(env, token));
+      try {
+        return json(await statusForToken(env, token));
+      } catch (error) {
+        logError("status_read_failed", error);
+        return json({ error: "storage_unavailable" }, 503);
+      }
     }
 
     return json({ error: "not_found" }, 404);
