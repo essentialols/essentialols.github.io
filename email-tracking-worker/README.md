@@ -4,7 +4,7 @@ Small Cloudflare Worker for the cold-outreach experiment. It keeps tracking unde
 
 ## Endpoints
 
-- `GET /health` — health check.
+- `GET /health` — health check that performs a read-only KV binding probe.
 - `GET /o/<token>.gif` — records `open`, returns the muted-gray signature dot.
 - `GET /c/site/<token>` — records `site_click`, redirects to `https://ingmarsturm.com/`.
 - `GET /c/linkedin/<token>` — records `linkedin_click`, redirects to the LinkedIn profile.
@@ -18,7 +18,7 @@ This project uses current Wrangler automatic provisioning. The `EVENTS` KV names
 
 ```bash
 cd email-tracking-worker
-npm install
+npm ci
 npx wrangler login
 npm run check
 npm run deploy
@@ -26,6 +26,11 @@ curl -fsS https://t.ingmarsturm.com/health
 ```
 
 For noninteractive deployment, set `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` in the environment before `npm run deploy`.
+
+The deployment workflow attaches `t.ingmarsturm.com` through Cloudflare's
+account-level Custom Domains API. The route is intentionally absent from
+`wrangler.jsonc`, so deployment does not require separate zone-route
+permissions.
 
 ## Event model
 
@@ -36,6 +41,11 @@ event:<random-token>:<event-type>:<unix-ms>:<uuid>
 ```
 
 The Worker deliberately does not record recipient name/email, IP address, referrer, or user-agent. The token-to-prospect mapping stays in the private outreach ledger.
+
+Automatic invocation logs are disabled because Cloudflare Workers invocation
+logs include the full request URL, which contains the random tracking token.
+Explicit storage errors remain available in Workers Logs without logging that
+token.
 
 ## Interpretation
 

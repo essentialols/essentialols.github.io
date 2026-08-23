@@ -1,6 +1,7 @@
 _site/
 .bundle/
 vendor/
+node_modules/
 
 .Rproj.user
 

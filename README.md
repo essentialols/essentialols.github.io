@@ -27,6 +27,7 @@ The homepage is `_pages/about.md` with permalink `/`. The custom domain is defin
 | `assets/` | Site assets used by the theme and pages |
 | `images/` | Images published with the site |
 | `files/` | Public downloadable files |
+| `email-tracking-worker/` | First-party Cloudflare Worker and KV-backed event store for outreach telemetry |
 | `Gemfile` / `Gemfile.lock` | Ruby and GitHub Pages dependencies |
 | `robots.txt` | Search-crawler policy and sitemap pointer |
 | `CNAME` | GitHub Pages custom domain |
