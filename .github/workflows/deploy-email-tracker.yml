@@ -59,3 +59,33 @@ jobs:
           done
           echo "Tracker custom domain did not become healthy within 90 seconds." >&2
           exit 1
+      - name: Smoke test open and click tracking
+        run: |
+          set -euo pipefail
+          BASE="https://t.ingmarsturm.com"
+          TOKEN="$(node -e "console.log(require('crypto').randomBytes(18).toString('base64url'))")"
+
+          curl --silent --show-error --fail "${BASE}/o/${TOKEN}.gif" --output /dev/null
+
+          SITE_STATUS="$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' "${BASE}/c/site/${TOKEN}")"
+          test "${SITE_STATUS}" = "302"
+
+          LINKEDIN_STATUS="$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' "${BASE}/c/linkedin/${TOKEN}")"
+          test "${LINKEDIN_STATUS}" = "302"
+
+          for attempt in $(seq 1 15); do
+            STATUS="$(curl --silent --show-error --fail "${BASE}/s/${TOKEN}")"
+            if node -e '
+              const s = JSON.parse(process.argv[1]);
+              const ok = s.open.count >= 1 && s.site_click.count >= 1 && s.linkedin_click.count >= 1;
+              process.exit(ok ? 0 : 1);
+            ' "${STATUS}"; then
+              echo "Tracking smoke test passed: ${STATUS}"
+              exit 0
+            fi
+            sleep 2
+          done
+
+          echo "Tracking events did not all persist in time." >&2
+          curl --silent --show-error --fail "${BASE}/s/${TOKEN}" || true
+          exit 1
