@@ -1,8 +1,11 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
+  "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "ingmar-email-tracker",
   "main": "src/index.js",
   "compatibility_date": "2026-08-23",
+  // t.ingmarsturm.com is attached by the deployment workflow through the
+  // account-level Custom Domains API. Keep routes absent so Wrangler does not
+  // require separate zone-route permissions or replace that domain binding.
   "workers_dev": false,
   "kv_namespaces": [
     {
@@ -10,6 +13,11 @@
     }
   ],
   "observability": {
-    "enabled": true
+    "enabled": true,
+    "logs": {
+      // Fetch invocation logs include the complete URL, including the private
+      // tracking token. Retain explicit error logs without persisting every URL.
+      "invocation_logs": false
+    }
   }
 }
