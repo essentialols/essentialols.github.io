@@ -85,6 +85,7 @@ exclude:
   # the working directory, so .gitignore alone does not keep these out of a build.
   - courses
   - cv-source
+  - email-tracking-worker
   - "*.sublime-project"
   - "*.sublime-workspace"
   - .asset-cache
