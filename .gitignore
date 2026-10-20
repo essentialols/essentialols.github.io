@@ -14,5 +14,5 @@ vendor/
 # Course materials (not for public site)
 courses/
 
-# CV source files
+# Local scratch. files/Ingmar_Sturm_CV.pdf is generated from a private source repo; don't edit it here.
 cv-source/
