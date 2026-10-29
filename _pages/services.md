@@ -75,9 +75,9 @@ If the problem is adjacent to these areas but not an exact match, send me the pr
 
 Tell me what you are trying to do, what is already in place, and where you are least confident. A short description is enough. I will tell you whether I think I can help and what a sensible first step would be.
 
-<form id="consulting-contact-form" class="services-form" action="https://formspree.io/f/mjyyolnz" method="POST">
-  <input type="hidden" name="_subject" value="New consulting inquiry from ingmarsturm.com">
-  <input class="services-form__honeypot" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+<form id="consulting-contact-form" class="services-form" action="https://splitforms.com/api/submit" method="POST">
+  <input type="hidden" name="access_key" value="0516713c946e4bc088cd67af302f9dae">
+  <input class="services-form__honeypot" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
 
   <label for="contact-email">Email
     <input id="contact-email" type="email" name="email" autocomplete="email" required>
@@ -113,7 +113,7 @@ Tell me what you are trying to do, what is already in place, and where you are l
       payload[key] = value;
     });
 
-    fetch('https://formspree.io/f/mjyyolnz', {
+    fetch('https://splitforms.com/api/submit', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
