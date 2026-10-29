@@ -75,7 +75,7 @@ If the problem is adjacent to these areas but not an exact match, send me the pr
 
 Tell me what you are trying to do, what is already in place, and where you are least confident. A short description is enough. I will tell you whether I think I can help and what a sensible first step would be.
 
-<form id="consulting-contact-form" class="services-form" action="https://formsubmit.co/me@ingmarsturm.com" method="POST">
+<form id="consulting-contact-form" class="services-form" action="https://formsubmit.co/contact@ingmarsturm.com" method="POST">
   <input type="hidden" name="_subject" value="New consulting inquiry from ingmarsturm.com">
   <input type="hidden" name="_next" value="https://ingmarsturm.com/contact-sent/">
   <input type="hidden" name="_template" value="table">
@@ -116,7 +116,7 @@ Tell me what you are trying to do, what is already in place, and where you are l
       payload[key] = value;
     });
 
-    fetch('https://formsubmit.co/ajax/me@ingmarsturm.com', {
+    fetch('https://formsubmit.co/ajax/contact@ingmarsturm.com', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
