@@ -266,5 +266,6 @@ a { color: inherit; }
 .v3-footer__inner { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; @include mobile { flex-direction: column; align-items: flex-start; } }
 .v3-footer__name { font-family: $serif; font-weight: 300; font-size: 30px; line-height: 36px; color: $ink; }
 .v3-footer__email { display: inline-block; margin-top: 12px; font-size: 15px; color: $teal-ink; text-decoration: none; &:hover { text-decoration: underline; } }
+.v3-footer__or { font-size: 15px; color: $muted; a { color: $muted; text-decoration: underline; text-underline-offset: 3px; &:hover { color: $teal-ink; } } }
 .v3-footer__copy { margin-top: 12px; font-size: 13px; color: $muted; }
 .v3-footer__links { display: flex; flex-wrap: wrap; gap: 8px 32px; a { font-size: 14px; color: $body; text-decoration: none; &:hover { color: $teal-ink; } } }
