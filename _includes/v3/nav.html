@@ -1,0 +1,14 @@
+{% include base_path %}
+<header class="v3-nav">
+  <a class="v3-nav__brand" href="{{ base_path }}/">{{ site.title }}</a>
+  <nav class="v3-nav__links" aria-label="Main">
+    {% for link in site.data.navigation.v3 %}
+      {% if link.url contains 'mailto:' or link.url contains '.pdf' %}
+        {% assign href = link.url %}
+      {% else %}
+        {% assign href = base_path | append: link.url %}
+      {% endif %}
+      <a href="{{ href }}"{% if page.url == link.url or page.v3_section == link.title %} class="is-active" aria-current="page"{% endif %}>{{ link.title }}</a>
+    {% endfor %}
+  </nav>
+</header>

@@ -1,26 +1,72 @@
 ---
 permalink: /
-title: "Survey methodologist and data scientist"
+layout: v3
+v3_home: true
+title: "Ingmar Sturm"
 browser_title: "Survey Methodologist & Data Scientist | Ingmar Sturm"
-description: "I help research and insights teams catch data problems before they reach a decision. Survey methodology, data quality, and research systems."
-excerpt: "Quantitative research, survey measurement, and applied data science by Ingmar Sturm."
-author_profile: true
+description: "Survey methodologist and data scientist in San Francisco. I work on surveys, experiments, and causal inference, and spend much of my time figuring out whether data can be trusted."
+excerpt: "Survey methodologist and data scientist in San Francisco."
 redirect_from:
   - /about/
   - /about.html
 ---
 
-<p class="home-lede">I help research and insights teams catch data problems before they reach a decision.</p>
-
-Most of my work involves surveys and other problems where measurement determines whether a result can be trusted. I design studies, diagnose weak data, build models, and turn the results into tools and research systems people can use.
-
-<div class="home-proof" aria-label="Selected experience">
-  <div class="home-proof__item"><strong>45,000+</strong><span>research participants</span></div>
-  <div class="home-proof__item"><strong>30 countries</strong><span>international research</span></div>
-  <div class="home-proof__item"><strong>Millions</strong><span>of responses supported</span></div>
-  <div class="home-proof__item"><strong>Peer-reviewed</strong><span><em>Proceedings of the National Academy of Sciences</em> and <em>International Affairs</em></span></div>
+<section class="v3-hero">
+<div class="v3-hero__photo"><img src="/images/portrait-teal.jpg" alt="Ingmar Sturm" width="1365" height="2048"></div>
+<div class="v3-hero__inner v3-wrap">
+{% include v3/nav.html %}
+<div class="v3-hero__name">
+<h1><span>Ingmar</span><span>Sturm</span></h1>
+<p>Survey methodologist and data scientist<br>San Francisco</p>
 </div>
+</div>
+</section>
 
-My academic research examines climate adaptation and political behavior using large-scale surveys and experimental and quasi-experimental methods.
+<section class="v3-intro">
+<div class="v3-wrap v3-intro__grid">
+<div>
+<div class="v3-rule-gold"></div>
+<p class="v3-intro__lede">I work on surveys, experiments, and causal inference, and spend much of my time figuring out whether data can be trusted.</p>
+</div>
+<div class="v3-intro__body">
+<p>Most recently I built the respondent-quality and fraud-detection process for a large online research panel, and a model that predicts how long a survey will take. My academic research uses large surveys and experiments to study climate adaptation and political behavior.</p>
+<p class="v3-intro__proof">45,000+ research participants · 30 countries · Published in PNAS and International Affairs</p>
+<div class="v3-intro__links">
+<a href="/work/">Selected work</a>
+<a href="/files/Ingmar_Sturm_CV.pdf">CV (PDF)</a>
+<a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a>
+</div>
+</div>
+</div>
+</section>
 
-See [how I work with clients](/services/) or read my [selected work](/work/).
+<section class="v3-section">
+<div class="v3-wrap">
+<h2 class="v3-h2">Selected work</h2>
+<div class="v3-cards">
+<a class="v3-card" href="/survey-quality-case-study/">
+<span class="v3-card__num">01</span>
+<span class="v3-card__title">Building respondent-quality controls for an online research panel</span>
+<span class="v3-card__text">Turning respondent-quality review into a repeatable production process used before respondents entered studies.</span>
+<span class="v3-card__arrow" aria-hidden="true">→</span>
+</a>
+<a class="v3-card" href="/ux-case-study/">
+<span class="v3-card__num">02</span>
+<span class="v3-card__title">Predicting survey duration more reliably</span>
+<span class="v3-card__text">A model and self-serve tool that reduced survey-duration estimation error by 30 percent compared with existing human estimates.</span>
+<span class="v3-card__arrow" aria-hidden="true">→</span>
+</a>
+<a class="v3-card" href="/academia/">
+<span class="v3-card__num">03</span>
+<span class="v3-card__title">Publications</span>
+<span class="v3-card__text">Peer-reviewed work on climate attitudes and public opinion in PNAS and International Affairs.</span>
+<span class="v3-card__arrow" aria-hidden="true">→</span>
+</a>
+<div class="v3-card v3-card--tint">
+<span class="v3-label" style="color:#1f6461">Consulting</span>
+<p class="v3-card__body">I also take on independent projects in survey design, data quality, and experimentation, including evaluating synthetic survey respondents.</p>
+<a class="v3-link" href="/services/">How I work</a>
+</div>
+</div>
+</div>
+</section>
