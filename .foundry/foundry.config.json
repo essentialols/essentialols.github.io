@@ -1,0 +1,59 @@
+{
+  "version": 2,
+  "platform": "web",
+  "framework": "generic",
+  "runtimeUrl": "http://127.0.0.1:4387",
+  "instrumented": true,
+  "mode": "basic",
+  "connection": {
+    "mode": "global"
+  },
+  "design": {
+    "componentRoots": [
+      "src",
+      "app",
+      "components"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist",
+      "build",
+      ".next",
+      "coverage"
+    ],
+    "viewports": [
+      {
+        "id": "mobile",
+        "label": "Mobile",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "id": "tablet",
+        "label": "Tablet",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "id": "desktop",
+        "label": "Desktop",
+        "width": 1440,
+        "height": 900
+      }
+    ],
+    "themes": [
+      {
+        "id": "light",
+        "label": "Light",
+        "attribute": "data-theme",
+        "value": "light"
+      },
+      {
+        "id": "dark",
+        "label": "Dark",
+        "attribute": "data-theme",
+        "value": "dark"
+      }
+    ]
+  }
+}

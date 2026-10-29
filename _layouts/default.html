@@ -27,5 +27,17 @@ layout: compress
 
     {% include scripts.html %}
 
+    {% if jekyll.environment == "development" %}
+    <!-- >>> Foundry Design Control -->
+    <script type="module">
+      const query = new URLSearchParams(location.search);
+      if (query.has('__foundry_session')) {
+        const module = await import('http://127.0.0.1:4387/adapter.js');
+        module.installFoundryInspector();
+      }
+    </script>
+    <!-- <<< Foundry Design Control -->
+    {% endif %}
+
   </body>
 </html>

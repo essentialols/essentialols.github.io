@@ -16,3 +16,7 @@ courses/
 
 # Local scratch. files/Ingmar_Sturm_CV.pdf is generated from a private source repo; don't edit it here.
 cv-source/
+
+# >>> Foundry Design Control
+.foundry/sessions/
+# <<< Foundry Design Control
