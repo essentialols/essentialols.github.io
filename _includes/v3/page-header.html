@@ -1,0 +1,26 @@
+{% include base_path %}
+<section class="v3-header">
+  <div class="v3-wrap">
+    {% include v3/nav.html %}
+    <div class="v3-header__body">
+      {% if page.v3_eyebrow %}
+        <div class="v3-header__eyebrow">
+          {% if page.v3_back_url %}<a href="{{ base_path }}{{ page.v3_back_url }}">← {{ page.v3_back_label }}</a><span class="v3-header__divider" aria-hidden="true"></span>{% endif %}
+          <span>{{ page.v3_eyebrow }}</span>
+        </div>
+      {% endif %}
+      <h1 class="v3-header__title{% if page.v3_eyebrow %} v3-header__title--long{% endif %}">{{ page.v3_title | default: page.title }}</h1>
+      {% if page.v3_intro %}<p class="v3-header__intro">{{ page.v3_intro }}</p>{% endif %}
+      {% if page.v3_header_link %}<p class="v3-header__link"><a href="{{ base_path }}{{ page.v3_header_link.url }}">{{ page.v3_header_link.label }}</a></p>{% endif %}
+    </div>
+  </div>
+</section>
+{% if page.v3_facts %}
+<section class="v3-facts">
+  <div class="v3-wrap v3-facts__grid">
+    {% for fact in page.v3_facts %}
+      <div><span class="v3-label">{{ fact.label }}</span><p>{{ fact.value }}</p></div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}

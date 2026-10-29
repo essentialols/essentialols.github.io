@@ -1,0 +1,16 @@
+{% include base_path %}
+<footer class="v3-footer">
+  <div class="v3-wrap v3-footer__inner">
+    <div>
+      <p class="v3-footer__name">{{ site.title }}</p>
+      <p><a class="v3-footer__email" href="mailto:{{ site.author.email }}">{{ site.author.email }}</a></p>
+      <p class="v3-footer__copy">&copy; {{ site.time | date: '%Y' }} {{ site.name | default: site.title }}.</p>
+    </div>
+    <nav class="v3-footer__links" aria-label="Profiles">
+      {% if site.author.linkedin %}<a href="https://www.linkedin.com/in/{{ site.author.linkedin }}">LinkedIn</a>{% endif %}
+      {% if site.author.github %}<a href="https://github.com/{{ site.author.github }}">GitHub</a>{% endif %}
+      {% if site.author.googlescholar %}<a href="{{ site.author.googlescholar }}">Google Scholar</a>{% endif %}
+      {% if site.author.orcid %}<a href="{{ site.author.orcid }}">ORCID</a>{% endif %}
+    </nav>
+  </div>
+</footer>

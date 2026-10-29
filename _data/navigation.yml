@@ -6,3 +6,16 @@ main:
     url: /services/
   - title: "Academia"
     url: /academia/
+
+# v3 layout nav (main links plus CV and contact)
+v3:
+  - title: "Work"
+    url: /work/
+  - title: "Consulting"
+    url: /services/
+  - title: "Academia"
+    url: /academia/
+  - title: "CV"
+    url: /files/Ingmar_Sturm_CV.pdf
+  - title: "Contact"
+    url: mailto:contact@ingmarsturm.com

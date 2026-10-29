@@ -1,0 +1,270 @@
+---
+---
+
+// v3 design (Subframe canvas "Untitled Canvas": Name on photo v3, Work/Consulting/Academia v3, case studies v3).
+// Self-contained: does not load the Minimal Mistakes theme CSS.
+
+$teal: #1d424b;
+$teal-ink: #1f6461;
+$teal-pale: #e1ede9;
+$teal-rule: #3f6a68;
+$cream: #f5ecdb;
+$gold: #e9c48f;
+$gold-ink: #b08a4f;
+$paper: #f7f3ec;
+$card: #fdfbf6;
+$ink: #1a1816;
+$body: #4a4540;
+$muted: #7a7268;
+$rule: #ddd5c7;
+$on-teal-body: #d9dcd0;
+$on-teal-muted: #a8bfb8;
+
+$serif: "Newsreader", Georgia, "Times New Roman", serif;
+$sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+
+$mobile: 767px;
+@mixin mobile { @media (max-width: $mobile) { @content; } }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body.v3 {
+  margin: 0;
+  background: $paper;
+  color: $body;
+  font-family: $sans;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.v3 img { max-width: 100%; display: block; }
+h1, h2, h3, p, ul, ol, figure { margin: 0; }
+a { color: inherit; }
+
+.v3-wrap { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 80px; @include mobile { padding: 0 24px; } }
+.v3-narrow { max-width: 680px; margin: 0 auto; }
+.v3-label { font-family: $sans; font-size: 12px; font-weight: 600; line-height: 18px; letter-spacing: 0.12em; text-transform: uppercase; color: $gold-ink; }
+.v3-link { color: $teal-ink; font-weight: 500; text-decoration: underline; text-underline-offset: 4px; &:hover { color: $ink; } }
+
+// Nav
+.v3-nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 40px 0 24px; flex-wrap: wrap;
+  @include mobile { padding-top: 24px; row-gap: 12px; }
+}
+.v3-nav__brand { font-family: $serif; font-size: 20px; font-weight: 500; line-height: 24px; letter-spacing: -0.01em; color: $cream; text-decoration: none; white-space: nowrap; }
+.v3-nav__links { display: flex; flex-wrap: wrap; gap: 8px 32px;
+  a { font-size: 14px; line-height: 20px; color: $cream; text-decoration: none; &:hover, &.is-active { color: $gold; } }
+  @include mobile { gap: 8px 20px; }
+}
+
+// Home hero
+.v3-hero { position: relative; height: 760px; overflow: hidden; background: $teal;
+  @include mobile { height: auto; }
+}
+.v3-hero__photo { position: absolute; top: 0; left: max(0px, calc((100% - 1280px) / 2)); width: min(55%, 640px); height: 100%;
+  @media (min-width: 1300px) {
+    &::before { content: ""; position: absolute; z-index: 1; top: 0; left: 0; width: 20%; height: 100%; background: linear-gradient(to left, rgba($teal, 0), $teal); }
+  }
+  img { width: 100%; height: 100%; object-fit: cover; object-position: center top;
+    // Bottom of the photo melts into the teal.
+    -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent);
+    mask-image: linear-gradient(to bottom, #000 72%, transparent);
+  }
+  &::after { content: ""; position: absolute; top: 0; right: 0; width: 25%; height: 100%; background: linear-gradient(to right, rgba($teal, 0), $teal); }
+  @include mobile { position: relative; width: 100%; height: 520px;
+    &::after { top: auto; bottom: 0; width: 100%; height: 60%; background: linear-gradient(to top, $teal, rgba($teal, 0.8) 40%, rgba($teal, 0)); }
+  }
+}
+.v3-hero__inner { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column;
+  @include mobile { position: absolute; inset: 0; height: auto; }
+}
+.v3-hero__name { flex: 1; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; padding-bottom: 120px;
+  h1 { font-family: $serif; font-weight: 300; font-size: 150px; line-height: 136px; letter-spacing: -0.04em; color: $cream; text-align: right; white-space: nowrap;
+    span { display: block; }
+    span:first-child { padding-right: 150px; margin-bottom: 20px; }
+  }
+  p { padding-top: 40px; font-size: 13px; font-weight: 500; line-height: 20px; letter-spacing: 0.1em; text-transform: uppercase; color: $gold; text-align: right; }
+  @include mobile { align-items: flex-start; justify-content: flex-end; padding-bottom: 32px;
+    h1 { font-size: 72px; line-height: 66px; text-align: left; span:first-child { padding-right: 0; margin-bottom: 0; } }
+    p { padding-top: 24px; font-size: 12px; line-height: 18px; text-align: left; }
+  }
+}
+@media (min-width: 768px) and (max-width: 1100px) {
+  .v3-hero__name h1 { font-size: 112px; line-height: 104px; span:first-child { padding-right: 90px; } }
+}
+
+// Home intro band
+.v3-intro { background: $teal; padding: 96px 0;
+  @include mobile { padding: 56px 0; }
+}
+.v3-intro__grid { display: flex; gap: 80px; @include mobile { flex-direction: column; gap: 32px; }
+  > div { flex: 1 1 0; }
+}
+.v3-rule-gold { width: 64px; height: 1px; background: $gold; margin-bottom: 40px; @include mobile { margin-bottom: 24px; } }
+.v3-intro__lede { font-family: $serif; font-style: italic; font-size: 36px; line-height: 48px; letter-spacing: -0.01em; color: $cream;
+  @include mobile { font-size: 26px; line-height: 34px; }
+}
+.v3-intro__body { padding-top: 42px; @include mobile { padding-top: 0; }
+  p { font-size: 16px; line-height: 28px; color: $on-teal-body; }
+  .v3-intro__proof { margin-top: 24px; font-size: 13px; line-height: 20px; color: $on-teal-muted; }
+}
+.v3-intro__links { display: flex; flex-wrap: wrap; gap: 12px 32px; margin-top: 24px; padding-top: 24px; border-top: 1px solid $teal-rule;
+  a { font-size: 15px; font-weight: 500; line-height: 22px; color: $cream; text-decoration: underline; text-underline-offset: 4px; &:hover { color: $gold; } }
+}
+
+// Sections
+.v3-section { padding: 96px 0; @include mobile { padding: 56px 0; } }
+.v3-section + .v3-section { padding-top: 0; }
+.v3-h2 { font-family: $serif; font-weight: 300; font-size: 56px; line-height: 64px; letter-spacing: -0.02em; color: $ink; padding-bottom: 24px; border-bottom: 1px solid $ink; margin-bottom: 40px;
+  @include mobile { font-size: 40px; line-height: 48px; }
+}
+
+// Cards
+.v3-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; @include mobile { grid-template-columns: 1fr; } }
+.v3-card { display: flex; flex-direction: column; gap: 16px; padding: 40px; background: $card; border: 1px solid $rule; border-radius: 4px; text-decoration: none; color: $body; min-height: 360px;
+  @include mobile { padding: 28px; min-height: 0; }
+  &__num { font-family: $serif; font-weight: 300; font-size: 40px; line-height: 44px; color: $teal-ink; margin-bottom: auto; padding-bottom: 32px; }
+  &__title { font-family: $serif; font-size: 34px; line-height: 40px; letter-spacing: -0.01em; color: $ink; }
+  &__text { font-size: 15px; line-height: 24px; }
+  &__arrow { margin-top: 24px; color: $teal-ink; font-size: 20px; }
+  &:hover &__title { color: $teal-ink; }
+  &--tint { background: $teal-pale; border-color: #c3d8d1;
+    .v3-card__body { font-family: $serif; font-size: 24px; line-height: 34px; color: $ink; margin-top: auto; }
+  }
+}
+
+// Page header (interior pages)
+.v3-header { background: $teal; color: $cream; padding-bottom: 72px; @include mobile { padding-bottom: 48px; } }
+.v3-header__body { padding-top: 56px; @include mobile { padding-top: 32px; } }
+.v3-header__eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; font-size: 14px;
+  a { color: $cream; text-decoration: none; &:hover { color: $gold; } }
+  span:last-child { font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: $gold; }
+}
+.v3-header__divider { width: 1px; height: 16px; background: rgba($cream, 0.3); }
+.v3-header__title { font-family: $serif; font-weight: 300; font-size: 96px; line-height: 100px; letter-spacing: -0.03em; color: $cream;
+  @include mobile { font-size: 56px; line-height: 60px; }
+  &--long { font-size: 64px; line-height: 72px; max-width: 900px; @include mobile { font-size: 40px; line-height: 46px; } }
+}
+.v3-header__intro { margin-top: 24px; max-width: 680px; font-size: 17px; line-height: 28px; color: $cream; }
+.v3-header__link { margin-top: 32px; a { color: $cream; font-weight: 500; text-decoration: underline; text-underline-offset: 4px; &:hover { color: $gold; } } }
+
+.v3-facts { border-bottom: 1px solid $rule;
+  &__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; padding-top: 32px; padding-bottom: 32px; @include mobile { grid-template-columns: 1fr; gap: 16px; } }
+  p { margin-top: 6px; font-size: 16px; line-height: 24px; color: $ink; }
+}
+
+.v3-main { padding: 96px 0; @include mobile { padding: 56px 0; } }
+
+// Ruled rows (Work page, next-case-study)
+.v3-rows { border-top: 1px solid $ink; }
+.v3-row { display: grid; grid-template-columns: 260px 1fr 32px; gap: 32px; padding: 48px 0; border-bottom: 1px solid $rule; text-decoration: none; color: $body;
+  @include mobile { grid-template-columns: 1fr; gap: 12px; padding: 32px 0; }
+  h2, h3 { font-family: $serif; font-weight: 400; font-size: 40px; line-height: 46px; letter-spacing: -0.01em; color: $ink; @include mobile { font-size: 30px; line-height: 36px; } }
+  p { margin-top: 16px; font-size: 16px; line-height: 26px; }
+  &__arrow { color: $ink; text-align: right; @include mobile { display: none; } }
+  &:hover h2, &:hover h3 { color: $teal-ink; }
+}
+.v3-closing { margin-top: 48px; font-size: 16px; line-height: 26px; }
+
+// Consulting
+.v3-lede { font-family: $serif; font-size: 30px; line-height: 42px; color: $ink; max-width: 880px; @include mobile { font-size: 24px; line-height: 34px; } }
+.v3-service-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 64px; @include mobile { grid-template-columns: 1fr; } }
+.v3-service { display: flex; flex-direction: column; gap: 16px; padding: 40px; background: $card; border: 1px solid $rule; border-radius: 4px;
+  @include mobile { padding: 28px; }
+  h2 { font-family: $serif; font-weight: 400; font-size: 34px; line-height: 40px; color: $ink; }
+  .v3-service__def { font-weight: 600; color: $ink; }
+  p { font-size: 15px; line-height: 24px; }
+  .v3-service__out { margin-top: auto; padding-top: 16px; border-top: 1px solid $rule; font-size: 14px; line-height: 22px; color: $muted; }
+}
+.v3-ways { margin-top: 120px; @include mobile { margin-top: 72px; }
+  > p { margin-bottom: 0; }
+  .v3-h2 { margin-bottom: 0; border-bottom: 0; padding-bottom: 8px; }
+}
+.v3-ways__intro { padding-bottom: 32px; border-bottom: 1px solid $ink; }
+.v3-ways__row { display: grid; grid-template-columns: 340px 1fr; gap: 32px; padding: 24px 0; border-bottom: 1px solid $rule;
+  @include mobile { grid-template-columns: 1fr; gap: 4px; }
+  h3 { font-family: $serif; font-weight: 400; font-size: 26px; line-height: 32px; color: $teal-ink; }
+  p { font-size: 16px; line-height: 26px; align-self: center; }
+}
+.v3-ways__note { margin-top: 32px; max-width: 700px; font-family: $serif; font-style: italic; font-size: 22px; line-height: 32px; color: $ink; }
+
+.v3-contact { background: $teal; padding: 96px 0; color: $on-teal-body; @include mobile { padding: 56px 0; } }
+.v3-contact__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; @include mobile { grid-template-columns: 1fr; gap: 40px; } }
+.v3-contact h2 { font-family: $serif; font-weight: 300; font-size: 56px; line-height: 64px; color: $cream; margin-bottom: 40px; @include mobile { font-size: 40px; line-height: 48px; margin-bottom: 24px; } }
+.v3-contact p { font-size: 16px; line-height: 28px; }
+.v3-form { display: flex; flex-direction: column; gap: 24px;
+  label { display: flex; flex-direction: column; gap: 8px; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: $gold; }
+  input[type="email"], textarea { width: 100%; padding: 12px 16px; font: 400 15px/22px $sans; color: $cream; background: rgba(0, 0, 0, 0.15); border: 1px solid $teal-rule; border-radius: 4px; text-transform: none; letter-spacing: 0;
+    &:focus { outline: 2px solid $gold; outline-offset: 1px; }
+  }
+  textarea { min-height: 176px; resize: vertical; }
+  button { align-self: flex-start; padding: 12px 24px; font: 600 15px/22px $sans; color: $teal; background: $cream; border: 0; border-radius: 3px; cursor: pointer;
+    &:hover { background: $gold; } &:disabled { opacity: 0.6; cursor: default; }
+  }
+  .services-form__honeypot { position: absolute; left: -9999px; }
+  .services-form__note { font-size: 13px; line-height: 20px; color: $on-teal-muted; }
+}
+
+// Academia
+.v3-two-col { display: grid; grid-template-columns: 220px 1fr; gap: 80px; @include mobile { grid-template-columns: 1fr; gap: 32px; } }
+.v3-toc { position: sticky; top: 32px; align-self: start; display: flex; flex-direction: column; gap: 12px; padding-left: 20px; border-left: 1px solid $rule;
+  a { text-decoration: none; } a:hover { color: $teal-ink; }
+  @include mobile { display: none; }
+}
+
+// Prose (markdown content on Academia and case studies)
+.v3-prose {
+  > * + * { margin-top: 20px; }
+  h2 { font-family: $serif; font-weight: 400; font-size: 36px; line-height: 44px; letter-spacing: -0.01em; color: $ink; margin-top: 72px; padding-bottom: 20px; border-bottom: 1px solid $rule; @include mobile { font-size: 30px; line-height: 38px; margin-top: 56px; } }
+  h2:first-child { margin-top: 0; }
+  h3 { font-family: $serif; font-weight: 400; font-size: 24px; line-height: 32px; color: $ink; margin-top: 32px; }
+  p, li { font-size: 17px; line-height: 28px; }
+  ul { padding-left: 20px; li + li { margin-top: 6px; } li::marker { color: $gold-ink; } }
+  a { color: $teal-ink; text-decoration: underline; text-underline-offset: 3px; &:hover { color: $ink; } }
+  strong { color: $ink; font-weight: 600; }
+  .v3-pubs p { color: $ink; }
+  .v3-pubs p + p { margin-top: 20px; }
+}
+.v3-prose--case { h2 { border-bottom: 0; padding-bottom: 0; } }
+.v3-case-lede p { font-family: $serif; font-size: 22px; line-height: 34px; color: $ink; }
+.v3-case-lede p + p { margin-top: 20px; }
+.v3-case-lede { margin-bottom: 72px; }
+.v3-steps { list-style: none; padding: 0 !important; counter-reset: step; border-top: 1px solid $rule;
+  li { counter-increment: step; display: grid; grid-template-columns: 56px 1fr; padding: 18px 0; border-bottom: 1px solid $rule; color: $ink; margin: 0 !important; }
+  li::before { content: counter(step, decimal-leading-zero); font-size: 13px; font-weight: 600; letter-spacing: 0.08em; color: $gold-ink; padding-top: 3px; }
+}
+.v3-note { font-style: italic; font-size: 15px !important; color: $muted; }
+.v3-panel { margin-top: 72px !important; padding: 48px; background: $teal-pale; border-radius: 4px; @include mobile { padding: 28px; }
+  h2 { margin-top: 0 !important; padding-bottom: 8px !important; }
+  p { font-family: $serif; font-size: 21px; line-height: 31px; color: $teal; padding-top: 20px; border-top: 1px solid #c3d8d1; }
+  p + p { margin-top: 20px; }
+}
+.v3-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; @include mobile { grid-template-columns: repeat(2, 1fr); }
+  div { padding: 24px 20px; background: #fff; border: 1px solid $rule; border-radius: 4px; }
+  strong { display: block; font-family: $serif; font-weight: 400; font-size: 36px; line-height: 40px; letter-spacing: -0.02em; color: $teal-ink; white-space: nowrap; }
+  span { display: block; margin-top: 12px; font-size: 14px; line-height: 20px; color: $body; }
+}
+.v3-shots { display: flex; flex-direction: column; gap: 40px;
+  figure { margin: 0; }
+  img { width: 100%; padding: 8px; background: #fff; border: 1px solid $rule; border-radius: 6px; }
+  figcaption { margin-top: 12px; font-size: 13px; line-height: 18px; color: $muted; }
+}
+.v3-papers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; @include mobile { grid-template-columns: 1fr; }
+  > div { display: flex; flex-direction: column; gap: 12px; padding: 24px; background: $card; border: 1px solid $rule; border-radius: 4px; }
+  .v3-papers__num { font-family: $serif; font-weight: 300; font-size: 32px; line-height: 36px; color: $teal-ink; }
+  h3 { margin-top: 0 !important; font-size: 21px !important; line-height: 27px !important; }
+  p { font-size: 14px !important; line-height: 22px !important; }
+  .v3-pill { margin-top: auto; align-self: flex-start; padding: 4px 12px; font-size: 12px; line-height: 16px; font-weight: 500; color: $teal-ink; background: $teal-pale; border-radius: 999px; white-space: nowrap; }
+}
+.v3-next { margin-top: 96px; display: block; padding: 32px 0; border-top: 1px solid $ink; border-bottom: 1px solid $teal; text-decoration: none !important; color: $ink !important;
+  .v3-label { display: block; margin-bottom: 8px; }
+  span:last-child { font-family: $serif; font-size: 26px; line-height: 34px; }
+  &:hover span:last-child { color: $teal-ink; }
+}
+
+// Footer
+.v3-footer { border-top: 1px solid $rule; padding: 64px 0; }
+.v3-footer__inner { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; @include mobile { flex-direction: column; align-items: flex-start; } }
+.v3-footer__name { font-family: $serif; font-weight: 300; font-size: 30px; line-height: 36px; color: $ink; }
+.v3-footer__email { display: inline-block; margin-top: 12px; font-size: 15px; color: $teal-ink; text-decoration: none; &:hover { text-decoration: underline; } }
+.v3-footer__copy { margin-top: 12px; font-size: 13px; color: $muted; }
+.v3-footer__links { display: flex; flex-wrap: wrap; gap: 8px 32px; a { font-size: 14px; color: $body; text-decoration: none; &:hover { color: $teal-ink; } } }
