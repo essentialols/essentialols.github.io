@@ -3,7 +3,7 @@ permalink: /
 layout: v3
 v3_home: true
 title: "Ingmar Sturm"
-browser_title: "Survey Methodologist & Data Scientist | Ingmar Sturm"
+browser_title: "Ingmar Sturm | Survey Methodologist & Data Scientist"
 description: "Survey methodologist and data scientist in San Francisco. I work on surveys, experiments, and causal inference, and spend much of my time figuring out whether data can be trusted."
 excerpt: "Survey methodologist and data scientist in San Francisco."
 redirect_from:
