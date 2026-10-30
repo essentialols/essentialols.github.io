@@ -5,7 +5,7 @@ browser_title: "Survey Quality & Research Consulting | Ingmar Sturm"
 description: "Consulting in survey preflight review, data integrity audits, fractional quantitative research leadership, and research automation."
 excerpt: "Survey quality, quantitative research, and research automation."
 layout: v3
-v3_intro: "I take on independent projects in survey design, data quality, and experimentation."
+v3_intro: "I take on independent projects in survey design, data quality, and experimentation, including evaluating synthetic survey respondents and the quality of human data used to train AI."
 service_offerings:
   - name: "Survey preflight"
     description: "A focused review before fieldwork starts, covering questionnaire wording, logic, validation, randomization, sampling, mobile behavior, data structure, and analysis readiness."
