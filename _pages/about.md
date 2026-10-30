@@ -3,9 +3,9 @@ permalink: /
 layout: v3
 v3_home: true
 title: "Ingmar Sturm"
-browser_title: "Ingmar Sturm | Survey Methodologist & Data Scientist"
-description: "Survey methodologist and data scientist in San Francisco. I work on surveys, experiments, and causal inference, and spend much of my time figuring out whether data can be trusted."
-excerpt: "Survey methodologist and data scientist in San Francisco."
+browser_title: "Ingmar Sturm | Senior Data Scientist & Quantitative Researcher"
+description: "Senior data scientist and quantitative researcher working in experimentation, AI evaluation, and survey science."
+excerpt: "Senior data scientist and quantitative researcher in San Francisco."
 redirect_from:
   - /about/
   - /about.html
@@ -17,7 +17,7 @@ redirect_from:
 {% include v3/nav.html %}
 <div class="v3-hero__name">
 <h1><span>Ingmar</span><span>Sturm</span></h1>
-<p>Survey methodologist and data scientist<br>San Francisco</p>
+<p>Senior Data Scientist &amp; Quantitative Researcher<br>Experimentation, AI Evaluation &amp; Survey Science<br>San Francisco</p>
 </div>
 </div>
 </section>
@@ -26,7 +26,7 @@ redirect_from:
 <div class="v3-wrap v3-intro__grid">
 <div>
 <div class="v3-rule-gold"></div>
-<p class="v3-intro__lede">I work on surveys, experiments, and causal inference, and spend much of my time figuring out whether data can be trusted.</p>
+<p class="v3-intro__lede">I work on survey science, experiments, and AI evaluation, and build systems to help researchers understand whether data can be trusted.</p>
 </div>
 <div class="v3-intro__body">
 <p>Most recently I built the respondent-quality and fraud-detection process for a large online research panel, and a model that predicts how long a survey will take. My academic research uses large surveys and experiments to study climate adaptation and political behavior.</p>
@@ -47,7 +47,7 @@ redirect_from:
 <a class="v3-card" href="/survey-quality-case-study/">
 <span class="v3-card__num">01</span>
 <span class="v3-card__title">Building respondent-quality controls for an online research panel</span>
-<span class="v3-card__text">Turning respondent-quality review into a repeatable production process used before respondents entered studies.</span>
+<span class="v3-card__text">Built respondent-quality controls for a 300K+ member research panel. The fraud work removed 2,500+ accounts.</span>
 <span class="v3-card__arrow" aria-hidden="true">→</span>
 </a>
 <a class="v3-card" href="/ux-case-study/">
