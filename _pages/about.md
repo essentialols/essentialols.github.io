@@ -64,7 +64,7 @@ redirect_from:
 </a>
 <div class="v3-card v3-card--tint">
 <span class="v3-label" style="color:#1f6461">Consulting</span>
-<p class="v3-card__body">I also take on independent projects in survey design, data quality, and experimentation, including evaluating synthetic survey respondents.</p>
+<p class="v3-card__body">I also take on independent projects in survey design, data quality, and experimentation, including evaluating synthetic survey respondents and the quality of human data used to train AI.</p>
 <a class="v3-link" href="/services/">How I work</a>
 </div>
 </div>
