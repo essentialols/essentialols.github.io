@@ -17,7 +17,7 @@ redirect_from:
 {% include v3/nav.html %}
 <div class="v3-hero__name">
 <h1><span>Ingmar</span><span>Sturm</span></h1>
-<p>Senior Data Scientist &amp; Quantitative Researcher<br>Experimentation, AI Evaluation &amp; Survey Science<br>San Francisco</p>
+<p><span style="white-space:nowrap">Senior Data Scientist &amp;</span> <span style="white-space:nowrap">Quantitative Researcher</span><br>San Francisco</p>
 </div>
 </div>
 </section>
