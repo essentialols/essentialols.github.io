@@ -1,13 +1,4 @@
-# main links
-main:
-  - title: "Work"
-    url: /work/
-  - title: "Consulting"
-    url: /services/
-  - title: "Academia"
-    url: /academia/
-
-# v3 layout nav (main links plus CV and contact)
+# Site navigation, read by _includes/v3/nav.html
 v3:
   - title: "Work"
     url: /work/
