@@ -24,7 +24,7 @@ v3_facts:
 <div class="v3-case-lede" markdown="1">
 An online research panel needed a more systematic way to decide which respondents could be trusted before they entered client studies. Individual signals were noisy, manual review did not scale, and the cost of a bad decision was asymmetric: weak controls let bad data through, while overly aggressive controls could remove legitimate respondents.
 
-I built the panel-quality and fraud-detection function from the ground up, with the goal of turning respondent quality from an occasional investigation into a recurring operational process.
+I developed production fraud-detection and respondent-quality workflows, helping make account review a systematic, recurring operational process.
 </div>
 
 ## The problem
